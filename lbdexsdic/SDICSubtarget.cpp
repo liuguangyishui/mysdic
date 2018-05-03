@@ -32,6 +32,11 @@ using namespace llvm;
 #define GET_SUBTARGETINFO_CTOR
 #include "SDICGenSubtargetInfo.inc"
 
+static cl::opt<bool> EnableOverflowOpt
+                ("sdic-enable-overflow", cl::Hidden, cl::init(false),
+                 cl::desc("Use trigger overflow instructions add and sub \
+                 instead of non-overflow instructions addu and subu"));
+
 extern bool FixGlobalBaseReg;
 
 void SDICSubtarget::anchor() { }
@@ -48,6 +53,8 @@ SDICSubtarget::SDICSubtarget(const Triple &TT, const std::string &CPU,
           SDICInstrInfo::create(initializeSubtargetDependencies(CPU, FS, TM))),
       FrameLowering(SDICFrameLowering::create(*this)),
       TLInfo(SDICTargetLowering::create(TM, *this)) {
+
+  EnableOverflow = EnableOverflowOpt;
 
 }
 

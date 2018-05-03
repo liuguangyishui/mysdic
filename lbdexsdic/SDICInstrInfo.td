@@ -17,15 +17,18 @@
 
 def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
+//ADD
+def SDT_SDICAddwf        : SDTypeProfile<0,2, [SDTCisInt<0>, SDTCisSameAs<0,1>];
+
+
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
                      [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
 def SDICMovf : SDNode<"SDICISD::Movf", SDTIntBinOp>;
 
-
-
-
+//ADD
+def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPOutGlue]>;
 //===----------------------------------------------------------------------===//
 // SDIC Instruction Predicate Definitions.
 //===----------------------------------------------------------------------===//
@@ -411,3 +414,6 @@ let Predicates = [Ch3_3] in {
 def : Pat<(i32 imm:$imm),
                 (ORi (LUi (HI16 imm:$imm)), (LO16 imm:$imm))>;
     } // let Predicates = [Ch3_4]
+
+
+//addwf

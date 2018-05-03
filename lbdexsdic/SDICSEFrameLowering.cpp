@@ -36,7 +36,7 @@ SDICSEFrameLowering::SDICSEFrameLowering(const SDICSubtarget &STI)
 //@emitPrologue {
 void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
                                        MachineBasicBlock &MBB) const {
-  /*
+  
   assert(&MF.front() == &MBB && "Shrink-wrapping not yet supported");
   MachineFrameInfo *MFI = MF.getFrameInfo();
   SDICFunctionInfo *SDICFI = MF.getInfo<SDICFunctionInfo>();
@@ -98,14 +98,14 @@ void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
 	  .addCFIIndex(CFIIndex);
       }
     }
-    }*/
+    }
 }
 //}
 
 //@emitEpilogue {
 void SDICSEFrameLowering::emitEpilogue(MachineFunction &MF,
                                  MachineBasicBlock &MBB) const {
-  /*
+  
   MachineBasicBlock::iterator MBBI = MBB.getLastNonDebugInstr();
   MachineFrameInfo *MFI = MF.getFrameInfo();
   SDICFunctionInfo *SDICFI = MF.getInfo<SDICFunctionInfo>();
@@ -121,7 +121,7 @@ void SDICSEFrameLowering::emitEpilogue(MachineFunction &MF,
   if (!StackSize)
     return;
   // Adjust stack.
-  TII.adjustStackPtr(SP,-StackSize, MBB, MBBI);*/
+  TII.adjustStackPtr(SP,-StackSize, MBB, MBBI);
 }
 //}
 

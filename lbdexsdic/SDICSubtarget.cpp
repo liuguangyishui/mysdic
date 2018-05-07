@@ -54,7 +54,7 @@ SDICSubtarget::SDICSubtarget(const Triple &TT, const std::string &CPU,
       FrameLowering(SDICFrameLowering::create(*this)),
       TLInfo(SDICTargetLowering::create(TM, *this)) {
 
-  EnableOverflow = EnableOverflowOpt;
+  // EnableOverflow = EnableOverflowOpt;
 
 }
 

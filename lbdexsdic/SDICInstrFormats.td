@@ -30,6 +30,7 @@ class Format<bits<4> val> {
 
 def Pseudo      : Format<0>;
 def FrmA        : Format<1>;
+def FrmA_a      : Format<9>;
 def FrmB        : Format<2>;
 def FrmC        : Format<3>;
 def FrmD        : Format<4>;
@@ -96,6 +97,24 @@ class SDICPseudo<dag outs, dag ins, string asmstr, list<dag> pattern>:
          let Inst{1-1} = rd;
          let Inst{0-0} = imm8;
          }
+
+//===--------------------------------------------------------------===//
+// Format A_a instruction class will be the formal instruction of A
+//===--------------------------------------------------------------===//
+ class FA_a<bits<6> op, dag outs, dag ins, string asmstr,
+                    list<dag> pattern, InstrItinClass itin>:
+                    SDICInst<outs, ins, asmstr, pattern, itin, FrmA_a>
+                    {
+                        bits<8> rf;
+                        bits<1> immd;
+                        bits<1> imma;
+
+                        let Opcode = op;
+                        let Inst{9-2} = rf;
+                        let Inst{1-1} = immd;
+                        let Inst{0-0} = imma;
+                    }
+
 
 // Format B instruction class in SDIC : <|opcode|F|A|>
 // 这是F A类型的指令

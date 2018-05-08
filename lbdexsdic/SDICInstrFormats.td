@@ -106,12 +106,12 @@ class SDICPseudo<dag outs, dag ins, string asmstr, list<dag> pattern>:
                     SDICInst<outs, ins, asmstr, pattern, itin, FrmA_a>
                     {
                         bits<8> rf;
-                        bits<1> immd;
+                        bits<1> imm8;
                         bits<1> imma;
 
                         let Opcode = op;
                         let Inst{9-2} = rf;
-                        let Inst{1-1} = immd;
+                        let Inst{1-1} = imm8;
                         let Inst{0-0} = imma;
                     }
 

@@ -63,20 +63,23 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
 				     MachineBasicBlock &MBB,
 				     MachineBasicBlock::iterator I) const {
   DebugLoc DL = I != MBB.end() ? I->getDebugLoc() : DebugLoc();
-  unsigned ADDu = SDIC::ADDu;
+  unsigned ADDiua = SDIC::ADDiua;
   unsigned ADDiu = SDIC::ADDiu;
   if (isInt<16>(Amount)) {
     printf("\nHYLHYL: isInt<16>(Amount)hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
     // addiu sp, sp, amount
-    BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
+    //My modify
+    // BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
+    BuildMI(MBB, I, DL, get(ADDiua), SP).addReg(SP).addImm(1).addImm(1)
 
     uint64_t i=4;//both call fun and return fun should operate the PC register
     if(Amount<0)
       i=-i;
-     BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
-     
-     BuildMI(MBB,I,DL,get(SDIC::MOVF),SDIC::WREG).addReg(SDIC::PCL).addImm(i);
-     
+    //MY modify
+    //BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
+      BuildMI(MBB, I, DL, get(ADDiua), SDIC::PCL).addReg(SDIC::PCL).addImm(1).addImm(1);
+      BuildMI(MBB,I,DL,get(SDIC::MOVF),SDIC::WREG).addReg(SDIC::PCL).addImm(i);
+
   }
   else {
     printf("\nHYLHYL: NOisInt<16>(Amount)hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");

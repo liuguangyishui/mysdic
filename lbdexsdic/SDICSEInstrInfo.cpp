@@ -64,7 +64,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
 				     MachineBasicBlock::iterator I) const {
   DebugLoc DL = I != MBB.end() ? I->getDebugLoc() : DebugLoc();
   unsigned ADDiua = SDIC::ADDiua;
-  unsigned ADDu = SDIC::ADDU;
+  unsigned ADDu = SDIC::ADDu;
   unsigned ADDiu = SDIC::ADDiu;
   if (isInt<16>(Amount)) {
     printf("\nHYLHYL: isInt<16>(Amount)hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");

@@ -346,15 +346,15 @@ defm LD     : LoadM32<0x01,  "ld",  load_a>;
 defm ST     : StoreM32<0x02, "st",  store_a>;
 
 
-def ADDiua   : ArithLogicFDA<0x33, "addiua", add, simm8, immSExt8, SDICRegs>;
+
 /// Arithmetic Instructions (ALU Immediate)
 // IR "add" defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
 def ADDiu   : ArithLogicI<0x09, "addiu", add, simm8, immSExt8,SDICRegs>;
 
 //my modify 
+def ADDiua   : ArithLogicFDA<0x33, "addiua", add, simm8, immSExt8, SDICRegs>;
 
-
-
+def SUBwf    : ArithLogicFDA<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 
 
 

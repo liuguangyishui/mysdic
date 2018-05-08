@@ -354,7 +354,7 @@ def ADDiu   : ArithLogicI<0x09, "addiu", add, simm8, immSExt8,SDICRegs>;
 //my modify 
 def ADDiua   : ArithLogicFDA<0x33, "addiua", add, simm8, immSExt8, SDICRegs>;
 
-def SUBwf    : ArithLogicFDA<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
+def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 
 
 

@@ -352,7 +352,7 @@ defm ST     : StoreM32<0x02, "st",  store_a>;
 def ADDiu   : ArithLogicI<0x09, "addiu", add, simm8, immSExt8,SDICRegs>;
 
 //my modify 
-def ADDiua   : ArithLogicFDA<0x33, "addiua", add, simm8, immSExt8, SDICRegs>;
+def ADDiua   : ArithLogicFDA<0x33, "addiua", add, SDICRegs>;
 
 def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 

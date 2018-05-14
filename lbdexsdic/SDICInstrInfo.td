@@ -214,9 +214,9 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 //MY modify to ArithmetiI
 class ArithLogicFDA<bits<6> op, string instr_asm, SDNode OpNode,
                             Operand Od, PatLeaf imm_type, RegisterClass RC>:
-      FA_a<op, (outs GPROut:$rf), (ins Od:$imm8, Od:$imma),
-           !strconcat(instr_asm, "\t$rf, $imm8, $imma"),
-           [(set GPROut:$rf, (OpNode imm_type:$imm8, imm_type:$imma))], IIAlu> {
+      FA_a<op, (ins RC:$rf),
+           !strconcat(instr_asm, "\t$rf, 1, 1"),
+           [(OpNode RC:$rf)], IIAlu> {
       let isReMaterializable = 1;
       }
 
@@ -356,7 +356,7 @@ def ADDiua   : ArithLogicFDA<0x33, "addiua", add, simm8, immSExt8, SDICRegs>;
 
 def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 
-
+def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
 def MOVF    : ArithLogicI<0x0d, "movf", SDICMovf, simm8, immSExt8, SDICRegs>;
@@ -426,6 +426,9 @@ def : Pat<(i32 immSExt8:$in),
 
 def : Pat<(i32 immSExt8:$in),
          (SUBwf R0, imm:$in)>;
+
+def : Pat<(i32 immSExt8:$in),
+      	 (MUL R0, imm:$in)>;
 
 
 

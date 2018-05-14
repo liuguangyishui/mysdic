@@ -18,7 +18,7 @@
 def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 //ADD
-def SDT_SDICAddwf        : SDTypeProfile<0,2, [SDTCisInt<0>, SDTCisSameAs<0,1>]>;
+def SDT_SDICAddwf        : SDTypeProfile<0,1, [SDTCisInt<0>, SDTCisSameAs<0,1>]>;
 
 
 // Return
@@ -212,13 +212,12 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 }
 
 //MY modify to ArithmetiI
-class ArithLogicFDA<bits<6> op, string instr_asm, SDNode OpNode,
-                            RegisterClass RC>:
-      FA_a<op,(outs), (ins RC:$rf),
-           !strconcat(instr_asm, "\t$rf, 1, 1"),
-           [(OpNode RC:$rf)], IIAlu> {
-      let isReMaterializable = 1;
-      }
+class ArithLogicFDA<SDNode opNode, bits<6> op, string instr_asm, RegisterClass RC>:
+                           FA_a<op,(outs), (ins RC:$rf),
+                           !strconcat(instr_asm, "\t$rf, 1, 1"),
+                           [(OpNode RC:$rf)], IIAlu> {
+                           let isReMaterializable = 1;
+                           }
 
 
 
@@ -352,7 +351,7 @@ defm ST     : StoreM32<0x02, "st",  store_a>;
 def ADDiu   : ArithLogicI<0x09, "addiu", add, simm8, immSExt8,SDICRegs>;
 
 //my modify 
-def ADDiua   : ArithLogicFDA<0x33, "addiua", add, SDICRegs>;
+def ADDiua   : ArithLogicFDA<SDICAddwf, 0x33, "addiua", SDICRegs>;
 
 def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 

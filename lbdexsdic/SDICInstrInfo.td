@@ -18,7 +18,7 @@
 def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 //ADD
-def SDT_SDICAddwf        : SDTypeProfile<0, 1>;
+def SDT_SDICAddwf        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 
 // Return

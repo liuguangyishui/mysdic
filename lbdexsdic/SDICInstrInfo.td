@@ -212,11 +212,12 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 }
 
 //MY modify to ArithmetiI
-class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm, RegisterClass RC>:
-                           FA_a<op,(outs), (ins RC:$rf),
+class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
+                           RegisterClass RC>:
+                      FA_a<op,(outs), (ins RC:$rf),
                            !strconcat(instr_asm, "\t$rf, 1, 1"),
                            [(OpNode RC:$rf)], IIAlu> {
-                           let isReMaterializable = 1;
+                          // let isReMaterializable = 1;
                            }
 
 

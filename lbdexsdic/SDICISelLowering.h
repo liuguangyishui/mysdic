@@ -57,6 +57,9 @@ namespace llvm {
       // Movf
       Movf,
 
+      // Addwf
+      Addwf,
+
       // Return
       Return,
 

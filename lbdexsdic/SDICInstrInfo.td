@@ -218,6 +218,8 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                            !strconcat(instr_asm, "\t$rf"),
                            [(OpNode RC:$rf)], IIAlu> {
                           // let isReMaterializable = 1;
+                          let imm8 = 0;
+                          let imma = 0;
                            }
 
 

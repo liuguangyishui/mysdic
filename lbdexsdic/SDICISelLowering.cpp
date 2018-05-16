@@ -87,7 +87,7 @@ static SDValue perDealwithADD(SDNode *N, SelectionDAG& DAG,
   
 }
 
-SDValue SDICTargetLowering::DealwithADD(SDNode *N, DAGCombinerInfo &DCI) const
+SDValue SDICTargetLowering::PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) const
 {
   SelectionDAG &DAG = DCI.DAG;
   unsigned Opc = N->getOpcode();

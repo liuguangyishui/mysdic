@@ -67,7 +67,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   // SDIC Custom Operations
 
   // Operations not directly supported by SDIC.
-  setTargetDAGCombine(ISD::ADDREM);
+  // setTargetDAGCombine(ISD::ADDREM);
 //- Set .align 2
 // It will emit .align 2 later
   setMinFunctionAlignment(2);
@@ -83,6 +83,14 @@ static SDValue perDealwithADD(SDNode *N, SelectionDAG& DAG,
 			      TargetLowering::DAGCombinerInfo &DCI,
 			      const SDICSubtarget &Subtarget) {
 
+  unsigned Opc = ISD::ADD;
+
+  SDLoc DL(N);
+
+  SDValue ADDwf = DAG.getNode(Opc, DL, MVT::Glue,
+			      N->getOperand(0));
+  SDValue InChain = DAG.getEntryNode();
+  SDValue InGlue = ADDwf;
 
   
 }
@@ -94,7 +102,7 @@ SDValue SDICTargetLowering::PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) c
 
   swith(Opc) {
     default: break;
-      case ISD::ADDREM:
+      case ISD::ADD:
 	return perDealwithADD(N, DAG, DCI, Subtarget);
   }
   return SDValue();

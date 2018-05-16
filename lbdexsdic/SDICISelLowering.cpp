@@ -86,6 +86,8 @@ static SDValue perDealwithADD(SDNode *N, SelectionDAG& DAG,
 			      TargetLowering::DAGCombinerInfo &DCI,
 			      const SDICSubtarget &Subtarget) {
 
+  print("123456");
+
   unsigned Opc = ISD::ADD;
 
   SDLoc DL(N);

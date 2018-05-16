@@ -70,8 +70,6 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   // Operations not directly supported by SDIC.
 
 
-  setTargetDAGCombine(ISD::ADD);
-
   //- Set .align 2
 // It will emit .align 2 later
   setMinFunctionAlignment(2);
@@ -105,7 +103,7 @@ SDValue SDICTargetLowering::PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) c
 {
   SelectionDAG &DAG = DCI.DAG;
   unsigned Opc = N->getOpcode();
-
+  printf("\n this is my test for add\n");
   switch(Opc) {
     default: break;
       case ISD::ADD:

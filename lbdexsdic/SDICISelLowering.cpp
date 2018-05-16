@@ -69,7 +69,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   // Operations not directly supported by SDIC.
 
 
-  // setTargetDAGCombine(ISD::ADDREM);
+   setTargetDAGCombine(ISD::ADD);
 
   //- Set .align 2
 // It will emit .align 2 later

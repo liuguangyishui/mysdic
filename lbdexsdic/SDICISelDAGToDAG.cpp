@@ -93,6 +93,7 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
 /// expanded, promoted and normal instructions
 void SDICDAGToDAGISel::Select(SDNode *Node) {
 //@Select }
+  printf("\nthis is the beginning of Select\n");
   unsigned Opcode = Node->getOpcode();
 
   // Dump information about the Node being selected
@@ -112,6 +113,8 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
   switch(Opcode) {
   default: break;
 
+  case ISD::ADD:
+    printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
   }
 
   // Select the default instruction

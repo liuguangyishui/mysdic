@@ -95,6 +95,10 @@ namespace llvm {
     //  DAG node.
     const char *getTargetNodeName(unsigned Opcode) const override;
 
+    //LowerOperation -Provide custom lowering hooks for some operations.
+    virtual SDValue LowerOperation(SDValue Op, SelectionDAG &DAG) const;
+
+    
     SDValue LowerADD(SDValue Op, SelectionDAG &DAG) const;
     
     SDValue PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) const override;

@@ -89,8 +89,9 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
 {
   switch(Op.getOpcode())
     {
-    case ISD::ADD:    return LowerADD(Op, DAG);
-    default: ;
+    case ISD::ADD:    printf("this is the doc from SDICISelLowering.cpp");// return LowerADD(Op, DAG);
+    default:
+      llvm_unreachable("unimplemented operation");
     }
 
 

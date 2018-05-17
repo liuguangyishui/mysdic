@@ -95,6 +95,8 @@ namespace llvm {
     //  DAG node.
     const char *getTargetNodeName(unsigned Opcode) const override;
 
+    SDValue LowerADD(SDValue Op, SelectionDAG &DAG) const;
+    
     SDValue PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) const override;
     
   protected:

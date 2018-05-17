@@ -90,7 +90,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
   switch(Op.getOpcode())
     {
     case ISD::ADD:    return LowerADD(Op, DAG);
-    default:
+    default: ;
     }
 
 

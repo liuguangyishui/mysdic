@@ -106,8 +106,8 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue Op1 = Op.getOperand(1);
   EVT VT      = Op.getValueType();
 
-  Flag = DAG.getNode(SDICISD::MOVF, dl, MVT::Glue, Op0);
-  return DAG.getNode(SDICISD::ADDwf, dl, DAG.getVTList(VT, MVT::Glue), Op1);// Flag);
+  // Flag = DAG.getNode(SDICISD::MOVF, dl, MVT::Glue, Op0);
+  return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT, MVT::Glue), Op1);// Flag);
   //printf("this is the doc from SDICISelLowering.cpp");
 }
 

@@ -114,7 +114,7 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
 
   case ISD::ADD:
     printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
-    ReplaceNode(Node, CurDAG->getNode(SDICISD::Addwf, DL, MVT::i32));
+    ReplaceNode(Node, SDICISD::Addwf);
   }
 
   // Select the default instruction

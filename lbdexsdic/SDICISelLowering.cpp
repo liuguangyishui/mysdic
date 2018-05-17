@@ -66,7 +66,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
   // SDIC Custom Operations
 
-  // setOperationAction(SDICISD::Addwf, MVT::i32, Expand);
+   setOperationAction(ISD:ADD, MVT::i32, Expand);
   // Operations not directly supported by SDIC.
 
   //setTargetDAGCombine(ISD::ADD);
@@ -80,6 +80,31 @@ const SDICTargetLowering *SDICTargetLowering::create(const SDICTargetMachine &TM
                                                      const SDICSubtarget &STI) {
   return llvm::createSDICSETargetLowering(TM, STI);
 }
+
+//==------------------------------------------------------------------------===//
+//                      Custom Lowering Implementation
+//===----------------------------------------------------------------------===//
+
+SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
+{
+  switch(Op.getOpcode())
+    {
+    case ISD::ADD:    return LowerADD(Op, DAG);
+    default:
+    }
+
+
+
+}
+
+SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
+{
+  printf("this is the doc from SDICISelLowering.cpp");
+}
+
+
+
+
 
 static SDValue perDealwithADD(SDNode *N, SelectionDAG& DAG,
 			      TargetLowering::DAGCombinerInfo &DCI,

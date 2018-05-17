@@ -104,7 +104,7 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
     Node->setNodeId(-1);
     return;
   }
-  SDLoc DL(Node);
+  //HYL  SDLoc DL(Node);
   // See if subclasses can handle this node.
   if (trySelect(Node))
     return;
@@ -114,7 +114,7 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
 
   case ISD::ADD:
     printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
-    ReplaceNode(Node, CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32));
+    //HYL   ReplaceNode(Node, CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32));
   }
 
   // Select the default instruction

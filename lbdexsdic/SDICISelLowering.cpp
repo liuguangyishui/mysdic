@@ -102,12 +102,13 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
 SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
 {
   SDLoc dl(Op);
+  unsigned Opc = Op.getOpcode();
   SDValue Op0 = Op.getOperand(0);
   SDValue Op1 = Op.getOperand(1);
   EVT VT      = Op.getValueType();
 
   // Flag = DAG.getNode(SDICISD::MOVF, dl, MVT::Glue, Op0);
-  return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT, MVT::Glue), Op1);// Flag);
+  return DAG.getNode(Opc, dl, DAG.getVTList(VT, MVT::Glue), Op1);// Flag);
   //printf("this is the doc from SDICISelLowering.cpp");
 }
 

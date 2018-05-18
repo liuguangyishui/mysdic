@@ -113,7 +113,7 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
 
   Flag = DAG.getNode(SDICISD::Movlw, dl, MVT::Glue, Op1);
     printf("5/18 test for add and mov7");
-    return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT, MVT::Glue), Op0, Flag);
+    return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0, Flag);
   //printf("this is the doc from SDICISelLowering.cpp");
 }
 

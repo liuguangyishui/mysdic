@@ -144,11 +144,11 @@ SDValue SDICTargetLowering::PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) c
   SelectionDAG &DAG = DCI.DAG;
   unsigned Opc = N->getOpcode();
   printf("\n this is my test for add\n");
-  switch(Opc) {
+  /*  switch(Opc) {
     default: break;
       case ISD::ADD:
 	return perDealwithADD(N, DAG, DCI, Subtarget);
-  }
+	}*/
   return SDValue();
 }
 

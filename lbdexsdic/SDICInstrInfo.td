@@ -136,7 +136,7 @@ def HI16 : SDNodeXForm<imm, [{
 // e.g. addi, andi
 def immSExt8  : PatLeaf<(imm), [{ return isInt<8>(N->getSExtValue()); }]>;
 
-
+def immSExt9  : PatLeaf<(imm), [{ return isInt<32>(N->getSExtValue()); }]>;
 // Node immediate fits as 16-bit zero extended on target immediate.
 // The LO16 param means that only the lower 16 bits of the node
 // immediate are caught.
@@ -375,7 +375,7 @@ def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
-def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", uimm16, immSExt8>;
+def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", uimm16, immSExt9>;
 
 
 

@@ -375,7 +375,7 @@ def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
-def Movlw    : ArithLogicFK<SDICMovlw, 0x0d, "movlw", simm8, immSExt8>;
+def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
 
 

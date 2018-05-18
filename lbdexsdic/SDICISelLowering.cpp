@@ -87,6 +87,7 @@ const SDICTargetLowering *SDICTargetLowering::create(const SDICTargetMachine &TM
 
 SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
 {
+  printf("5/18 test for add and mov3");
   switch(Op.getOpcode())
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
@@ -100,16 +101,18 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
 }
 
 SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
-{
+{  printf("5/18 test for add and mov4");
   SDLoc dl(Op);
+    printf("5/18 test for add and mov5");
   unsigned Opc = Op.getOpcode();
   SDValue Op0 = Op.getOperand(0);
   SDValue Op1 = Op.getOperand(1);
   EVT VT      = Op.getValueType();
-
+  printf("5/18 test for add and mov6");
   SDValue Flag;
 
   Flag = DAG.getNode(SDICISD::Movlw, dl, MVT::Glue, Op0);
+    printf("5/18 test for add and mov7");
   return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT, MVT::Glue), Op1, Flag);
   //printf("this is the doc from SDICISelLowering.cpp");
 }

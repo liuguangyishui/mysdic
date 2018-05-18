@@ -54,8 +54,8 @@ namespace llvm {
       // Return
       Ret,
 
-      // Movf
-      Movf,
+      // Movlw
+      Movlw,
 
       // Addwf
       Addwf,

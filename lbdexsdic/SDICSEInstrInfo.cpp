@@ -79,7 +79,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     //MY modify
     BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
     //  BuildMI(MBB, I, DL, get(ADDiua), SDIC::PCL).addReg(SDIC::PCL).addImm(1).addImm(1);
-      BuildMI(MBB,I,DL,get(SDIC::MOVF),SDIC::WREG).addReg(SDIC::PCL).addImm(i);
+    //  BuildMI(MBB,I,DL,get(SDIC::MOVF),SDIC::WREG).addReg(SDIC::PCL).addImm(i);
 
   }
   else {

@@ -20,15 +20,20 @@ def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 //ADD
 def SDT_SDICAddwf        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
+//MOVLW K
+def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
+
 
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
                      [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
-
-def SDICMovf : SDNode<"SDICISD::Movf", SDTIntBinOp>;
+//MOVLW
+def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>; //SDTIntBinOp>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPOutGlue]>;
+
+
 //===----------------------------------------------------------------------===//
 // SDIC Instruction Predicate Definitions.
 //===----------------------------------------------------------------------===//
@@ -223,6 +228,16 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                            }
 
 
+//MY modify to movlw
+class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
+                          Operand Od, PatLeaf imm_type> :
+                      F_K<op, (outs), (ins Od:$rk),
+                              !strconcat(instr_asm, "\trk"),
+                             [(OpNode Od:$rk)], IIAlu> {
+
+                           let shamt = 0;
+}
+
 
 
 
@@ -361,7 +376,7 @@ def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
-def MOVF    : ArithLogicI<0x0d, "movf", SDICMovf, simm8, immSExt8, SDICRegs>;
+def Movlw    : ArithLogicFK<SDICMovlw, 0x0d, "movlw", simm8, immSExt8>;
 
 
 

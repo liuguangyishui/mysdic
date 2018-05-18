@@ -36,8 +36,9 @@ def FrmC        : Format<3>;
 def FrmD        : Format<4>;
 def FrmE        : Format<5>;
 def FrmF        : Format<6>;
-def FrmG        : Format<7>;
-def FrmH        : Format<8>;
+def FrmG        : Format<7>;//only one operand ie: MOVLW K
+def FrmH        : Format<8>;//
+
 
 //Generic SDIC Format
 class SDICInst<dag outs, dag ins, string asmstr, list<dag> pattern,
@@ -171,11 +172,16 @@ class FE<bits<6> op, dag outs, dag ins, string asmstr,
 // Format H instruction class in SDIC : <|opcode|S|>
 // 这是只有一个一位的操作数的指令 S为1位的
 
-class FH<bits<6>op, dag outs, dag ins, string asmstr,
+class F_K<bits<6>op, dag outs, dag ins, string asmstr,
               list<dag> pattern, InstrItinClass itin>:
-                    SDICInst<outs, ins, asmstr, pattern, itin, FrmH>
+                    SDICInst<outs, ins, asmstr, pattern, itin, FrmG>
                     {
-                         let Opcode = op;
+                        bits<8> rk;
+                        bits<2> shamt;
+
+                        let Opcode = op;
+                        let Inst{9-2} = rk;
+                        let Inst{1-0} = shamt;            
                     }
 
 

@@ -227,13 +227,12 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                           let imma = 0;
                            }
 
-
 //MY modify to movlw
 class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
                           Operand Od, PatLeaf imm_type> :
                       F_K<op, (outs), (ins Od:$rk),
-                              !strconcat(instr_asm, "\trk"),
-                             [(OpNode Od:$rk)], IIAlu> {
+                              !strconcat(instr_asm, "\t$rk"),
+                             [(OpNode imm_type:$rk)], IIAlu> {
 
                            let shamt = 0;
 }

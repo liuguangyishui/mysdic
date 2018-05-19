@@ -23,10 +23,14 @@ def SDT_SDICAddwf        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
+def SDT_SDICPESUO        : SDTypeProfile<0, 2, [SDTCisInt<0>],
+                                            [SDTCisSameAs<0,1>]>;
 
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
                      [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
+
+def SDICPesuo : SDNode<"SDICISD::Pesuo",SDT_SDICPESUO, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>; //SDTIntBinOp>;
 

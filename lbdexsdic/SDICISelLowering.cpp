@@ -109,8 +109,9 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue Op1 = Op.getOperand(1);
   EVT VT      = Op.getValueType();
   printf("5/18 test for add and mov6");
-  SDValue Flag;
-
+  SDValue Flag0;
+  SDValue Flag1;
+  
   Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::Glue, Op1);
 
     //  return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0, Flag);

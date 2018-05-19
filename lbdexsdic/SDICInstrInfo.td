@@ -378,7 +378,7 @@ def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", uimm16, immSExt9>;
 
 
-
+def Pesuo     : SDICPseudo<(outs), (ins), "", [(SDICRet)]>;
 
 
 
@@ -402,7 +402,6 @@ def ADDu    : ArithLogicR<0x11, "addu", add, IIAlu, SDICRegs, 1>;
 let Predicates = [Ch3_3] in {
 def SHL     : shift_rotate_imm32<0x1e, 0x00, "shl", shl>;
 }
-
 
 /// Arithmetic Instructions (3-Operand, R-Type)
 

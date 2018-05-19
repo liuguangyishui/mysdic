@@ -23,13 +23,13 @@ def SDT_SDICAddwf        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
-def SDT_SDICPESUO        : SDTypeProfile<0, -1, [SDTCisVT<0, OtherVT>]>;
+//def SDT_SDICPESUO        : SDTypeProfile<0, 2, [SDTCisVT<0, OtherVT>]>;
 
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
                      [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
-def SDICPesuo : SDNode<"SDICISD::Pesuo",SDT_SDICPESUO, [SDNPOutGlue]>;
+//def SDICPesuo : SDNode<"SDICISD::Pesuo",SDT_SDICPESUO, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>; //SDTIntBinOp>;
 
@@ -381,7 +381,7 @@ def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", uimm16, immSExt9>;
 
 
-def Pesuo     : SDICPseudo<(outs), (ins), "", [(SDICPesuo)]>;
+//def Pesuo     : SDICPseudo<(outs), (ins), "", [(SDICPesuo)]>;
 
 
 

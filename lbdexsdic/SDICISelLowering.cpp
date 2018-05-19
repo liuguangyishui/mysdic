@@ -52,6 +52,7 @@ const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case SDICISD::DivRemU:           return "SDICISD::DivRemU";
   case SDICISD::Wrapper:           return "SDICISD::Wrapper";
   case SDICISD::Movlw:             return "SDICISD::Movlw";
+  case SDICISD::Pesuo:             return "SDICISD::Pesuo";
   case SDICISD::Addwf:             return "SDICISD::Addwf";
   case SDICISD::Return:            return "SDICISD::Return";
   default:                         return NULL;

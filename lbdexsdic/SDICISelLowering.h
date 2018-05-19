@@ -53,6 +53,8 @@ namespace llvm {
 
       // Return
       Ret,
+      // Pesuo
+      Pesuo,
 
       // Movlw
       Movlw,

@@ -110,16 +110,17 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue Op1 = Op.getOperand(1);
   EVT VT      = Op.getValueType();
   printf("5/18 test for add and mov6");
+  SDValue Flag;
   SDValue Flag0;
   SDValue Flag1;
   
-  Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::Glue, Op1);
+  Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::Ch, Op1);
 
-    //  return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0, Flag);
+  return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0, Flag0);
 
-   Flag1 = DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0);
+  // Flag1 = DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0);
 
-   return DAG.getNode(SDICISD::Pesuo, dl, DAG.getVTList(VT), Flag0, Flag1);
+   // return DAG.getNode(SDICISD::Pesuo, dl, DAG.getVTList(VT), Flag0, Flag1);
   //printf("this is the doc from SDICISelLowering.cpp");
 }
 

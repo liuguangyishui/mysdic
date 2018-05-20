@@ -31,7 +31,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
 
 //def SDICPesuo : SDNode<"SDICISD::Pesuo",SDT_SDICPESUO, [SDNPOutGlue]>;
 //MOVLW
-def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPHasChain]>; //SDTIntBinOp>;
+def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDTIntBinOp]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPOutGlue]>;
@@ -379,7 +379,7 @@ def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
-def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
+def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt9>;
 
 
 //def Pesuo     : SDICPseudo<(outs), (ins), "", [(SDICPesuo)]>;

@@ -237,6 +237,7 @@ class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
                               !strconcat(instr_asm, "\t$rk"),
                              [(OpNode imm_type:$rk)], IIAlu> {
 
+                           let isReMaterializable =1;
                            let shamt = 0;
 }
 

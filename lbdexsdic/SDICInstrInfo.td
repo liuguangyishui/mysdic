@@ -34,7 +34,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
-def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue]>;
+def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue，SDNPOutGlue]>;
 
 
 //===----------------------------------------------------------------------===//

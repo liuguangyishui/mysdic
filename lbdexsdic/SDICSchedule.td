@@ -25,6 +25,8 @@ def IIBranch           : InstrItinClass;
 
 def IIPseudo           : InstrItinClass;
 
+def IIAddluwf          : InstrItinClass;
+
 //===----------------------------------------------------------------------===//
 // SDIC Generic instruction itineraries.
 //===----------------------------------------------------------------------===//
@@ -32,6 +34,9 @@ def IIPseudo           : InstrItinClass;
 def SDICGenericItineraries : ProcessorItineraries<[ALU, IMULDIV], [], [
 //@2
   InstrItinData<IIAlu              , [InstrStage<1,  [ALU]>]>,
+
+  InstrItinData<IIAddluwf          , [InstrStage<2,  [ALU]>]>,
+
   InstrItinData<II_CLO             , [InstrStage<1,  [ALU]>]>,
   InstrItinData<II_CLZ             , [InstrStage<1,  [ALU]>]>,
   InstrItinData<IILoad             , [InstrStage<3,  [ALU]>]>,

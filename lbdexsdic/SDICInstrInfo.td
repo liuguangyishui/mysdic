@@ -224,7 +224,7 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA_a<op,(outs), (ins RC:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf"),
-                           [(OpNode RC:$rf, RC:$rimm8)], IIAlu> {
+                           [(OpNode RC:$rf, RC:$rimm8)], IIAddluwf> {
                           // let isReMaterializable = 1;
                       //    let imm8 = 0;
                           let imma = 0;

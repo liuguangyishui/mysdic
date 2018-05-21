@@ -18,7 +18,7 @@
 def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 //ADD
-def SDT_SDICAddwf        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
+def SDT_SDICAddwf        : SDTypeProfile<0, 2, [SDTCisInt<0>]>;
 
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
@@ -31,7 +31,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
 
 //def SDICPesuo : SDNode<"SDICISD::Pesuo",SDT_SDICPESUO, [SDNPOutGlue]>;
 //MOVLW
-def SDICMovlw : SDNode<"SDICISD::Movlw", SDTIntUnaryOp, [SDNPOutGlue]>;
+def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
@@ -222,23 +222,23 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 //MY modify to ArithmetiI
 class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
-                      FA_a<op,(outs), (ins RC:$rf),
+                      FA_a<op,(outs), (ins RC:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf"),
-                           [(OpNode RC:$rf)], IIAlu> {
+                           [(OpNode RC:$rf, RC:$rimm8)], IIAlu> {
                           // let isReMaterializable = 1;
-                          let imm8 = 0;
+                      //    let imm8 = 0;
                           let imma = 0;
                            }
 
 //MY modify to movlw
 class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
                           Operand Od, PatLeaf imm_type> :
-                      F_K<op, (outs GPROut:$shamt), (ins Od:$rk),
+                      F_K<op, (outs), (ins Od:$rk),
                               !strconcat(instr_asm, "\t$rk"),
-                             [(set GPROut:$shamt, (OpNode imm_type:$rk))], IIAlu> {
+                             [(OpNode imm_type:$rk)], IIAlu> {
 
                            let isReMaterializable =1;
-                           //let shamt = 0;
+                           let shamt = 0;
 }
 
 

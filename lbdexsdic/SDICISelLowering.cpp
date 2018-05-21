@@ -232,14 +232,14 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
 
 
   printf("this is for the test of GLUE");
-  printf("''''''''''''''''''''''''''''''''''");
+  printf("''''''''''''''''''''''''''''''''''0000000000000");
   // Analyze return values.
   SDICCCInfo.analyzeReturn(Outs, Subtarget.abiUsesSoftFloat(),
 			   MF.getFunction()->getReturnType());
 
   SDValue Flag;
   SmallVector<SDValue, 4> RetOps(1, Chain);
-
+ printf("''''''''''''''''''''''''''''''''''1111111111");
   // Copy the result values into the output registers.
   for (unsigned i = 0; i != RVLocs.size(); ++i) {
     SDValue Val = OutVals[i];
@@ -252,7 +252,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
     Flag = Chain.getValue(1);
     RetOps.push_back(DAG.getRegister(VA.getLocReg(), VA.getLocVT()));
   }
-
+  printf("\n'''''''''''''''''''''''''''''''''2222222222");
 
   //@Ordinary struct type: 2 {
   // The SDIC ABIs for returning structs by value requires that we copy
@@ -272,7 +272,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
     RetOps.push_back(DAG.getRegister(V0, getPointerTy(DAG.getDataLayout())));
   }
   //@Ordinary struct type: 2 }
-
+ printf("\n'''''''''''''''''''''''''''''''''33333333333");
   RetOps[0] = Chain;
   // Update chain.
   // Add the flag if we have it.

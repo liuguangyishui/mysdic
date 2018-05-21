@@ -31,7 +31,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
 
 //def SDICPesuo : SDNode<"SDICISD::Pesuo",SDT_SDICPESUO, [SDNPOutGlue]>;
 //MOVLW
-def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
+def SDICMovlw : SDNode<"SDICISD::Movlw", SDTIntUnaryOp, [SDNPOutGlue]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
@@ -233,12 +233,12 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
 //MY modify to movlw
 class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
                           Operand Od, PatLeaf imm_type> :
-                      F_K<op, (outs), (ins Od:$rk),
+                      F_K<op, (outs GPROut:$shamt), (ins Od:$rk),
                               !strconcat(instr_asm, "\t$rk"),
-                             [(OpNode imm_type:$rk)], IIAlu> {
+                             [(set GPROut:$shamt, (OpNode imm_type:$rk))], IIAlu> {
 
                            let isReMaterializable =1;
-                           let shamt = 0;
+                           //let shamt = 0;
 }
 
 

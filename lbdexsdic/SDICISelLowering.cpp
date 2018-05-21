@@ -230,6 +230,9 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   
   SDICCC SDICCCInfo(CallConv, ABI.IsO32(),CCInfo);
 
+
+  printf("this is for the test of GLUE");
+  printf("''''''''''''''''''''''''''''''''''");
   // Analyze return values.
   SDICCCInfo.analyzeReturn(Outs, Subtarget.abiUsesSoftFloat(),
 			   MF.getFunction()->getReturnType());

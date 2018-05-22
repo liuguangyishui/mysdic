@@ -344,4 +344,14 @@ MVT SDICTargetLowering::SDICCC::getRegVT(MVT VT, const Type *OrigTy,
 }
 
 
+const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const
+{
+  switch (Opcode)
+    {
+    default: return NULL;
+    case SDICISD::Movlw:        return "SDICISE::Movlw";
+    case SDICISD::Addwf:        return "SDICISE::Addwf";
 
+    }
+
+}

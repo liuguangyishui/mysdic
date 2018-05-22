@@ -116,7 +116,7 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   
   Flag0 = DAG.getNode(SDICISD::Movlw, dl, VT, Op1);
   
-  return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0);//, Flag0);
+  return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0, Flag0);
 
   // Flag0 = DAG.getNode(SDICISD::Addwf, dl, MVT::Other, Op0);
   //  return DAG.getNode(SDICISD::Movlw, dl, VT, Op1);

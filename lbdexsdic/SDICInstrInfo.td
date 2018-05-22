@@ -31,7 +31,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
 
 //def SDICPesuo : SDNode<"SDICISD::Pesuo",SDT_SDICPESUO, [SDNPOutGlue]>;
 //MOVLW
-def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPHasChain]>;
+def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPMayStore]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;

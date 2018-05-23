@@ -68,8 +68,8 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   // SDIC Custom Operations
 
   setOperationAction(ISD::ADD, MVT::i32, Custom);
-  setOperationAction(ISD::STORE, MVT::i32, Custom);
-  setOperationAction(ISD::LOAD, MVT::i32, Custom);
+  //  setOperationAction(ISD::STORE, MVT::i32, Custom);
+  // setOperationAction(ISD::LOAD, MVT::i32, Custom);
   // Operations not directly supported by SDIC.
 
   //setTargetDAGCombine(ISD::ADD);

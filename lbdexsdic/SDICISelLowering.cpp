@@ -75,7 +75,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   //setTargetDAGCombine(ISD::ADD);
   //- Set .align 2
 // It will emit .align 2 later
-  setMinFunctionAlignment(2);
+  setMinFunctionAlignment(1);//2
 
 }
 

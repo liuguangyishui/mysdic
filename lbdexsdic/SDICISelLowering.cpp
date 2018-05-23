@@ -290,7 +290,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   if (Flag.getNode())
     RetOps.push_back(Flag);
   // Return on SDIC is always a "ret $lr"
-  return DAG.getNode(SDICISD::Ret, DL, MVT::Other);//, RetOps);
+  return DAG.getNode(SDICISD::Ret, DL, MVT::Other, RetOps);
 }
  
 

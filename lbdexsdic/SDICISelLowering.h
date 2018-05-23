@@ -62,6 +62,9 @@ namespace llvm {
       // Addwf
       Addwf,
 
+      // Pesuo
+      Pesuo,
+
       // Return
       Return,
 

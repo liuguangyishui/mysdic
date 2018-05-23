@@ -187,8 +187,8 @@ class AlignedStore<PatFrag Node> :
 }]>;
 
 // Load/Store PatFrags.
-//def load_a          : AlignedLoad<load>;
-//def store_a         : AlignedStore<store>;
+def load_a          : AlignedLoad<or>;//load>;
+def store_a         : AlignedStore<or>;//store>;
 
 //===----------------------------------------------------------------------===//
 // Instructions specific format

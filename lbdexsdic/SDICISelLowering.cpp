@@ -137,7 +137,7 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
 {
   SDLoc dl(Op);
 
-  return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32);
+  return DAG.getNode(SDICISD::Pesuo, dl, MVT::Glue);
 
 }
 

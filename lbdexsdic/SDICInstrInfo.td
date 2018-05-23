@@ -21,7 +21,7 @@ def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 def SDT_SDICAddwf        : SDTypeProfile<0, 2, [SDTCisInt<0>]>;
 
 //MOVLW K
-def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
+def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 //def SDT_SDICPESUO        : SDTypeProfile<0, 2, [SDTCisVT<0, OtherVT>]>;
 
@@ -31,7 +31,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
 
 //def SDICPesuo : SDNode<"SDICISD::Pesuo",SDT_SDICPESUO, [SDNPOutGlue]>;
 //MOVLW
-def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
+def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, []>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;

@@ -187,8 +187,8 @@ class AlignedStore<PatFrag Node> :
 }]>;
 
 // Load/Store PatFrags.
-def load_a          : AlignedLoad<or>;//load>;
-def store_a         : AlignedStore<or>;//store>;
+//def load_a          : AlignedLoad<load>;
+//def store_a         : AlignedStore<store>;
 
 //===----------------------------------------------------------------------===//
 // Instructions specific format
@@ -362,8 +362,8 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 
 /// Load and Store Instructions
 ///  aligned
-defm LD     : LoadM32<0x01,  "ld",  load_a>;
-defm ST     : StoreM32<0x02, "st",  store_a>;
+//defm LD     : LoadM32<0x01,  "ld",  load_a>;
+//defm ST     : StoreM32<0x02, "st",  store_a>;
 
 
 

@@ -362,8 +362,8 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 
 /// Load and Store Instructions
 ///  aligned
-defm LD     : LoadM32<0x01,  "ld",  load>;
-defm ST     : StoreM32<0x02, "st",  store>;
+defm LD     : LoadM32<0x01,  "ld",  load_a>;
+defm ST     : StoreM32<0x02, "st",  store_a>;
 
 
 

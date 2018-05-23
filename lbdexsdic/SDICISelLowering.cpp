@@ -94,8 +94,8 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
   switch(Op.getOpcode())
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
-    case ISD::LOAD:
-    case ISD::STORE: return LowerSTORE(Op, DAG);
+      //  case ISD::LOAD:
+      //  case ISD::STORE: return LowerSTORE(Op, DAG);
       
     default:
       // llvm_unreachable("unimplemented operation")
@@ -233,7 +233,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
 
   // CCValAssign - represent the assignment of
   // the return value to a location 
-  /*    SmallVector<CCValAssign, 16> RVLocs;
+  SmallVector<CCValAssign, 16> RVLocs;
   MachineFunction &MF = DAG.getMachineFunction();
 
 // CCState - Info about the registers and stack slot.
@@ -288,7 +288,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   // Update chain.
   // Add the flag if we have it.
   if (Flag.getNode())
-    RetOps.push_back(Flag);*/
+    RetOps.push_back(Flag);
   // Return on SDIC is always a "ret $lr"
   return DAG.getNode(SDICISD::Ret, DL, MVT::Other);//, RetOps);
 }

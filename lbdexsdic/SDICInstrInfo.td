@@ -29,7 +29,7 @@ def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
                      [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
-def SDICPesuo : SDNode<"SDICISD::Pesuo", SDTNone>;
+def SDICPesuo : SDNode<"SDICISD::Pesuo", SDTNone, [SDNPHasChain]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 

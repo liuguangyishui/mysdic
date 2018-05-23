@@ -382,7 +382,7 @@ def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt9>;
 
 
-def Pesuo     : SDICPseudo<(outs), (ins), "", [(SDICPesuo)]>;
+def Pesuo     : SDICPseudo_I<(outs), (ins), "", [(SDICPesuo)]>;
 
 
 

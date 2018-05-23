@@ -80,6 +80,11 @@ class SDICPseudo<dag outs, dag ins, string asmstr, list<dag> pattern>:
                   }
 
 
+class SDICPseudo_I<dag outs, dag ins, string asmstr, list<dag> pattern>:
+      SDICInst<outs, ins, asmstr, pattern, IIPseudo, Pseudo> {
+                 
+                  }
+
 
 
 //===---------------------------------------------------------------===//

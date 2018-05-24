@@ -31,7 +31,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
 
 def SDICPesuo : SDNode<"SDICISD::Pesuo", SDTNone, [SDNPOutGlue]>;
 //MOVLW
-def SDICMovlw : SDNode<"SDICISD::Movlw", SDTIntUnaryOp>;
+def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
@@ -442,6 +442,8 @@ def : SDICInstAlias<"move $dst, $src",
 // Small immediates
 //def : Pat<(i32 immSExt8:$in),
  //        (Movlwk imm:$in)>;
+def : Pat<(Addtest SDICRegs:$r9, (SDICMovlw, imm:$in)>;
+
 
 def : Pat<(i32 immSExt8:$in),
          (ADDiu R0, imm:$in)>;

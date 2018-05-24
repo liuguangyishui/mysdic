@@ -36,7 +36,7 @@ def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
-
+def SDICAddtest : SDNode<"SDICISD::Addtest", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //===----------------------------------------------------------------------===//
 // SDIC Instruction Predicate Definitions.
 //===----------------------------------------------------------------------===//
@@ -369,7 +369,7 @@ defm ST     : StoreM32<0x02, "st",  store_a>;
 
 /// Arithmetic Instructions (ALU Immediate)
 // IR "add" defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
-def ADDiu   : ArithLogicI<0x09, "addiu", add, simm8, immSExt8,SDICRegs>;
+def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
 //my modify 
 def ADDiua   : ArithLogicFDA<SDICAddwf, 0x33, "addiua", SDICRegs>;

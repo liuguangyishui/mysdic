@@ -62,6 +62,9 @@ namespace llvm {
       // Addwf
       Addwf,
 
+      // Addtest
+      Addtest,
+
       // Return
       Return,
 

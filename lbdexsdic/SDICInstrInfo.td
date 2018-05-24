@@ -442,7 +442,7 @@ def : SDICInstAlias<"move $dst, $src",
 // Small immediates
 //def : Pat<(i32 immSExt8:$in),
  //        (Movlwk imm:$in)>;
-def : Pat<(ADDiu SDICRegs:$r9, (SDICMovlw, imm:$in)>;
+def : Pat<(ADDiu SDICRegs:$r9, (SDICMovlw imm:$in))>;
 
 
 def : Pat<(i32 immSExt8:$in),

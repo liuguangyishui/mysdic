@@ -36,7 +36,7 @@ def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
-def SDICAddtest : SDNode<"SDICISD::Addtest", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
+def SDICAddtest : SDNode<"SDICISD::Addtest", SDTIntBinOp>;
 //===----------------------------------------------------------------------===//
 // SDIC Instruction Predicate Definitions.
 //===----------------------------------------------------------------------===//

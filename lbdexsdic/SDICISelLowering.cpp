@@ -68,8 +68,8 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   // SDIC Custom Operations
 
   setOperationAction(ISD::ADD, MVT::i32, Custom);
-    setOperationAction(ISD::STORE, MVT::i32, Expand);
-   setOperationAction(ISD::LOAD, MVT::i32, Expand);
+  //  setOperationAction(ISD::STORE, MVT::i32, Expand);
+  //   setOperationAction(ISD::LOAD, MVT::i32, Expand);
   // Operations not directly supported by SDIC.
 
   //setTargetDAGCombine(ISD::ADD);
@@ -94,8 +94,8 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
   switch(Op.getOpcode())
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
-       case ISD::LOAD:
-        case ISD::STORE: return LowerSTORE(Op, DAG);
+      //  case ISD::LOAD:
+      //   case ISD::STORE: return LowerSTORE(Op, DAG);
       
     default:
       // llvm_unreachable("unimplemented operation")

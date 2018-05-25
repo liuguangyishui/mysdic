@@ -37,7 +37,7 @@ def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
 def SDICAddtest : SDNode<"SDICISD::Addtest", SDTIntBinOp>;
-def SDICGPRel   : SDNode<"SDICISD::GPRel", SDTIntUnaryOp>;
+def SDICGPRel   : SDNode<"SDICISD::GPReltest", SDTIntUnaryOp>;
 //===----------------------------------------------------------------------===//
 // SDIC Instruction Predicate Definitions.
 //===----------------------------------------------------------------------===//

@@ -65,6 +65,9 @@ namespace llvm {
       // Addtest
       Addtest,
 
+      // GPRel
+      GPRel,
+
       // Return
       Return,
 

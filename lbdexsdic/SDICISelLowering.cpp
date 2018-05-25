@@ -55,6 +55,7 @@ const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case SDICISD::Pesuo:             return "SDICISD::Pesuo";
   case SDICISD::Addwf:             return "SDICISD::Addwf";
   case SDICISD::Addtest:           return "SDICISD::Addtest";
+  case SDICISD::GPRel:             return "SDICISD::GPRel";
   case SDICISD::Return:            return "SDICISD::Return";
   default:                         return NULL;
   }
@@ -121,8 +122,9 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue Flag1;
   
   //   Flag0 = DAG.getNode(SDICISD::Movlw, dl, VT, Op1);
-   Flag0 = DAG.getConstant(0, dl, MVT::i32);
-  
+  //   Flag0 = DAG.getConstant(0, dl, MVT::i32);
+
+   Flag0 = DAG.getNode(SDICISD::GPRel, dl, DAG.getVTList(MVT::i32),Op1);
   // return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0, Flag0);
 
   //  Flag0 = DAG.getNode(SDICISD::Addwf, dl, MVT::Other, Op0);

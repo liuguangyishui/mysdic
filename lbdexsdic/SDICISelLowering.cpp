@@ -55,7 +55,7 @@ const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case SDICISD::Pesuo:             return "SDICISD::Pesuo";
   case SDICISD::Addwf:             return "SDICISD::Addwf";
   case SDICISD::Addtest:           return "SDICISD::Addtest";
-  case SDICISD::GPRel:             return "SDICISD::GPRel";
+  case SDICISD::GPReltest:         return "SDICISD::GPReltest";
   case SDICISD::Return:            return "SDICISD::Return";
   default:                         return NULL;
   }

@@ -112,15 +112,16 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDLoc dl(Op);
     printf("5/18 test for add and mov5");
   unsigned Opc = Op.getOpcode();
-  SDValue Op0 = Op.getOperand(0);
-  SDValue Op1 = Op.getOperand(1);
+  SDValue Op0 = Op.getOperand(0);//This is register number
+  SDValue Op1 = Op.getOperand(1);//This is a constant
   EVT VT      = Op.getValueType();
   printf("5/18 test for add and mov6");
   SDValue Flag;
   SDValue Flag0;
   SDValue Flag1;
   
-   Flag0 = DAG.getNode(SDICISD::Movlw, dl, VT, Op1);
+  //   Flag0 = DAG.getNode(SDICISD::Movlw, dl, VT, Op1);
+   Flag0 = DAG.getConstant(0, dl, MVT::i32);
   
   // return DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0, Flag0);
 
@@ -131,7 +132,7 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   // Flag1 = DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0);
 
   // return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32);// Flag0, Flag1);
-  //printf("this is the doc from SDICISelLowering.cpp");
+
 }
 
 SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const

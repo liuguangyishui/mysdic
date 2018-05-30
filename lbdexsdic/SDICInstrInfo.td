@@ -391,7 +391,7 @@ def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
 
 //def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
-def Pesuo     : SDICPseudo<(outs),(ins)," " , [(SDICPesuo)]>;
+def Pesuo     : SDICPseudo<(outs),(ins),"" , [(SDICRet)]>;
 
 
 

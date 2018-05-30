@@ -97,7 +97,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
       //  case ISD::LOAD:
-      //   case ISD::STORE: return LowerSTORE(Op, DAG);
+    case ISD::STORE: return LowerSTORE(Op, DAG);
       
     default:
       // llvm_unreachable("unimplemented operation")
@@ -129,11 +129,6 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
 
   //  Flag0 = DAG.getNode(SDICISD::Addwf, dl, MVT::Other, Op0);
   //---- return DAG.getNode(SDICISD::Addtest, dl,MVT::i32, Op0, Flag0);
-   // return DAG.getNode(ISD::ADD, dl, MVT::i32, Op1, Op0);
-  
-  // Flag1 = DAG.getNode(SDICISD::Addwf, dl, DAG.getVTList(VT), Op0);
-
-  // return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32);// Flag0, Flag1);
 
 }
 
@@ -141,6 +136,14 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
 {
   SDLoc dl(Op);
 
+  unsigned numvlaues = Op->getNumValues();
+  printf("The numvalue is %u\n",numvlaues);
+  while(Op.getOperand(i))
+    {
+      SDValue i = Op.getOperand(i);
+      printf("The values if %u\n",i);
+    }
+ 
   return DAG.getNode(SDICISD::Pesuo, dl, MVT::Glue);
 
 }

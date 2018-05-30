@@ -244,7 +244,7 @@ class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
 
 class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
                           SDICPseudo_I<(outs), (ins RC:$ra, RC:$rb),// RC:$rc, RC:$rd),
-                              !strconcat(instr_asm, "\t $ra, $rb),
+                              !strconcat(instr_asm, "\t $ra, $rb"),
                              [(OpNode RC:$ra, RC:$rb)]>
                              {
 

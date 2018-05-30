@@ -141,8 +141,8 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
   int i = 0;
   while(Op.getOperand(i))
     {
-      SDValue i = Op.getOperand(i);
-      printf("The values if %u\n",i);
+      SDValue value = Op.getOperand(i);
+      printf("The %d values if %u\n",i,value);
       i = i+1;
     }
   

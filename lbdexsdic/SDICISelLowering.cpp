@@ -137,7 +137,7 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
   SDLoc dl(Op);
 
   unsigned numvlaues = Op->getNumValues();
-  printf("The numvalue is %u\n",numvlaues);
+  printf("\nThe numvalue is %u\n",numvlaues);
   int i = 0;
   while(Op.getOperand(i))
     {
@@ -145,9 +145,12 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
       printf("The %d values if %u\n",i,value);
       i = i+1;
     }
-  
+  SDValue Op0 = Op.getOperand(0);
+  SDValue Op1 = Op.getOPerand(1);
+  SDValue Op2 = Op.getOperand(2);
+  SDValue Op3 = Op.getOperand(3);
  
-  return DAG.getNode(SDICISD::Pesuo, dl, MVT::Glue);
+  return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32, Op0, Op1, Op2, Op3);
 
 }
 

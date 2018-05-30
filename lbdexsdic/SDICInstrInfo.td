@@ -23,13 +23,13 @@ def SDT_SDICAddwf        : SDTypeProfile<0, 2, [SDTCisInt<0>]>;
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
-//def SDT_SDICPESUO        : SDTypeProfile<0, 2, [SDTCisVT<0, OtherVT>]>;
+def SDT_SDICPESUO        : SDTypeProfile<0, 3, [SDTCisInt<0>]>;
 
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
                      [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
-def SDICPesuo : SDNode<"SDICISD::Pesuo", SDTNone, [SDNPOutGlue]>;
+def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
@@ -242,6 +242,13 @@ class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
                            let shamt = 0;
 }
 
+class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
+                          SDICPseudo_I<(outs), (ins RC:$ra, RC:$rb, RC:$rc, RC:$rd),
+                              !strconcat(instr_asm, "\t $ra, $rb, $rc, $rd"),
+                             [(OpNode RC:$ra, RC:$rb, RC:$rc, RC:$rd)], IIAlu>
+                             {
+
+                              }
 
 
 
@@ -383,7 +390,7 @@ def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
 
-def Pesuo     : SDICPseudo_I<(outs), (ins), "", [(SDICPesuo)]>;
+def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 
 
 

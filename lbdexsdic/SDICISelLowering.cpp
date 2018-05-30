@@ -138,11 +138,14 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
 
   unsigned numvlaues = Op->getNumValues();
   printf("The numvalue is %u\n",numvlaues);
+  int i = 0;
   while(Op.getOperand(i))
     {
       SDValue i = Op.getOperand(i);
       printf("The values if %u\n",i);
+      i++;
     }
+  
  
   return DAG.getNode(SDICISD::Pesuo, dl, MVT::Glue);
 

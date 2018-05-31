@@ -94,6 +94,13 @@ class SDICPseudo_I<dag outs, dag ins, string asmstr, list<dag> pattern>:
        // let Inst{1-0} = rd;
               //   let isPseudo = 1;
       }
+
+class SDICPseudo_None<dag outs, dag ins, string asmstr, list<dag> pattern>:
+      SDICInst<outs, ins, asmstr, pattern, IIPseudo, Pseudo>
+      {
+       
+
+      }
 //===---------------------------------------------------------------===//
 // Format A instruction class in SDIC : <|opcode|F|D|A|>
 //===---------------------------------------------------------------===//

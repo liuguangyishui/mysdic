@@ -53,6 +53,7 @@ const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case SDICISD::Wrapper:           return "SDICISD::Wrapper";
   case SDICISD::Movlw:             return "SDICISD::Movlw";
   case SDICISD::Pesuo:             return "SDICISD::Pesuo";
+  case SDICISD::Pesuo_None:        return "SDICISD::Pesuo_None";
   case SDICISD::Addwf:             return "SDICISD::Addwf";
   case SDICISD::Addtest:           return "SDICISD::Addtest";
   case SDICISD::GPReltest:         return "SDICISD::GPReltest";
@@ -97,7 +98,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
   switch(Op.getOpcode())
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
-    case ISD::LOAD: // return LowerLOAD(Op, DAG);
+    case ISD::LOAD:  return LowerLOAD(Op, DAG);
     case ISD::STORE: return LowerSTORE(Op, DAG);
     
       
@@ -156,13 +157,13 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
   return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32, Op1);//, Op2, Op3);
    // return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32);
 }
-/*SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
+SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
 {
   SDLoc dl(Op);
 
-  return DAG.getNode(SDICISD::Pesuo, dl,MVT::i32, 
+  return DAG.getNode(SDICISD::Pesuo_None, dl,MVT::i32);
 
-  }*/
+  }
 
 
 

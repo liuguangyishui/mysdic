@@ -55,6 +55,8 @@ namespace llvm {
       Ret,
       // Pesuo
       Pesuo,
+      // Pesuo_None
+      Pesuo_None,
 
       // Movlw
       Movlw,

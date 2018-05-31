@@ -97,7 +97,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
   switch(Op.getOpcode())
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
-    case ISD::LOAD:  return LowerLOAD(Op, DAG);
+    case ISD::LOAD: // return LowerLOAD(Op, DAG);
     case ISD::STORE: return LowerSTORE(Op, DAG);
     
       

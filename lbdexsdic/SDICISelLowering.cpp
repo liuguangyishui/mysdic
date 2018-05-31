@@ -150,7 +150,7 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
     SDValue Op2 = Op.getOperand(2);
     SDValue Op3 = Op.getOperand(3);
   printf("this is a test");
-  return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32, Op0, Op1);//, Op2, Op3);
+  return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32, Op1);//, Op2, Op3);
    // return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32);
 
 }

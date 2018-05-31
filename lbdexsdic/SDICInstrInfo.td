@@ -23,7 +23,7 @@ def SDT_SDICAddwf        : SDTypeProfile<0, 2, [SDTCisInt<0>]>;
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
-def SDT_SDICPESUO        : SDTypeProfile<0, 2, [SDTCisInt<0>]>;
+def SDT_SDICPESUO        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
@@ -243,9 +243,9 @@ class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
 }
 
 class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
-                          SDICPseudo_I<(outs), (ins RC:$ra, RC:$rb),// RC:$rc, RC:$rd),
-                              !strconcat(instr_asm, "\t $ra, $rb"),
-                             [(OpNode RC:$ra, RC:$rb)]>
+                          SDICPseudo_I<(outs), (ins RC:$ra)//, RC:$rb),// RC:$rc, RC:$rd),
+                              !strconcat(instr_asm, "\t $ra"),
+                             [(OpNode RC:$ra)]>
                              {
 
                               }

@@ -84,7 +84,7 @@ class SDICPseudo_I<dag outs, dag ins, string asmstr, list<dag> pattern>:
       SDICInst<outs, ins, asmstr, pattern, IIPseudo, Pseudo>
       {
         bits<6> ra;
-        bits<1> rb;
+       // bits<1> rb;
         //bits<1> rc;
       //  bits<2> rd;
 

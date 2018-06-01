@@ -453,14 +453,14 @@ def : SDICInstAlias<"move $dst, $src",
 //def : Pat<(i32 immSExt8:$in),
  //        (Movlwk imm:$in)>;
 //def : Pat<(ADDiu SDICRegs:$r9, (SDICMovlw imm:$in))>;
-/*
-def : Pat<(i32 immSExt8:$in),
-              (Movlwk imm:$in)>;
-*/
+
+//def : Pat<(i32 immSExt8:$in),
+  //            (Movlwk imm:$in)>;
+
 
 def : Pat<(i32 immSExt8:$in),
          (ADDiu R0, imm:$in)>;
-/*
+
 def : Pat<(i32 immSExt8:$in),
          (SUBwf R0, imm:$in)>;
 
@@ -479,7 +479,7 @@ let Predicates = [Ch3_3] in {
 def : Pat<(i32 imm:$imm),
                 (ORi (LUi (HI16 imm:$imm)), (LO16 imm:$imm))>;
     } // let Predicates = [Ch3_4]
-*/
+
 
 //addwf
 

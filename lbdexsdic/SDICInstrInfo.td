@@ -26,7 +26,7 @@ def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 // Return
-def SDICRet : SDNode<"SDICISD::Ret", SDTNone,
+def SDICRet : SDNode<"SDICISD::Ret", SDT_SDICRet,// SDTNone,
                      [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
 def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
@@ -431,7 +431,7 @@ def SHL     : shift_rotate_imm32<0x1e, 0x00, "shl", shl>;
 def JR      : JumpFR<0x3c, "jr", GPROut>;
 
 let Predicates = [Ch3_3] in {
-    //let isReturn=1, isTerminator=1, hasDelaySlot=1, isBarrier=1, hasCtrlDep=1 in
+    let isReturn=1, isTerminator=1, hasDelaySlot=1, isBarrier=1, hasCtrlDep=1 in
 //        def RetLR : SDICPseudo<(outs),(ins ),"",[(SDICRet)]>;
         def RetLR : SubSDICPseudo<SDICRet, " ", GPROut>;
         }

@@ -18,7 +18,7 @@
 def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 //ADD
-def SDT_SDICAddwf        : SDTypeProfile<0, 2, [SDTCisInt<0>]>;
+def SDT_SDICAddwf        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
@@ -224,11 +224,11 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 //MY modify to ArithmetiI
 class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
-                      FA_a<op,(outs), (ins RC:$rf, RC:$rimm8),
-                           !strconcat(instr_asm, "\t$rf,$rimm8"),
-                           [(OpNode RC:$rf, RC:$rimm8)], IIAddluwf> {
+                      FA_a<op,(outs), (ins RC:$rf),// RC:$rimm8),
+                           !strconcat(instr_asm, "\t$rf"),
+                           [(OpNode RC:$rf)], IIAddluwf> {
                           // let isReMaterializable = 1;
-                      //    let imm8 = 0;
+                          let imm8 = 0;
                           let imma = 0;
                            }
 

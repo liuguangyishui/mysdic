@@ -21,7 +21,7 @@ def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 def SDT_SDICAddwf        : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 
 //MOVLW K
-def SDT_SDICMOVLW        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
+def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 def SDT_SDICPESUO        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
@@ -235,12 +235,12 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
 //MY modify to movlw
 class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
                           Operand Od, PatLeaf imm_type> :
-                      F_K<op, (outs), (ins Od:$rk),
+                      F_K<op, (outs GPROut:$shamt), (ins Od:$rk),
                               !strconcat(instr_asm, "\t$rk"),
-                             [(OpNode imm_type:$rk)], IIAlu> {
+                             [(set GPROut:$shamt, (OpNode imm_type:$rk))], IIAlu> {
 
                            let isReMaterializable =1;
-                           let shamt = 0;
+                       //    let shamt = 0;
 }
 
 class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:

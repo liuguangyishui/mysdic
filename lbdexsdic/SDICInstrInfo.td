@@ -224,11 +224,11 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 //MY modify to ArithmetiI
 class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
-                      FA_a<op,(outs), (ins RC:$rf),// RC:$rimm8),
+                      FA_a<op,(outs GPROut:$imm8), (ins RC:$rf),// RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf"),
-                           [(OpNode RC:$rf)], IIAddluwf> {
+                           [(set GPROut:$imm8,(OpNode RC:$rf))], IIAddluwf> {
                           // let isReMaterializable = 1;
-                          let imm8 = 0;
+                         // let imm8 = 0;
                           let imma = 0;
                            }
 

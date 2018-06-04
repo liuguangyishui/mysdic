@@ -71,7 +71,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   // SDIC Custom Operations
 
   setOperationAction(ISD::ADD, MVT::i32, Custom);
-  setOperationAction(ISD::STORE, MVT::i32, Custom);
+  // setOperationAction(ISD::STORE, MVT::i32, Custom);
   // setOperationAction(ISD::LOAD, MVT::i32, Custom);
   //   setOperationAction(ISD::LOAD, MVT::i32, Expand);
   // Operations not directly supported by SDIC.
@@ -99,7 +99,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
       // case ISD::LOAD:  return LowerLOAD(Op, DAG);
-    case ISD::STORE: return LowerSTORE(Op, DAG);
+      //  case ISD::STORE: return LowerSTORE(Op, DAG);
     
       
     default:
@@ -307,7 +307,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
     Flag = Chain.getValue(1);
     RetOps.push_back(DAG.getRegister(V0, getPointerTy(DAG.getDataLayout())));
     }*/
-  SDValue Op0 = Chain.getOperand(1);
+  SDValue Op0 = Chain.getOperand(0);
   //@Ordinary struct type: 2 }
  printf("\n'''''''''''''''''''''''''''''''''33333333333");
   RetOps[0] = Chain;

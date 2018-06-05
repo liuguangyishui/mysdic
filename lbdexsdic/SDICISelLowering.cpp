@@ -307,8 +307,9 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
     Flag = Chain.getValue(1);
     RetOps.push_back(DAG.getRegister(V0, getPointerTy(DAG.getDataLayout())));
     }*/
-  //  SDValue Op0 = Chain.getOperand(0);
-  SDValue Op0 = Chain.getValue(0);
+  //   SDValue Op0 = Chain.getOperand(0);
+   SDValue Op0 = Chain.getValue(1);
+
   //@Ordinary struct type: 2 }
  printf("\n'''''''''''''''''''''''''''''''''33333333333");
   RetOps[0] = Chain;

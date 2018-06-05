@@ -76,9 +76,9 @@ class SDICInst<dag outs, dag ins, string asmstr, list<dag> pattern,
 class SDICPseudo<dag outs, dag ins, string asmstr, list<dag> pattern>:
       SDICInst<outs, ins, asmstr, pattern, IIPseudo, Pseudo> {
                   let isCodeGenOnly=1;
-                //  let isPseudo=1;
-                  bits<1> ra;
-                  let Inst{9-9} = ra;
+                  let isPseudo=1;
+                //  bits<1> ra;
+                //  let Inst{9-9} = ra;
                   }
 
 
@@ -239,10 +239,6 @@ class FG<bits<6> op, dag outs, dag ins, string asmstr,
                        // let Inst{5-4} = rc;
                         let Inst{7-0}  = shamt;
                    }
-
-
-
-
 
 
 

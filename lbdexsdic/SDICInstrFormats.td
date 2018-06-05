@@ -75,7 +75,7 @@ class SDICInst<dag outs, dag ins, string asmstr, list<dag> pattern,
 // SDIC Pseudo Instructions Format
 class SDICPseudo<dag outs, dag ins, string asmstr, list<dag> pattern>:
       SDICInst<outs, ins, asmstr, pattern, IIPseudo, Pseudo> {
-                //  let isCodeGenOnly=1;
+                  let isCodeGenOnly=1;
                 //  let isPseudo=1;
                   bits<1> ra;
                   let Inst{9-9} = ra;

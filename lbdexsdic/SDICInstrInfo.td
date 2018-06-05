@@ -23,7 +23,7 @@ def SDT_SDICAddwf        : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
-def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
+def SDT_SDICPESUO        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDT_SDICRet,// SDTNone,

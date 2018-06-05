@@ -155,7 +155,7 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
     //   SDValue Op2 = Op.getOperand(2);
     //  SDValue Op3 = Op.getOperand(3);
   printf("this is a test");
-  return DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op1);//, Op2, Op3);
+  return DAG.getNode(SDICISD::Pesuo, dl, MVT::Glue, Op1);//, Op2, Op3);
    // return DAG.getNode(SDICISD::Pesuo, dl, MVT::i32);
 }
 SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const

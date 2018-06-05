@@ -27,7 +27,7 @@ def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDT_SDICRet,// SDTNone,
-                     [SDNPOutGlue]>;// SDNPHasChain, SDNPOptInGlue]>;//, SDNPVariadic]>;
+                     [ SDNPHasChain, SDNPOptInGlue]>;//, SDNPVariadic]>;
 
 def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
 def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDTNone, [SDNPOutGlue]>;

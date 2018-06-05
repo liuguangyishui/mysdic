@@ -431,7 +431,7 @@ def SHL     : shift_rotate_imm32<0x1e, 0x00, "shl", shl>;
 def JR      : JumpFR<0x3c, "jr", GPROut>;
 
 let Predicates = [Ch3_3] in {
-   let isReturn=1, isTerminator=1 in //, hasDelaySlot=1, isBarrier=1, hasCtrlDep=1 in
+   let isReturn=1, isTerminator=1, hasDelaySlot=1, isBarrier=1, hasCtrlDep=1 in
       def RetLR : SDICPseudo<(outs),(ins ),"",[(SDICRet)]>;
       //  def RetLR : SubSDICPseudo<SDICRet, "re", SDICRegs>;
        }

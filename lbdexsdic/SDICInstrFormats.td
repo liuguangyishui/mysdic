@@ -86,12 +86,12 @@ class SDICPseudo_I<dag outs, dag ins, string asmstr, list<dag> pattern>:
       SDICInst<outs, ins, asmstr, pattern, IIPseudo, Pseudo>
       {
         bits<6> ra;
-        bits<1> rb;
+     //   bits<1> rb;
         //bits<1> rc;
       //  bits<2> rd;
 
         let Inst{9-4} = ra;
-        let Inst{3-3} = rb;
+       // let Inst{3-3} = rb;
        // let Inst{2-2} = rc;
        // let Inst{1-0} = rd;
               //   let isPseudo = 1;

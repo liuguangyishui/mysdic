@@ -310,7 +310,7 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs), (ins RC:$ra, MemOpnd:$addr),
-     !strconcat(),//instr_asm, "\t$ra, $addr"),
+     !strconcat(instr_asm),// "\t$ra, $addr"),
      [(OpNode RC:$ra, addr:$addr)], IIStore> {
   let isPseudo = Pseudo;
 }
@@ -379,7 +379,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 /// Load and Store Instructions
 ///  aligned
 defm LD     : LoadM32<0x01,  "ld",  load_a>;
-defm ST     : StoreM32<0x02, "st",  store_a>;
+defm ST     : StoreM32<0x02, "",  store_a>;
 
 
 

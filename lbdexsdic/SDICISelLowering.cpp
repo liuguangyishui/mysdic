@@ -72,7 +72,11 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
   setOperationAction(ISD::ADD, MVT::i32, Custom);
    setOperationAction(ISD::STORE, MVT::i32, Custom);
-   //setOperationAction(ISD::LOAD, MVT::i32, Custom);
+
+   
+   setOperationAction(ISD::LOAD, MVT::i32, Custom);
+
+   
   //   setOperationAction(ISD::LOAD, MVT::i32, Expand);
   // Operations not directly supported by SDIC.
 
@@ -98,7 +102,11 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
   switch(Op.getOpcode())
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
-      // case ISD::LOAD:  return LowerLOAD(Op, DAG);
+
+      
+    case ISD::LOAD:  return LowerLOAD(Op, DAG);
+
+      
       case ISD::STORE: return LowerSTORE(Op, DAG);
     
       

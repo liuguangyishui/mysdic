@@ -295,7 +295,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   // the sret argument into $v0 for the return. We saved the argument into
   // a virtual register in the entry block, so now we copy the value out
   // and into $v0.
-  /* if (MF.getFunction()->hasStructRetAttr()) {
+   if (MF.getFunction()->hasStructRetAttr()) {
     SDICFunctionInfo *SDICFI = MF.getInfo<SDICFunctionInfo>();
     unsigned Reg = SDICFI->getSRetReturnReg();
     if (!Reg)
@@ -306,8 +306,8 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
     Chain = DAG.getCopyToReg(Chain, DL, V0, Val, Flag);
     Flag = Chain.getValue(1);
     RetOps.push_back(DAG.getRegister(V0, getPointerTy(DAG.getDataLayout())));
-    }*/
-  SDValue Op0 = Chain.getOperand(0);
+    }
+   // SDValue Op0 = Chain.getOperand(0);
    
 
   //@Ordinary struct type: 2 }
@@ -318,7 +318,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   if (Flag.getNode())
     RetOps.push_back(Flag);
   // Return on SDIC is always a "ret $lr"
-  return DAG.getNode(SDICISD::Ret, DL, MVT::Other, Op0);//RetOps);
+  return DAG.getNode(SDICISD::Ret, DL, MVT::Other,RetOps);
 }
  
 

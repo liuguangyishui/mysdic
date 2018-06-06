@@ -23,7 +23,7 @@ def SDT_SDICAddwf        : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
-def SDT_SDICPESUO        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
+def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 //def SDT_SDICPESUO_None   : SDTypeProfile<1, 0, [SDTCisInt<0>]>;
 
@@ -32,13 +32,14 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
                      [ SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
 def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
-
+def SDICPesuo_NoRet : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>;
 //def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
+
 
 def SDICAddtest : SDNode<"SDICISD::Addtest", SDTIntBinOp>;
 def SDICGPRel   : SDNode<"SDICISD::GPReltest", SDTIntUnaryOp>;
@@ -245,7 +246,7 @@ class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
                            let isReMaterializable =1;
                        //    let shamt = 0;
 }
-/*
+
 class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
                           SDICPseudo_I<(outs GPROut:$rb), (ins RC:$ra),//, RC:$rb),
                               !strconcat(instr_asm, "\t $ra"),
@@ -253,8 +254,8 @@ class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
                              {
 
                               }
-*/
-class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
+
+class ArithLogicPesuo_NoRet<SDNode OpNode, string instr_asm, RegisterClass RC>:
                           SDICPseudo_I<(outs), (ins RC:$ra),//, RC:$rb),
                               !strconcat(instr_asm, "\t $ra"),
                              [(OpNode RC:$ra)]>
@@ -420,6 +421,7 @@ def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
+def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;
 //def Pesuo_None     : AriSDICPseudo_None<SDICPesuo_None, "", SDICRegs>;
 
 

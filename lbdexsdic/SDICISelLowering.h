@@ -55,6 +55,7 @@ namespace llvm {
       Ret,
       // Pesuo
       Pesuo,
+      Pesuo_NoRet, //for fun that no ret value
       // Pesuo_None
       Pesuo_None,
 
@@ -63,6 +64,7 @@ namespace llvm {
 
       // Addwf
       Addwf,
+   
 
       // Addtest
       Addtest,

@@ -326,6 +326,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   // a virtual register in the entry block, so now we copy the value out
   // and into $v0.
    if (MF.getFunction()->hasStructRetAttr()) {
+     printf("\nthis is my test");
     SDICFunctionInfo *SDICFI = MF.getInfo<SDICFunctionInfo>();
     unsigned Reg = SDICFI->getSRetReturnReg();
     if (!Reg)

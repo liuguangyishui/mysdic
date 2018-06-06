@@ -120,7 +120,15 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
 }
 
 SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
-{  printf("5/18 test for add and mov4");
+{
+
+   MachineFunction &MF = DAG.getMachineFunction();
+   if(MF.getFunction()->hasStructRetAttr())
+     printf("there is a RET STMT");
+   else
+     printf("there isn't a RET STMT");
+   
+  printf("5/18 test for add and mov4");
   SDLoc dl(Op);
     printf("5/18 test for add and mov5");
   unsigned Opc = Op.getOpcode();

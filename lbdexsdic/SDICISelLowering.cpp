@@ -173,17 +173,19 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
 
 
    MachineFunction &MF = DAG.getMachineFunction();
-   if(MF.getFunction()->hasStructRetAttr())
-     {
-       printf("\nthere is a RET");
-        return DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op1);//, Op2, Op3);
-     }
+
+    if(MF.getFunction()->getReturnType()->isVoidTy())
+    {
+      printf("\n this is voidTy");
+       return DAG.getNode(SDICISD::Pesuo_NoRet, dl, MVT::Other, Op1);
+    }
    else
-     {
-   printf("\nthere isn't a RET");
-   return DAG.getNode(SDICISD::Pesuo_NoRet, dl, MVT::Other, Op1);
-     }
-   printf("fuck");
+    {
+      printf("\n this is not voidTy");
+      return DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op1);//, Op2, Op3);
+     
+    }
+   
 }
 
 SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
@@ -325,14 +327,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   // the sret argument into $v0 for the return. We saved the argument into
   // a virtual register in the entry block, so now we copy the value out
   // and into $v0.
-  if(MF.getFunction()->getReturnType()->isVoidTy())
-    {
-      printf("\n this is voidTy");
-    }
-  else
-    {
-      printf("\n this is not voidTy");
-    }
+ 
   
    if (MF.getFunction()->hasStructRetAttr()) {
     SDICFunctionInfo *SDICFI = MF.getInfo<SDICFunctionInfo>();

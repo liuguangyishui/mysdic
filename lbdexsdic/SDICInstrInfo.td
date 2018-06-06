@@ -262,7 +262,7 @@ class SubSDICPseudo<SDNode OpNode, string instr_asm, RegisterClass RC>:
 
 }
 
-class SDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
+class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
                              SDICPesuo_None<outs GPROut:$ra), (ins),
                              !strconcat(instr_asm, "\t "),
                              [(set GPROut:$ra)]>
@@ -409,7 +409,7 @@ def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
-def Pesuo_None     : SDICPseudo_None<SDICPesuo_None, "", SDICRegs>;
+def Pesuo_None     : AriSDICPseudo_None<SDICPesuo_None, "", SDICRegs>;
 
 
 

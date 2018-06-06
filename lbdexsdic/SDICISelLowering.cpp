@@ -175,9 +175,15 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
    MachineFunction &MF = DAG.getMachineFunction();
    if(MF.getFunction()->hasStructRetAttr())
      {
+       printf("\nthere is a RET");
         return DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op1);//, Op2, Op3);
      }
+   else
+     {
+   printf("\nthere isn't a RET");
    return DAG.getNode(SDICISD::Pesuo_NoRet, dl, MVT::Other, Op1);
+     }
+   printf("fuck");
 }
 
 SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const

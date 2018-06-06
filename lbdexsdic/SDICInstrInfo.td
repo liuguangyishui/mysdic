@@ -25,7 +25,7 @@ def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
-def SDT_SDICPESUO_None   : SDTypeProfile<1, 0, [SDTCisInt<0>]>;
+//def SDT_SDICPESUO_None   : SDTypeProfile<1, 0, [SDTCisInt<0>]>;
 
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
@@ -33,7 +33,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
 
 def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
 
-def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPOutGlue]>;
+//def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
@@ -261,7 +261,7 @@ class SubSDICPseudo<SDNode OpNode, string instr_asm, RegisterClass RC>:
                                     {
 
 }
-
+/*
 class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
                              SDICPseudo_None<(outs GPROut:$ra), (ins),
                              !strconcat(instr_asm, "\t "),
@@ -269,7 +269,7 @@ class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
                              {
                              }
 
-
+*/
 let Predicates = [Ch3_3] in {
 // Shifts
 
@@ -409,7 +409,7 @@ def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
-def Pesuo_None     : AriSDICPseudo_None<SDICPesuo_None, "", SDICRegs>;
+//def Pesuo_None     : AriSDICPseudo_None<SDICPesuo_None, "", SDICRegs>;
 
 
 

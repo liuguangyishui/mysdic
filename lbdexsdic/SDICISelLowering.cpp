@@ -325,7 +325,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   // the sret argument into $v0 for the return. We saved the argument into
   // a virtual register in the entry block, so now we copy the value out
   // and into $v0.
-  if(MF.getFunciton()->getReturnType()->isVoidTy())
+  if(MF.getFunction()->getReturnType()->isVoidTy())
     {
       printf("\n this is voidTy");
     }

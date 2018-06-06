@@ -170,7 +170,9 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
 {
   SDLoc dl(Op);
 
-  return DAG.getNode(SDICISD::Pesuo_None, dl,MVT::Other);
+  SDValue Op0 = Op.getOperand(1);
+  //  return DAG.getNode(SDICISD::Pesuo_None, dl,MVT::Other);
+  retrun DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op0);
 
   }
 

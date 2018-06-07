@@ -44,7 +44,7 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
     //   SDIC.td indicate.
    usigned Opcode =  MI->getOpcode();
    StringRef OpcodeName = getOpcodeName(Opcode);
-   O << 'Annot ' << StringRef(OpcodeName);
+   //O << 'Annot ' << StringRef(OpcodeName);
    
    printInstruction(MI, O);
   printAnnotation(O, Annot);

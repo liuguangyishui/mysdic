@@ -50,6 +50,9 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                    raw_ostream &O) {
   const MCOperand &Op = MI->getOperand(OpNo);
   if (Op.isReg()) {
+
+    printf("InstrName:%s",MI->getName());
+    
     printRegName(O, Op.getReg());
     printf("printf reg");
     return;

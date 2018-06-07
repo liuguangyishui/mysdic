@@ -42,7 +42,6 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
 //@1 }
     //- printInstruction(MI, O) defined in SDICGenAsmWriter.inc which came from 
     //   SDIC.td indicate.
-    printf("\nprint name");
     printInstruction(MI, O);
   printAnnotation(O, Annot);
 }
@@ -52,6 +51,7 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
   const MCOperand &Op = MI->getOperand(OpNo);
   if (Op.isReg()) {
     printRegName(O, Op.getReg());
+    printf("printf reg");
     return;
   }
 

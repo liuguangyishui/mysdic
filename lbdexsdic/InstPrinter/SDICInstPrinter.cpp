@@ -42,8 +42,11 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
 //@1 }
     //- printInstruction(MI, O) defined in SDICGenAsmWriter.inc which came from 
     //   SDIC.td indicate.
-    O << 'Annot ' << StringRef(Annot);
-    printInstruction(MI, O);
+   usigned Opcode =  MI->getOpcode();
+   StringRef OpcodeName = getOpcodeName(Opcode);
+   O << 'Annot ' << StringRef(OpcodeName);
+   
+   printInstruction(MI, O);
   printAnnotation(O, Annot);
 }
 

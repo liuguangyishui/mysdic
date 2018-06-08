@@ -17,6 +17,7 @@
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/MC/MCExpr.h"
 #include "llvm/MC/MCInst.h"
+#include "llvm/MC/MCInstPrinter.h"
 #include "llvm/MC/MCInstrInfo.h"
 #include "llvm/MC/MCSymbol.h"
 #include "llvm/Support/ErrorHandling.h"
@@ -48,7 +49,7 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
     
   //   StringRef OpcodeName = getOpcodeName(Opcode_var);
    O << StringRef("there is a tag");
-   O << 'OpCode' <<StringRef(getOpcodeName(MI->getOpcode()));
+   O << StringRef(getOpcodeName(MI->getOpcode()));
    
    printInstruction(MI, O);
    printAnnotation(O, Annot);

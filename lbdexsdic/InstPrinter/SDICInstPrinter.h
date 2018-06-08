@@ -43,7 +43,7 @@ public:
   void printCustomAliasOperand(const MCInst *MI, unsigned OpIdx,
                                unsigned PrintMethodIdx, raw_ostream &O);
   //HYL ADD
-  StringRef getOpcodeName(unsigned Opcode) const;
+  // StringRef getOpcodeName(unsigned Opcode) const;
   
 private:
   void printOperand(const MCInst *MI, unsigned OpNo, raw_ostream &O);

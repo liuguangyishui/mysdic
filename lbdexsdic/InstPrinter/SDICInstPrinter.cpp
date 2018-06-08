@@ -63,19 +63,24 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                    raw_ostream &O) {
   const MCOperand &Op = MI->getOperand(OpNo);
 
+  
   if(getOpcodeName(MI->getOpcode())=="ADDiua")
     {
-      if(Op.isReg()){
+      if(Op.isReg())
+	{
 	printRegName(O, Op.getReg());
 	O << "\t1";
 	//      O << StringRef(getOpcodeName(MI->getOpcode()));
-	return ;
+	return;
       }
       if(Op.isImm()){
 	O << Op.getImm();
 	O << "\t1";
 	return;
     }
+    }
+
+
       
   if (Op.isReg()) {
     printRegName(O, Op.getReg());

@@ -62,16 +62,25 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
 void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                    raw_ostream &O) {
   const MCOperand &Op = MI->getOperand(OpNo);
-  if (Op.isReg()) {
 
-    // if(MI->getName()=="addiu")
-    //   printf("InstrName is addiu");
-  
-    printf("the Mi->GEToPCODE() is %u", MI->getOpcode());
+  if(getOpcodeName(MI->getOpcode())=="ADDiua")
+    {
+      if(Op.isReg()){
+	printRegName(O, Op.getReg());
+	O << "\t1";
+	//      O << StringRef(getOpcodeName(MI->getOpcode()));
+	return ;
+      }
+      if(Op.isImm()){
+	O << Op.getImm();
+	O << "\t1";
+	return;
+    }
+      
+  if (Op.isReg()) {
     printRegName(O, Op.getReg());
     return;
   }
-  printf("there is a tag2");
   if (Op.isImm()) {
     O << Op.getImm();
     return;

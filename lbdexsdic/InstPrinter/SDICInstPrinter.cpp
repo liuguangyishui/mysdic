@@ -59,12 +59,12 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
 
     // if(MI->getName()=="addiu")
     //   printf("InstrName is addiu");
-    printf("there is a tag2");
+  
     printf("the Mi->GEToPCODE() is %u", MI->getOpcode());
     printRegName(O, Op.getReg());
     return;
   }
-
+  printf("there is a tag2");
   if (Op.isImm()) {
     O << Op.getImm();
     return;

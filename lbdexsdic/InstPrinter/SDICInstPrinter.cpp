@@ -47,7 +47,7 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
   //   unsigned Opcode_var =  MI->getOpcode();
   //   StringRef OpcodeName = getOpcodeName(Opcode_var);
    O << 'Annot ' << StringRef("there is a tag");
-   O << 'OpCode' << StringRef(MI->getOpcode());
+   // O << 'OpCode' << StringRef(MI->getOpcode());
    
    printInstruction(MI, O);
    printAnnotation(O, Annot);

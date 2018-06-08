@@ -42,6 +42,7 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
 //@1 }
     //- printInstruction(MI, O) defined in SDICGenAsmWriter.inc which came from 
     //   SDIC.td indicate.
+    printf("there is a tag");
     printf("the MI->getOpcode() is %u", MI->getOpcode());
   //   unsigned Opcode_var =  MI->getOpcode();
   //   StringRef OpcodeName = getOpcodeName(Opcode_var);
@@ -58,7 +59,8 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
 
     // if(MI->getName()=="addiu")
     //   printf("InstrName is addiu");
-    
+    printf("there is a tag2");
+    printf("the Mi->GEToPCODE() is %u", MI->getOpcode());
     printRegName(O, Op.getReg());
     return;
   }

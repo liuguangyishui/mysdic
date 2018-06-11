@@ -241,7 +241,7 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
 
 class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
                              RegisterClass RC>:
-                         FA_rr<op, (outs GPROout:$shamt), (ins RC:$r0, RC:$r1),
+                         FA_rr<op, (outs GPROut:$shamt), (ins RC:$r0, RC:$r1),
                              !strconcat(instr_asm, "\t $rf"),
                              [(set GPROut:$shamt, (OpNode RC:$r0, RC:$r1))], IIAddluwf>{
 

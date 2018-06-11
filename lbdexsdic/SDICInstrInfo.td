@@ -266,7 +266,7 @@ class ArithLogicFKR<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                         F_K<op, (outs GPROut:$shamt), (ins RC:$rk),
                            !strconcat(instr_asm, "\t$rk"),
-                           [(set GPRout:$shamt, (OpNode RC:$rk))], IIAlu>{
+                           [(set GPROut:$shamt, (OpNode RC:$rk))], IIAlu>{
 
                            
 }

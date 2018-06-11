@@ -39,7 +39,8 @@ def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
-
+//SUB
+def SDICSubwf : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
 def SDICAddtest : SDNode<"SDICISD::Addtest", SDTIntBinOp>;
 def SDICGPRel   : SDNode<"SDICISD::GPReltest", SDTIntUnaryOp>;
@@ -412,7 +413,9 @@ def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 //my modify 
 def ADDiua   : ArithLogicFDA<SDICAddwf, 0x33, "addiua", SDICRegs>;
 
-def SUBwf    : ArithLogicI<0x16, "subwf", sub, simm8, immSExt8, SDICRegs>;
+def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
+
+
 
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 

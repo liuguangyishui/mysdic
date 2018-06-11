@@ -56,6 +56,7 @@ const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case SDICISD::Pesuo_NoRet:       return "SDICISD::Pesuo_NoRet";
   case SDICISD::Pesuo_None:        return "SDICISD::Pesuo_None";
   case SDICISD::Addwf:             return "SDICISD::Addwf";
+  case SDICISD::Subwf:             return "SDICISD::Subwf";
   case SDICISD::Addtest:           return "SDICISD::Addtest";
   case SDICISD::GPReltest:         return "SDICISD::GPReltest";
   case SDICISD::Return:            return "SDICISD::Return";
@@ -72,6 +73,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   // SDIC Custom Operations
 
   setOperationAction(ISD::ADD, MVT::i32, Custom);
+  setOperationAction(ISD::SUB, MVT::i32, Custom);
    setOperationAction(ISD::STORE, MVT::i32, Custom);
 
    
@@ -104,7 +106,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
 
-      
+    case ISD::SUB:   return LowerSUB(Op, DAG);
       // case ISD::LOAD:  return LowerLOAD(Op, DAG);
 
       
@@ -150,6 +152,18 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   //---- return DAG.getNode(SDICISD::Addtest, dl,MVT::i32, Op0, Flag0);
 
 }
+
+SDValue SDICTargetLowering::LowerSUB(SDValue Op, SelectionDAG &DAG) const
+{
+  SDLoc dl(Op);
+  SDValue Op0 = Op.getOperand(0);
+  SDValue Op1 = Op.getOperand(1);
+  EVT VT      = Op.getValueType();
+  SDValue Flag0;
+  Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1)
+  return DAG.getNode(SDICISD::Subwf, dl, MVT::i32, Op0, Flag0);
+}
+  
 
 SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
 {

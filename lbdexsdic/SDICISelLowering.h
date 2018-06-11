@@ -64,6 +64,8 @@ namespace llvm {
 
       // Addwf
       Addwf,
+      // Subwf
+      Subwf,
    
 
       // Addtest
@@ -112,6 +114,7 @@ namespace llvm {
 
     
     SDValue LowerADD(SDValue Op, SelectionDAG &DAG) const;
+    SDValue LowerSUB(SDValue Op, SelectionDAG &DAG) const;
 
     SDValue LowerSTORE(SDValue Op, SelectionDAG &DAG) const;
     SDValue LowerLOAD(SDValue Op, SelectionDAG &DAG) const;

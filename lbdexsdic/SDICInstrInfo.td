@@ -39,6 +39,8 @@ def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
+//R + R
+def SDICAddwfrr : SDNode<"SDICISD::Addwfrr", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //SUB
 def SDICSubwf : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
@@ -237,6 +239,18 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                           //let imma = 0;
                            }
 
+class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
+                             RegisterClass RC>:
+                         FA_rr<op, (outs GPROout:$shamt), (ins RC:$r0, RC:$r1),
+                             !strconcat(instr_asm, "\t $rf"),
+                             [(set GPROut:$shamt, (OpNode RC:$r0, RC:$r1))], IIAddluwf>{
+
+
+
+}
+
+
+
 //MY modify to movlw
 class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
                           Operand Od, PatLeaf imm_type> :
@@ -410,8 +424,13 @@ defm ST     : StoreM32<0x02, "xxxst",  store_a>;  //st
 // IR "add" defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
-//my modify 
+//my modify
+//加号 R+I 形式
 def ADDiua   : ArithLogicFDA<SDICAddwf, 0x33, "addiua", SDICRegs>;
+//加号 R+R 形式
+def ADDiuarr : ArithLogicFDARR<SDICAddwf, 0x34, "addiuarr", SDICRegs>;
+
+
 
 def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 

@@ -31,6 +31,7 @@ class Format<bits<4> val> {
 def Pseudo      : Format<0>;
 def FrmA        : Format<1>;
 def FrmA_a      : Format<9>;
+def FrmA_rr     : Format<10>;
 def FrmB        : Format<2>;
 def FrmC        : Format<3>;
 def FrmD        : Format<4>;
@@ -137,6 +138,21 @@ class SDICPseudo_None<dag outs, dag ins, string asmstr, list<dag> pattern>:
                         let Inst{1-1} = imm8;
                         let Inst{0-0} = imma;
                     }
+
+ class FA_rr<bits<6> op, dag outs, dag ins, string asmstr,
+                    list<dag> pattern, InstrItinClass itin>:
+                    SDICInst<outs, ins, asmstr, pattern, itin, FrmA_a>
+                    {
+                        bits<4> r0;
+                        bits<4> r1;
+                        bits<2> shamt;
+
+                        let Opcode = op;
+                        let Inst{9-6} = r0;
+                        let Inst{5-2} = r1;
+                        let Inst{1-0} = shamt;
+
+}
 
 
 // Format B instruction class in SDIC : <|opcode|F|A|>

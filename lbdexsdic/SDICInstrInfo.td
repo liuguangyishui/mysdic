@@ -246,7 +246,6 @@ class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
                              [(set GPROut:$shamt, (OpNode RC:$r0, RC:$r1))], IIAddluwf>{
 
 
-
 }
 
 
@@ -260,6 +259,16 @@ class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
 
                            let isReMaterializable =1;
                        //    let shamt = 0;
+}
+
+
+class ArithLogicFKR<SDNode OpNode, bits<6> op, string instr_asm,
+                           RegisterClass RC>:
+                        F_K<op, (outs GPROut:$shamt), (ins RC:$rk),
+                           !strconcat(instr_asm, "\t$rk"),
+                           [(set GPRout:$shamt, (OpNode RC:$rk))], IIAlu>{
+
+                           
 }
 
 class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
@@ -440,6 +449,7 @@ def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
 def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
+def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;

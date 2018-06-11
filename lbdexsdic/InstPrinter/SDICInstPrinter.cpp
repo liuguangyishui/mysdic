@@ -64,12 +64,12 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
   const MCOperand &Op = MI->getOperand(OpNo);
 
   
-  if(getOpcodeName(MI->getOpcode())=="ADDiua")
+  if(getOpcodeName(MI->getOpcode())=="ADDiua")//comfirm the InstName
     {
       if(Op.isReg())
 	{
 	printRegName(O, Op.getReg());
-	O << "\t1";
+	O << "\t1111"<< Op.getReg();
 	//      O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
       }

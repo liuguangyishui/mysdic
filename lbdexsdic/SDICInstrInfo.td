@@ -259,7 +259,7 @@ class ArithLogicFR<SDNode OpNode, bits<6> op, string instr_asm,
                        //    let shamt = 0;
 }
 
-
+/*
 class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
                              RegisterClass RC>:
                          FA_rr<op, (outs GPROut:$shamt), (ins RC:$r0, RC:$r1),
@@ -269,7 +269,7 @@ class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
 
 }
 
-
+/*
 
 //MY modify to movlw
 class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
@@ -456,10 +456,10 @@ def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
 //my modify
 //加号 R+I 形式
-def ADDiua   : ArithLogicFDA<SDICAddwf, 0x33, "addiua", SDICRegs>;
+def ADDWF   : ArithLogicFDA<SDICAddwf, 0x33, "addwf", SDICRegs>;
 def ADDLW   : ArithLogic_K_Pseu<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 //加号 R+R 形式
-def ADDiuarr : ArithLogicFDARR<SDICAddwf, 0x34, "addiuarr", SDICRegs>;
+//def ADDiuarr : ArithLogicFDARR<SDICAddwf, 0x34, "addiuarr", SDICRegs>;
 
 
 

@@ -240,14 +240,11 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                           //let imma = 0;
                        }
 //FDA_ins(K+R)                       
-class FDA_Pseu_K<SDNode OpNode, bits<6> op, string instr_asm,
+class ArithLogic_K_Pseu<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
                       FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf"),
                            [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
-                          // let isReMaterializable = 1;
-                         // let imm8 = 0;
-                          //let imma = 0;
                            }
 
 
@@ -460,7 +457,7 @@ def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 //my modify
 //加号 R+I 形式
 def ADDiua   : ArithLogicFDA<SDICAddwf, 0x33, "addiua", SDICRegs>;
-def ADDLW   : FDA_Pseu_K<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
+def ADDLW   : ArithLogic_K_Pseu<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 //加号 R+R 形式
 def ADDiuarr : ArithLogicFDARR<SDICAddwf, 0x34, "addiuarr", SDICRegs>;
 

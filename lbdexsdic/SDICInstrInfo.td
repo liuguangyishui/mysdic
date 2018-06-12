@@ -460,7 +460,7 @@ def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
-def Movf      : ArithLogicFR<SDICMovlw, 0x22, "movf", SDICRegs>
+def Movf      : ArithLogicFR<SDICMovlw, 0x22, "movf", SDICRegs>;
 def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 

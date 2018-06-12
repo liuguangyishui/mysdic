@@ -52,6 +52,7 @@ const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case SDICISD::DivRemU:           return "SDICISD::DivRemU";
   case SDICISD::Wrapper:           return "SDICISD::Wrapper";
   case SDICISD::Movlw:             return "SDICISD::Movlw";
+  case SDICISD::Movf:              return "SDICISD::Movf";
   case SDICISD::Pesuo:             return "SDICISD::Pesuo";
   case SDICISD::Pesuo_NoRet:       return "SDICISD::Pesuo_NoRet";
   case SDICISD::Pesuo_None:        return "SDICISD::Pesuo_None";
@@ -137,7 +138,8 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue Flag0;
   SDValue Flag1;
 
-  Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
+
+  Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op1);
   
   return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op0, Flag0);
  

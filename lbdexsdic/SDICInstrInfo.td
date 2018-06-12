@@ -36,11 +36,12 @@ def SDICPesuo_NoRet : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>
 //def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
+def SDICMovf  : SDNode<"SDICISD::Movf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //R + R
-def SDICAddwfrr : SDNode<"SDICISD::Addwfrr", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
+def SDICAddwfrr : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //SUB
 def SDICSubwf : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
@@ -238,6 +239,17 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                          // let imm8 = 0;
                           //let imma = 0;
                            }
+
+class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
+                         RegisterClass RC> :
+                      F_K<op, (outs GPROut:$shamt), (ins RC:$rk),
+                              !strconcat(instr_asm, "\t$rk"),
+                             [(set GPROut:$shamt, (OpNode RC:$rk))], IIAlu> {
+
+                           let isReMaterializable =1;
+                       //    let shamt = 0;
+}
+
 
 class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
                              RegisterClass RC>:
@@ -448,6 +460,7 @@ def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
+def Movf      : ArithLogicFK<SDICMovlw, 0x40, "movf", SDICRegs>
 def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 

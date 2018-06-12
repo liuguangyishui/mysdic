@@ -229,8 +229,8 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
   let isReMaterializable = 1;
 }
 
-//FDA_ins(R+R)
-class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
+//FDA_Link:three parameter and a node to link
+class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA_a<op,(outs GPROut:$imma), (ins RC:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf"),
@@ -239,13 +239,15 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                          // let imm8 = 0;
                           //let imma = 0;
                        }
-//FDA_ins(K+R)                       
-class ArithLogic_K_Pseu<SDNode OpNode, bits<6> op, string instr_asm,
+                       
+//only one parameter K, but have aother node to link                    
+class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
                       FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf"),
-                           [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
-                           }
+               [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
+
+}
 
 
 
@@ -269,7 +271,7 @@ class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
 
 }
 
-/*
+*/
 
 //MY modify to movlw
 class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
@@ -454,15 +456,11 @@ defm ST     : StoreM32<0x02, "xxxst",  store_a>;  //st
 // IR "add" defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
-//my modify
-//加号 R+I 形式
-def ADDWF   : ArithLogicFDA<SDICAddwf, 0x33, "addwf", SDICRegs>;
-def ADDLW   : ArithLogic_K_Pseu<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
-//加号 R+R 形式
+
+def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
+def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
+
 //def ADDiuarr : ArithLogicFDARR<SDICAddwf, 0x34, "addiuarr", SDICRegs>;
-
-
-
 def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 
 

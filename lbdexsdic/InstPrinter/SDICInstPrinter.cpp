@@ -84,6 +84,7 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
       
   if (Op.isReg()) {
     printRegName(O, Op.getReg());
+    O << "\t1111"<< Op.getReg(); //my add
     return;
   }
   if (Op.isImm()) {

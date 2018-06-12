@@ -239,7 +239,19 @@ class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                          // let imm8 = 0;
                           //let imma = 0;
                        }
-                       
+//just three param FDA and no link node
+class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
+                         RegisterClass RC> :
+                      F_K<op, (outs GPROut:$shamt), (ins RC:$rk),
+                              !strconcat(instr_asm, "\t$rk"),
+                             [(set GPROut:$shamt, (OpNode RC:$rk))], IIAlu> {
+
+                           let isReMaterializable =1;
+                       //    let shamt = 0;
+}
+
+
+
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
@@ -251,15 +263,6 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
 
 
 
-class ArithLogicFR<SDNode OpNode, bits<6> op, string instr_asm,
-                         RegisterClass RC> :
-                      F_K<op, (outs GPROut:$shamt), (ins RC:$rk),
-                              !strconcat(instr_asm, "\t$rk"),
-                             [(set GPROut:$shamt, (OpNode RC:$rk))], IIAlu> {
-
-                           let isReMaterializable =1;
-                       //    let shamt = 0;
-}
 
 /*
 class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
@@ -469,7 +472,7 @@ def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
-def Movf      : ArithLogicFR<SDICMovlw, 0x22, "movf", SDICRegs>;
+def Movf      : FDA_NoLink<SDICMovlw, 0x22, "movf", SDICRegs>;
 //def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
 def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
@@ -547,8 +550,6 @@ def : SDICInstAlias<"move $dst, $src",
 def : Pat<(i32 immSExt8:$in),
          (ADDiu R0, imm:$in)>;
 
-def : Pat<(i32 immSExt8:$in),
-         (SUBwf R0, imm:$in)>;
 
 def : Pat<(i32 immSExt8:$in),
       	 (MUL R0, imm:$in)>;

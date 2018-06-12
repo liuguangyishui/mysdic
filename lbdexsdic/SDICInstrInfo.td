@@ -36,7 +36,7 @@ def SDICPesuo_NoRet : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>
 //def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
-def SDICMovf  : SDNode<"SDICISD::Movf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
+
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
@@ -229,7 +229,7 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
   let isReMaterializable = 1;
 }
 
-//MY modify to ArithmetiI
+//FDA_ins(R+R)
 class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA_a<op,(outs GPROut:$imma), (ins RC:$rf, RC:$rimm8),
@@ -238,7 +238,19 @@ class ArithLogicFDA<SDNode OpNode, bits<6> op, string instr_asm,
                           // let isReMaterializable = 1;
                          // let imm8 = 0;
                           //let imma = 0;
+                       }
+//FDA_ins(K+R)                       
+class FDA_Pseu_K<SDNode OpNode, bits<6> op, string instr_asm,
+                  Operand Od, PatLeaf imm_type, RegisterClass RC>:
+                      FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
+                           !strconcat(instr_asm, "\t$rf"),
+                           [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
+                          // let isReMaterializable = 1;
+                         // let imm8 = 0;
+                          //let imma = 0;
                            }
+
+
 
 class ArithLogicFR<SDNode OpNode, bits<6> op, string instr_asm,
                          RegisterClass RC> :
@@ -448,6 +460,7 @@ def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 //my modify
 //加号 R+I 形式
 def ADDiua   : ArithLogicFDA<SDICAddwf, 0x33, "addiua", SDICRegs>;
+def ADDLW   : FDA_Pseu_K<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 //加号 R+R 形式
 def ADDiuarr : ArithLogicFDARR<SDICAddwf, 0x34, "addiuarr", SDICRegs>;
 
@@ -461,7 +474,8 @@ def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
 def Movf      : ArithLogicFR<SDICMovlw, 0x22, "movf", SDICRegs>;
-def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
+//def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
+
 def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 
 

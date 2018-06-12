@@ -461,7 +461,8 @@ def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
 def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 
 //def ADDiuarr : ArithLogicFDARR<SDICAddwf, 0x34, "addiuarr", SDICRegs>;
-def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
+
+//def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 
 
 

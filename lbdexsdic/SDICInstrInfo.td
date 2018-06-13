@@ -265,7 +265,7 @@ class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
                            FA<op, (outs GPROut:$imm8), (ins Od:$rf),
                                   !strconcat(instr_asm, "\t$rf"),
-                         [(set GPROut:$imm8, (OpNode imm_type:rf))], IIAlu>{
+                         [(set GPROut:$imm8, (OpNode imm_type:$rf))], IIAlu>{
                                let rd = 0;
                          }
 
@@ -273,7 +273,7 @@ class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 class CALL_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                           RegisterClass RC>:
                      FI<op, (outs GPROut:$imma), (ins RC:$rn),
-                            !strconcat(instr_asm, "'t$rn"),
+                            !strconcat(instr_asm, "\t$rn"),
                       [(set GPROut:$imma, (OpNode RC:$rn))], IIAddlu>{
 
 

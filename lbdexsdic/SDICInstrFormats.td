@@ -190,7 +190,7 @@ class FE<bits<6> op, dag outs, dag ins, string asmstr,
 // eg: CALL 调用子程序
 class FI<bits<6> op, dag outs, dag ins, string asmstr,
                  list<dag> pattern, InstrItinClass itin>:
-                 SDICInsr<outs, ins, asmstr, pattern, itin, FrmI>
+                 SDICInst<outs, ins, asmstr, pattern, itin, FrmI>
                  {
                         bits<8> rn;
                         bits<1> imma;

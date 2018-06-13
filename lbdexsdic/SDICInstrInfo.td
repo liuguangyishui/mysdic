@@ -274,7 +274,7 @@ class CALL_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                           RegisterClass RC>:
                      FI<op, (outs GPROut:$imma), (ins RC:$rn),
                             !strconcat(instr_asm, "\t$rn"),
-                      [(set GPROut:$imma, (OpNode RC:$rn))], IIAddlu>{
+                      [(set GPROut:$imma, (OpNode RC:$rn))], IIAlu>{
 
 
                       }

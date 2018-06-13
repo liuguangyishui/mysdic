@@ -24,7 +24,7 @@ def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 //CALL
-def SDT_SDICCALL         : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
+def SDT_SDICCALL         : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 
 
 //Call
@@ -272,9 +272,9 @@ class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 // for CALL调用子程序
 class CALL_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                           RegisterClass RC>:
-                     FI<op, (outs GPROut:$imma), (ins RC:$rn),
+                     FI<op, (outs GPROut:$imma), (ins RC:$rn, RC:$link),
                             !strconcat(instr_asm, "\t$rn"),
-                      [(set GPROut:$imma, (OpNode RC:$rn))], IIAlu>{
+                      [(set GPROut:$imma, (OpNode RC:$rn, RC:$link))], IIAlu>{
 
 
                       }

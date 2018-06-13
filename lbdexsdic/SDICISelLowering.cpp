@@ -112,7 +112,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
     case ISD::MUL:   return LowerMUL(Op, DAG);
 
     case ISD::SUB:   return LowerSUB(Op, DAG);
-      // case ISD::LOAD:  return LowerLOAD(Op, DAG);
+    case ISD::LOAD:  return LowerLOAD(Op, DAG);
 
       
       case ISD::STORE: return LowerSTORE(Op, DAG);

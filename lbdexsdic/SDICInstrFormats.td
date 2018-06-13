@@ -39,7 +39,7 @@ def FrmE        : Format<5>;
 def FrmF        : Format<6>;
 def FrmG        : Format<7>;//only one operand ie: MOVLW K
 def FrmH        : Format<8>;//
-
+def FrmI        : Format<11>;
 
 //Generic SDIC Format
 class SDICInst<dag outs, dag ins, string asmstr, list<dag> pattern,
@@ -139,22 +139,6 @@ class SDICPseudo_None<dag outs, dag ins, string asmstr, list<dag> pattern>:
                         let Inst{0-0} = imma;
                     }
 
- class FA_rr<bits<6> op, dag outs, dag ins, string asmstr,
-                    list<dag> pattern, InstrItinClass itin>:
-                    SDICInst<outs, ins, asmstr, pattern, itin, FrmA_a>
-                    {
-                        bits<4> r0;
-                        bits<4> r1;
-                        bits<2> shamt;
-
-                        let Opcode = op;
-                        let Inst{9-6} = r0;
-                        let Inst{5-2} = r1;
-                        let Inst{1-0} = shamt;
-
-}
-
-
 // Format B instruction class in SDIC : <|opcode|F|A|>
 // 这是F A类型的指令
  class FB<bits<6> op, dag outs, dag ins, string asmstr,
@@ -201,8 +185,25 @@ class FE<bits<6> op, dag outs, dag ins, string asmstr,
                }
 
 
-// Format F instruction class in SDIC : <|opcode|N|{,S}|>
+// Format I instruction class in SDIC : <|opcode|N|{,S}|>
 // 这是 NS 类型的指令，N的取值为 0<=N<=1048575, S为1位
+// eg: CALL 调用子程序
+class FI<bits<6> op, dag outs, dag ins, string asmstr,
+                 list<dag> pattern, InstrItinClass itin>:
+                 SDICInsr<outs, ins, asmstr, pattern, itin, FrmI>
+                 {
+                        bits<8> rn;
+                        bits<1> imma;
+                        bits<1> link;
+
+                        let Opcode = op;
+                        let Inst{9-2} = rn;
+                        let Inst{1-1} = imma;
+                        let Inst{0-0} = link;
+                 }
+
+
+
 
 // Format G instruction class in SDIC : <|opcode|>
 // 这是无操作数的指令

@@ -16,7 +16,6 @@
 //===----------------------------------------------------------------------===//
 
 def SDT_SDICRet          : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
-
 //ADD
 def SDT_SDICAddwf        : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 
@@ -24,9 +23,12 @@ def SDT_SDICAddwf        : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
+//CALL
+def SDT_SDICCALL         : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
-//def SDT_SDICPESUO_None   : SDTypeProfile<1, 0, [SDTCisInt<0>]>;
 
+//Call
+def SDICCALL : SDNode<"SDICISD::Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
                      [ SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
@@ -250,8 +252,6 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                        //    let shamt = 0;
 }
 
-
-
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
@@ -260,21 +260,24 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
 
 }
+// only a immediate num K and a link for outs
+class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
+                   Operand Od, PatLeaf imm_type>:
+                           FA<op, (outs GPROut:$imm8), (ins Od:$rf),
+                                  !strconcat(instr_asm, "\t$rf"),
+                         [(set GPROut:$imm8, (OpNode imm_type:rf))], IIAlu>{
+                               let rd = 0;
+                         }
+
+// for CALL调用子程序
+class CALL_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
+                          RegisterClass RC>:
+                     FI<op, (outs GPROut:$imma), (ins RC:$rn),
+                            !strconcat(instr_asm, "'t$rn"),
+                      [(set GPROut:$imma, (OpNode RC:$rn))], IIAddlu>{
 
 
-
-
-/*
-class ArithLogicFDARR<SDNode OpNode, bits<6> op, string instr_asm,
-                             RegisterClass RC>:
-                         FA_rr<op, (outs GPROut:$shamt), (ins RC:$r0, RC:$r1),
-                             !strconcat(instr_asm, "\t $r0"),
-                             [(set GPROut:$shamt, (OpNode RC:$r0, RC:$r1))], IIAddluwf>{
-
-
-}
-
-*/
+                      }
 
 //MY modify to movlw
 class ArithLogicFK<SDNode OpNode, bits<6> op, string instr_asm,
@@ -463,7 +466,7 @@ def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
 def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 
-//def ADDiuarr : ArithLogicFDARR<SDICAddwf, 0x34, "addiuarr", SDICRegs>;
+def CALL    : CALL_NoLink<SDICCALL, 0x1d, "call", SDICRegs>;
 
 //def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 
@@ -472,6 +475,7 @@ def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
+def Movlw     : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
 def Movf      : FDA_NoLink<SDICMovlw, 0x22, "movf", SDICRegs>;
 //def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 

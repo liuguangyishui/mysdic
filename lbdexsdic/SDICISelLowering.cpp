@@ -166,6 +166,7 @@ SDValue SDICTargetLowering::LowerMUL(SDValue Op, SelectionDAG &DAG) const
   EVT VT      = Op.getValueType();
 
   SDValue Flag0;
+  SDValue Flag1;
   Flag1 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
   Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
   return  DAG.getNode(SDICISD::Call, dl, MVT::i32, Flag0, Flag1);

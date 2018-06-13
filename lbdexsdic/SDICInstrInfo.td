@@ -38,7 +38,7 @@ def SDICPesuo_NoRet : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>
 //def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovlw : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
-
+def SDICMovlwf  : SDNode<"SDICISD::Movlwf", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
@@ -475,7 +475,7 @@ def CALL    : CALL_NoLink<SDICCALL, 0x1d, "call", SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
 
-def Movlw     : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
+def Movlw     : K_NoLink<SDICMovlwf, 0x2c, "movlw", simm8, immSExt8>;
 def Movf      : FDA_NoLink<SDICMovlw, 0x22, "movf", SDICRegs>;
 //def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
@@ -555,8 +555,7 @@ def : Pat<(i32 immSExt8:$in),
          (ADDiu R0, imm:$in)>;
 
 
-def : Pat<(i32 immSExt8:$in),
-      	 (MUL R0, imm:$in)>;
+
 
 
 

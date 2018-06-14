@@ -35,7 +35,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
 
 def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
 def SDICPesuo_NoRet : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>;
-def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO, [SDNPOutGlue]>;
+def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO, [SDNPOutGlue, SDNPOutGlue]>;
 //MOVLW
 def SDICMovf : SDNode<"SDICISD::Movf", SDT_SDICMOVLW, [SDNPOutGlue]>;
 def SDICMovlw  : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;

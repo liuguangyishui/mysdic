@@ -330,7 +330,7 @@ class SubSDICPseudo<SDNode OpNode, string instr_asm, RegisterClass RC>:
 class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
                              SDICPseudo_None<(outs GPROut:$ra), (ins),
                              !strconcat(instr_asm, "\t "),
-                             [(set GPROut:$ra, (OpNode))]>
+                             [(set GPROut:$ra)]>
                              {
                              }
 

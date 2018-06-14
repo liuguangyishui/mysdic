@@ -35,7 +35,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
 
 def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
 def SDICPesuo_NoRet : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>;
-def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPOutGlue]>;
+def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDTNone, [SDNPOutGlue]>;
 //MOVLW
 def SDICMovf : SDNode<"SDICISD::Movf", SDT_SDICMOVLW, [SDNPOutGlue]>;
 def SDICMovlw  : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
@@ -328,11 +328,13 @@ class SubSDICPseudo<SDNode OpNode, string instr_asm, RegisterClass RC>:
 }
 
 class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
-                         SDICPseudo_I<(outs GPROut:$ra), (ins),
+                         SDICPseudo_I<(outs), (ins),
                              !strconcat(instr_asm, "\t"),
-                             [(set GPROut:$ra, (OpNode))]>
+                             [(OpNode)]>
                              {
+                             let ra = 0;
                              let rb = 0;
+                            
                              }
 
 

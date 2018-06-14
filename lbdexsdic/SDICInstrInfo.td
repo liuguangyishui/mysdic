@@ -484,7 +484,7 @@ def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;
-def Pesuo_None     : AriSDICPseudo_None<SDICPesuo_None, "", SDICRegs>;
+def Pesuo_None     : AriSDICPseudo_None<SDICPesuo_None, "Pesuo_None", SDICRegs>;
 
 
 

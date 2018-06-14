@@ -102,8 +102,10 @@ class SDICPseudo_None<dag outs, dag ins, string asmstr, list<dag> pattern>:
       SDICInst<outs, ins, asmstr, pattern, IIPseudo, Pseudo>
       {
        bits<1> ra;
+       bits<1> rb;
 
        let Inst{9-9} = ra;
+       let Inst{8-8} = rb;
       }
 //===---------------------------------------------------------------===//
 // Format A instruction class in SDIC : <|opcode|F|D|A|>

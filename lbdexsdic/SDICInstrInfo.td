@@ -25,7 +25,7 @@ def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 //CALL
 def SDT_SDICCALL         : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
-def SDT_SDICPESUO_None   : SDTypeProfile<
+def SDT_SDICPESUO_None   : SDTypeProfile<1, 0, [SDTCisInt<0>]>;
 
 //Call
 def SDICCALL : SDNode<"SDICISD::Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;

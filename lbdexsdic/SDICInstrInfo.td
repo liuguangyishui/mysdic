@@ -273,7 +273,7 @@ class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 class CALL_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                           RegisterClass RC>:
                      FI<op, (outs GPROut:$imma), (ins RC:$rn, RC:$link),
-                            !strconcat(instr_asm, "\t$rn"),
+                            !strconcat(instr_asm, "\t"),
                       [(set GPROut:$imma, (OpNode RC:$rn, RC:$link))], IIAlu>{
 
 
@@ -328,12 +328,12 @@ class SubSDICPseudo<SDNode OpNode, string instr_asm, RegisterClass RC>:
 }
 
 class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
-                         SDICPseudo_I<(outs), (ins),
+                         SDICPseudo<(outs), (ins),
                              !strconcat(instr_asm, "\t"),
                              [(OpNode)]>
                              {
-                             let ra = 0;
-                             let rb = 0;
+                             //let ra = 0;
+                             //let rb = 0;
                             
                              }
 

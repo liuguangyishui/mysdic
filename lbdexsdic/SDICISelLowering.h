@@ -72,8 +72,8 @@ namespace llvm {
       // Addtest
       Addtest,
       //Call
-      Call,
-
+      Mul_Call,
+      Div_Call,
       // GPRel
       GPReltest,
 
@@ -118,6 +118,7 @@ namespace llvm {
     
     SDValue LowerADD(SDValue Op, SelectionDAG &DAG) const;
     SDValue LowerMUL(SDValue Op, SelectionDAG &DAG) const;
+    SDValue LowerDIV(SDValue Op, SelectionDAG &DAG) const;
     SDValue LowerSUB(SDValue Op, SelectionDAG &DAG) const;
 
     SDValue LowerSTORE(SDValue Op, SelectionDAG &DAG) const;

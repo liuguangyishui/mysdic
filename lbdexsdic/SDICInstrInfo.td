@@ -28,7 +28,8 @@ def SDT_SDICCALL         : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 def SDT_SDICPESUO_None   : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 //Call
-def SDICCALL : SDNode<"SDICISD::Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
+def SDICMUL_CALL : SDNode<"SDICISD::Mul_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
+def SDICDIV_CALL : SDNode<"SDICISD::Div_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
 // Return
 def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
                      [ SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
@@ -469,13 +470,15 @@ def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
 def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 
-def CALL    : CALL_NoLink<SDICCALL, 0x1d, "call", SDICRegs>;
+def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call   Mutiplication", SDICRegs>;
 
+def DIV_CALL    : CALL_NoLink<SDICDIV_CALL, 0x1c, "call   DIV",  SDICRegs>;
 //def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 
 
 
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
+
 
 
 def Movlw     : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;

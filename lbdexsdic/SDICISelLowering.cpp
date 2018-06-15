@@ -57,7 +57,8 @@ const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case SDICISD::Pesuo_NoRet:       return "SDICISD::Pesuo_NoRet";
   case SDICISD::Pesuo_None:        return "SDICISD::Pesuo_None";
   case SDICISD::Addwf:             return "SDICISD::Addwf";
-  case SDICISD::Call:              return "SDICISD::Call";
+  case SDICISD::Mul_Call:          return "SDICISD::Mul_Call";
+  case SDICISD::Div_Call:          return "SDICISD::Div_Call"
   case SDICISD::Subwf:             return "SDICISD::Subwf";
   case SDICISD::Addtest:           return "SDICISD::Addtest";
   case SDICISD::GPReltest:         return "SDICISD::GPReltest";
@@ -76,6 +77,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
   setOperationAction(ISD::ADD, MVT::i32, Custom);
   setOperationAction(ISD::MUL, MVT::i32, Custom);
+  setOPerationAction(ISD::DIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);
    setOperationAction(ISD::STORE, MVT::i32, Custom);
    
@@ -110,6 +112,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
     case ISD::MUL:   return LowerMUL(Op, DAG);
+    case ISD::DIV:   return LowerDIV(Op, DAG);
 
     case ISD::SUB:   return LowerSUB(Op, DAG);
       // case ISD::LOAD:  return LowerLOAD(Op, DAG);
@@ -169,9 +172,22 @@ SDValue SDICTargetLowering::LowerMUL(SDValue Op, SelectionDAG &DAG) const
   SDValue Flag1;
   Flag1 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
   Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
-  return  DAG.getNode(SDICISD::Call, dl, MVT::i32, Flag0, Flag1);
+  return  DAG.getNode(SDICISD::Mul_Call, dl, MVT::i32, Flag0, Flag1);
 }
 
+SDValue SDICTargetLowering::LowerDIV(SDValue Op, SelectionDAG &DAG) const
+{
+  SDLoc dl(Op);
+  SDValue Op0 = Op.getOperand(0);
+  SDValue Op1 = Op.getOperand(1);
+
+  SDValue Flag0;
+  SDValue Flag1;
+  Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
+  Flag1 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
+  return DAG.getNode(SDICISD::Div_Call, dl, MVT::i32, Flag0, Flag1);
+
+}
 
 
 SDValue SDICTargetLowering::LowerSUB(SDValue Op, SelectionDAG &DAG) const
@@ -184,7 +200,8 @@ SDValue SDICTargetLowering::LowerSUB(SDValue Op, SelectionDAG &DAG) const
   Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
   return DAG.getNode(SDICISD::Subwf, dl, MVT::i32, Op0, Flag0);
 }
-  
+
+
 
 SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
 {

@@ -77,7 +77,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
   setOperationAction(ISD::ADD, MVT::i32, Custom);
   setOperationAction(ISD::MUL, MVT::i32, Custom);
-  setOPerationAction(ISD::SDIV, MVT::i32, Custom);
+  setOperationAction(ISD::SDIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);
    setOperationAction(ISD::STORE, MVT::i32, Custom);
    
@@ -165,7 +165,7 @@ SDValue SDICTargetLowering::LowerMUL(SDValue Op, SelectionDAG &DAG) const
 {
   SDLoc dl(Op);
   SDValue Op0 = Op.getOperand(0);
-  SDValue Op1 = Op.getOperand(1);
+  SDValue Op1 = Op.getOperand(1);//this is a constant
   EVT VT      = Op.getValueType();
 
   SDValue Flag0;

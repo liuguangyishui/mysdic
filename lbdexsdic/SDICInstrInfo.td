@@ -25,7 +25,7 @@ def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 //CALL
 def SDT_SDICCALL         : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
-def SDT_SDICPESUO_None   : SDTypeProfile<1, 0, []>;
+def SDT_SDICPESUO_None   : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 //Call
 def SDICCALL : SDNode<"SDICISD::Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
@@ -35,7 +35,7 @@ def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
 
 def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
 def SDICPesuo_NoRet : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>;
-def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO, [SDNPInGlue, SDNPOutGlue]>;
+def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPInGlue, SDNPOutGlue]>;
 //MOVLW
 def SDICMovf : SDNode<"SDICISD::Movf", SDT_SDICMOVLW, [SDNPOutGlue]>;
 def SDICMovlw  : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
@@ -328,11 +328,11 @@ class SubSDICPseudo<SDNode OpNode, string instr_asm, RegisterClass RC>:
 }
 
 class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
-                         SDICPseudo_None<(outs GPROut:$ra), (ins RC:$rb),
+                         SDICPseudo_None<(outs), (ins RC:$rb),
                              !strconcat(instr_asm, "\t"),
-                             [(set GPROut:$ra, (OpNode RC:$rb))]>
+                             [ (OpNode RC:$rb)]>
                              {
-                             //let ra = 0;
+                             let ra = 0;
                              //let rb = 0;
                             
                              }

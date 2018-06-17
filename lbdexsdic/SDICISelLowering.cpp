@@ -137,7 +137,9 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDLoc dl(Op);
     printf("5/18 test for add and mov5");
   unsigned Opc = Op.getOpcode();
+  //Op0一直都是寄存器
   SDValue Op0 = Op.getOperand(0);//This is register number
+  //Op1则是立即数或寄存器
   SDValue Op1 = Op.getOperand(1);//This is a constant
   EVT VT      = Op.getValueType();
   printf("5/18 test for add and mov6");
@@ -145,9 +147,11 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue Flag0;
   SDValue Flag1;
 
+  //ADD加法有两种情况，一个是ADDLW：WREG与立即数K相加；  一个是ADDWF与F寄存器相加
 
-  Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op1);
   
+  Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op0);
+ 
   return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op1, Flag0);
  
  
@@ -170,6 +174,13 @@ SDValue SDICTargetLowering::LowerMUL(SDValue Op, SelectionDAG &DAG) const
 
   SDValue Flag0;
   SDValue Flag1;
+
+  SDValue Opa = Op.getConstant(0x00);
+  SDValue Flaga = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Opa);
+  
+
+
+  
   Flag1 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
   Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
   return  DAG.getNode(SDICISD::Mul_Call, dl, MVT::i32, Flag0, Flag1);

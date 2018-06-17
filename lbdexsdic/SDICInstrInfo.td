@@ -464,15 +464,16 @@ defm ST     : StoreM32<0x02, "xxxst",  store_a>;  //st
 
 /// Arithmetic Instructions (ALU Immediate)
 // IR "add" defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
+//ADD
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
 
 def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
 def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 
-def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call   Mutiplication", SDICRegs>;
+def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;
 
-def DIV_CALL    : CALL_NoLink<SDICDIV_CALL, 0x1c, "call   DIV",  SDICRegs>;
+def DIV_CALL    : CALL_NoLink<SDICDIV_CALL, 0x1c, "call\tDIV",  SDICRegs>;
 //def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 
 
@@ -484,6 +485,9 @@ def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 def Movlw     : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
 def Movf      : FDA_NoLink<SDICMovf, 0x22, "movf", SDICRegs>;
 //def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
+
+
+
 
 def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 

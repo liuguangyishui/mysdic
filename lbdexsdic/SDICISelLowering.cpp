@@ -175,7 +175,7 @@ SDValue SDICTargetLowering::LowerMUL(SDValue Op, SelectionDAG &DAG) const
   SDValue Flag0;
   SDValue Flag1;
 
-  SDValue Opa = Op.getConstant(0x00);
+  SDValue Opa = DAG.getConstant(0x00);
   SDValue Flaga = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Opa);
   
 

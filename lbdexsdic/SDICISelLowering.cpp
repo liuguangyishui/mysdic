@@ -229,7 +229,7 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
     }
   // SDValue Op0 = Op.getOperand(0);
     SDValue Op1 = Op.getOperand(1);
-     SDValue Op1 = Op.getOperand(0);
+     SDValue Op0 = Op.getOperand(0);
 
     //   SDValue Op2 = Op.getOperand(2);
     //  SDValue Op3 = Op.getOperand(3);

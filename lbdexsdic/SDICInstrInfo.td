@@ -467,9 +467,9 @@ defm ST     : StoreM32<0x02, "xxxst",  store_a>;  //st
 //ADD
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
-
-def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
 def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
+def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
+
 
 def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;
 

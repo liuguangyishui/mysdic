@@ -246,8 +246,9 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
    else
     {
       printf("\n this is not voidTy");
+      SDValue Flag0 = DAG.getNode(SDICISD::Pesuo, dl, MVT::i32, Op0);
       //return DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op1);//, Op2, Op3);
-      return DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
+      return DAG.getNode(SDICISD::Addwf, dl, MVT::i32, Op1, Flag0);
      
     }
    

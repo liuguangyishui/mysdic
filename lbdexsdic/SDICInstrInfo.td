@@ -306,7 +306,7 @@ class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
                               !strconcat(instr_asm, "\t "),
                              [(set GPROut:$rb, (OpNode))]>
                              {
-                                 let isPseudo = Pseudo; //  RC:$ra
+                                // let isPseudo = Pseudo; //  RC:$ra
                                  //
                               }
 

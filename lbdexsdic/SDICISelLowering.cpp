@@ -57,6 +57,7 @@ const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case SDICISD::Pesuo_NoRet:       return "SDICISD::Pesuo_NoRet";
   case SDICISD::Pesuo_None:        return "SDICISD::Pesuo_None";
   case SDICISD::Addwf:             return "SDICISD::Addwf";
+  case SDICISD::Addwfrr:           return "SDICISD::Addwfrr";
   case SDICISD::Mul_Call:          return "SDICISD::Mul_Call";
   case SDICISD::Div_Call:          return "SDICISD::Div_Call";
   case SDICISD::Subwf:             return "SDICISD::Subwf";
@@ -248,7 +249,7 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
       printf("\n this is not voidTy");
       SDValue Flag0 = DAG.getNode(SDICISD::Pesuo, dl, MVT::i32, Op0);
       //return DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op1);//, Op2, Op3);
-      return DAG.getNode(SDICISD::Addwf, dl, MVT::Other, Op1, Op0);
+      return DAG.getNode(SDICISD::Addwfrr, dl, MVT::Other, Op1, Op0);
      
     }
    

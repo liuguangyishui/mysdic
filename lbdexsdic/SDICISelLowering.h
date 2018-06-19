@@ -65,6 +65,7 @@ namespace llvm {
 
       // Addwf
       Addwf,
+      Addwfrr,
       // Subwf
       Subwf,
    

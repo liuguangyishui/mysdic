@@ -44,7 +44,7 @@ def SDICMovlw  : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //R + R
-def SDICAddwfrr : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
+def SDICAddwfrr : SDNode<"SDICISD::Addwfrr", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //SUB
 def SDICSubwf : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 

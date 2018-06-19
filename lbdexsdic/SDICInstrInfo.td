@@ -22,7 +22,7 @@ def SDT_SDICAddwf        : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 //MOVLW K
 def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
-def SDT_SDICPESUO        : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
+def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 //CALL
 def SDT_SDICCALL         : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 def SDT_SDICPESUO_None   : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
@@ -302,12 +302,12 @@ class ArithLogicFKR<SDNode OpNode, bits<6> op, string instr_asm,
 }
 
 class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
-                          SDICPseudo_I<(outs), (ins RC:$ra),//, RC:$rb),
+                          SDICPseudo_I<(outs GPROut:$rb), (ins RC:$ra),//, RC:$rb),
                               !strconcat(instr_asm, "\t $ra"),
-                             [(OpNode RC:$ra)]>
+                             [(set GPROut:$rb, (OpNode RC:$ra))]>
                              {
-                                 //let isPseudo = Pseudo;  GPROut:$rb
-                                 //set GPROut:$rb, (
+                                 let isPseudo = Pseudo;  
+                                 //
                               }
 
 class ArithLogicPesuo_NoRet<SDNode OpNode, string instr_asm, RegisterClass RC>:

@@ -80,7 +80,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   setOperationAction(ISD::MUL, MVT::i32, Custom);
   setOperationAction(ISD::SDIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);
-  // setOperationAction(ISD::STORE, MVT::i32, Custom);
+   setOperationAction(ISD::STORE, MVT::i32, Custom);
    
 
    
@@ -119,7 +119,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
       //  case ISD::LOAD:  return LowerLOAD(Op, DAG);
 
       
-      // case ISD::STORE: return LowerSTORE(Op, DAG);
+       case ISD::STORE: return LowerSTORE(Op, DAG);
     
       
     default:

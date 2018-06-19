@@ -79,7 +79,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   setOperationAction(ISD::MUL, MVT::i32, Custom);
   setOperationAction(ISD::SDIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);
-  //setOperationAction(ISD::STORE, MVT::i32, Custom);
+  setOperationAction(ISD::STORE, MVT::i32, Custom);
    
 
    
@@ -118,7 +118,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
       //  case ISD::LOAD:  return LowerLOAD(Op, DAG);
 
       
-       // case ISD::STORE: return LowerSTORE(Op, DAG);
+     case ISD::STORE: return LowerSTORE(Op, DAG);
     
       
     default:
@@ -245,7 +245,8 @@ SDValue SDICTargetLowering::LowerSTORE(SDValue Op, SelectionDAG &DAG) const
    else
     {
       printf("\n this is not voidTy");
-      return DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op1);//, Op2, Op3);
+      //return DAG.getNode(SDICISD::Pesuo, dl, MVT::Other, Op1);//, Op2, Op3);
+      return DAG.getNode(SDICISD::movlw, dl, MVT::Other, Op1);
      
     }
    

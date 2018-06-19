@@ -307,7 +307,7 @@ class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
                              [(set GPROut:$rb, (OpNode))]>
                              {
                                 // let isPseudo = Pseudo; //  RC:$ra
-                                 //
+                                   let isCodeGenOnly = 1;
                               }
 
 class ArithLogicPesuo_NoRet<SDNode OpNode, string instr_asm, RegisterClass RC>:

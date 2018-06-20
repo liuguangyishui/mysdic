@@ -69,13 +69,14 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
   if (Parent && (LS = dyn_cast<LSBaseSDNode>(Parent))) {
     EVT VT = LS->getMemoryVT();
 
-    if (VT.getSizeInBits() / 32 > LS->getAlignment()) {
+    if (VT.getSizeInBits() / 8 > LS->getAlignment()) {
       assert("Unaligned loads/stores not supported for this type.");
       if (VT == MVT::f32)
         return false;
     }
   }
-
+  printf("\nthe SDValue Addr is %u", Addr);
+  printf("\nthe SDValue Offser is %u", *Offset);
   // if Address is FI, get the TargetFrameIndex.
   if (FrameIndexSDNode *FIN = dyn_cast<FrameIndexSDNode>(Addr)) {
     Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), ValTy);

@@ -391,7 +391,7 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs), (ins RC:$ra, MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$ra,"),//$addr"),
+     !strconcat(instr_asm, "\t$ra, $addr"),
      [(OpNode RC:$ra, addr:$addr)], IIStore> {
   let isPseudo = Pseudo;
 }
@@ -399,7 +399,7 @@ class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 //@ 32-bit load.
 multiclass LoadM32<bits<6> op, string instr_asm, PatFrag OpNode,
                    bit Pseudo = 0> {
-  def #NAME# : LoadM<op, instr_asm, OpNode, GPROut, mem, Pseudo>;
+  def #NAME# : LoadM<op, instr_asm, OpNode, SDICRegs, mem, Pseudo>; //GPROut,
 }
 
 // 32-bit store.

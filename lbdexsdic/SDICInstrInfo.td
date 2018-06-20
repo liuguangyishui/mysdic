@@ -256,10 +256,10 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
-                      FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
+                      FA_a<op,(outs GPROut:$imma), (ins Od:$rf),// RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf"),
-               [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
-
+               [(set GPROut:$imma,(OpNode  imm_type:$rf))], IIAddluwf> {
+               //, RC:$rimm8
 }
 // only a immediate num K and a link for outs
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,

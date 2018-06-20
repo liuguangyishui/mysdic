@@ -304,9 +304,9 @@ class ArithLogicFKR<SDNode OpNode, bits<6> op, string instr_asm,
 class ArithLogicPesuo<SDNode OpNode, string instr_asm, RegisterClass RC>:
                           SDICPseudo_I<(outs GPROut:$rb), (ins RC:$ra),//, RC:$rb),
                               !strconcat(instr_asm, "\t "),
-                             [(set GPROut:$rb, (OpNode, RC:$ra))]>
+                             [(set GPROut:$rb, (OpNode))]>
                              {
-                                // let isPseudo = Pseudo; // 
+                                // let isPseudo = Pseudo; // , RC:$ra
                                    let isCodeGenOnly = 1;
                               }
 

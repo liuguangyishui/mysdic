@@ -565,7 +565,7 @@ def : SDICInstAlias<"move $dst, $src",
 
 def : Pat<(i32 immSExt8:$in),
          //(ADDiu R0, imm:$in)>;
-         (movlw imm:$in)>;
+         (Movlw imm:$in)>;
 
 
 

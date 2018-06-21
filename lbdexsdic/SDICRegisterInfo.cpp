@@ -133,6 +133,9 @@ eliminateFrameIndex(MachineBasicBlock::iterator II, int SPAdj,
   int64_t Offset;
   Offset = spOffset + (int64_t)stackSize;
   Offset  += MI.getOperand(i+1).getImm();
+
+  Offset = FrameIndex+1;
+  
   DEBUG(errs() << "Offset: " << Offset << "\n" << "<--------->\n");
   // If MI is not a debug value, make sure Offset fits in the 16-bit immediate
   // field.

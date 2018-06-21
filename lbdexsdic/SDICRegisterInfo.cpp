@@ -97,6 +97,10 @@ eliminateFrameIndex(MachineBasicBlock::iterator II, int SPAdj,
   uint64_t stackSize = MF.getFrameInfo()->getStackSize();
   int64_t spOffset = MF.getFrameInfo()->getObjectOffset(FrameIndex);
 
+
+  printf("\nthis is second trial %u", stackSize);
+  printf("\nthis is thirst trial %u", spOffset);
+
   DEBUG(errs() << "FrameIndex : " << FrameIndex << "\n"
 	<< "spOffset: " << spOffset << "\n"
 	<< "stackSize : " << stackSize << "\n");

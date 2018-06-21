@@ -43,7 +43,7 @@ def SDICMovf : SDNode<"SDICISD::Movf", SDT_SDICMOVLW, [SDNPOutGlue]>;
 def SDICMovlw  : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
-def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwftwo, [SDNPInGlue, SDNPOutGlue]>;
+def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //R + R
 def SDICAddwfrr : SDNode<"SDICISD::Addwfrr", SDT_SDICAddwf , [SDNPInGlue, SDNPOutGlue]>;
 //SUB
@@ -236,10 +236,10 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 //FDA_Link:three parameter and a node to link
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
-                      FA_a<op,(outs GPROut:$imma), (ins RC:$rf),// RC:$rimm8),
+                      FA_a<op,(outs GPROut:$imma), (ins RC:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf"),
-                           [(set GPROut:$imma,(OpNode  RC:$rf))], IIAddluwf> {
-                          // let isReMaterializable = 1;     , RC:$rimm8
+                           [(set GPROut:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
+                          // let isReMaterializable = 1;     
                          // let imm8 = 0;
                           //let imma = 0;
                        }
@@ -470,7 +470,7 @@ defm ST     : StoreM32<0x02, "xxxst",  store_a>;  //st
 //ADD
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
-def ADDLW   : K_Link<SDICAddwfrr, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
+def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
 
 

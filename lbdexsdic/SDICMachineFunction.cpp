@@ -24,4 +24,4 @@ SDICFunctionInfo::~SDICFunctionInfo() {}
 
 void SDICFunctionInfo::anchor() { }
 
-SDICFunctionInfo::getVarArgsFrameIndex();
+

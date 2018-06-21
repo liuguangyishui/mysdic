@@ -44,7 +44,8 @@ public:
   unsigned getSRetReturnReg() const { return SRetReturnReg;}
   void setSRetReturnReg(unsigned Reg){ SRetReturnReg = Reg; }
 
-  int getVarArgsFrameIndex() const { return VarArgsFrameIndex; }
+  int getVarArgsFrameIndex() const {  printf("\n the getVarArgsFrameIndex is %u",VarArgsFrameIndex);
+    return VarArgsFrameIndex; }
   void setVarArgsFrameIndex(int Index) { VarArgsFrameIndex = Index; }
 
   bool hasByvalArg() const { return HasByvalArg;}

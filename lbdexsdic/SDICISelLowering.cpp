@@ -152,9 +152,9 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   //ADD加法有两种情况，一个是ADDLW：WREG与立即数K相加；  一个是ADDWF与F寄存器相加
 
   
-  Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op0);
+  //Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op0);
  
-  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op1, Flag0);
+  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op1, Op0);
  
  
    // Flag0 = DAG.getConstant(45, dl, MVT::i32);

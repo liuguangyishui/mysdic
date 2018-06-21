@@ -13,6 +13,7 @@
 
 #include "SDICISelDAGToDAG.h"
 #include "SDIC.h"
+#include "SDICMachineFunction.h"
 
 #include "SDICMachineFunction.h"
 #include "SDICRegisterInfo.h"
@@ -34,6 +35,7 @@
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Target/TargetMachine.h"
+
 using namespace llvm;
 
 #define DEBUG_TYPE "sdic-isel"
@@ -85,12 +87,17 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
 
     printf("\nthe SDValue Base is %u",&Base);
     printf("\nthe SDValue Offser is %u", &Offset);
+
+      unsigned FrameIndex = CurDAG->getVarArgsFrameIndex();
+  printf("\nthe SDValue Osssssss %u",FrameIndex);
+    
     return true;
   }
-
+  
   Base   = Addr;
   Offset = CurDAG->getTargetConstant(0, DL, ValTy);
-  printf("\nthe SDValue Osssssss %u",Offset);
+
+
   return true;
 }
 

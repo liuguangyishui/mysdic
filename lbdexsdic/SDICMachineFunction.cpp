@@ -23,8 +23,7 @@ bool FixGlobalBaseReg;
 SDICFunctionInfo::~SDICFunctionInfo() {}
 
 void SDICFunctionInfo::anchor() {
- unsigned FrameIndex = getVarArgsFrameIndex();
- printf("\nthe SDValue Osssssss %u",FrameIndex);
+ 
 
 }
 

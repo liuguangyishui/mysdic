@@ -237,7 +237,7 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA_a<op,(outs GPROut:$imma), (ins RC:$rf, RC:$rimm8),
-                           !strconcat(instr_asm, "\t$rf"),
+                           !strconcat(instr_asm, "\t$rf  $rimm8"),
                            [(set GPROut:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
                           // let isReMaterializable = 1;     
                          // let imm8 = 0;
@@ -384,7 +384,7 @@ let canFoldAsLoad = 1 in
 class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
             Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs RC:$ra), (ins MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$ra, $addr"),
+     !strconcat(instr_asm, "\t$raddr"),  //(instr_asm, "\t$ra, $addr"),
      [(set RC:$ra, (OpNode addr:$addr))], IILoad> {
   let isPseudo = Pseudo;
 }
@@ -392,7 +392,7 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs), (ins RC:$ra, MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$ra, $addr"),
+     !strconcat(instr_asm, "\t$raddr"),     //(instr_asm, "\t$ra, $addr"),
      [(OpNode RC:$ra, addr:$addr)], IIStore> {
   let isPseudo = Pseudo;
 }
@@ -460,8 +460,8 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 
 /// Load and Store Instructions
 ///  aligned
-defm LD     : LoadM32<0x01,  "xxxld",  load_a>;  //ld
-defm ST     : StoreM32<0x02, "xxxst",  store_a>;  //st
+defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
+defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 
 
 

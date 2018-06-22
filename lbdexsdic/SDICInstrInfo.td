@@ -45,7 +45,7 @@ def SDICMovlw  : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 //ADD
 def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //R + R
-def SDICAddwfrr : SDNode<"SDICISD::Addwfrr", SDT_SDICAddwf , [SDNPInGlue, SDNPOutGlue]>;
+def SDICAddwfrr : SDNode<"SDICISD::Addwf", SDT_SDICAddwf , [SDNPInGlue, SDNPOutGlue]>;
 //SUB
 def SDICSubwf : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
@@ -470,7 +470,7 @@ defm ST     : StoreM32<0x02, "xxxst",  store_a>;  //st
 //ADD
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
-def ADDLW   : K_Link<SDICAddwf, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
+def ADDLW   : K_Link<SDICAddwfrr, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
 
 

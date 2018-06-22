@@ -236,7 +236,7 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 //FDA_Link:three parameter and a node to link
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
-                      FA_a<op,(outs GPROut:$imma), (ins RC:$rf, RC:$rimm8),
+                      FA_a<op,(outs GPROuttwo:$imma), (ins RC:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf  $rimm8  $imma"),
                            [(set GPROut:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
@@ -257,7 +257,7 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
-                      FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
+                      FA_a<op,(outs GPROuttwo:$imma), (ins Od:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf  $rimm8   $imma"),
                [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
                //GPROut:$imma
@@ -375,11 +375,8 @@ class LoadUpper<bits<6> op, string instr_asm, RegisterClass RC, Operand Imm>:
 class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
           InstrItinClass itin>: FE<op, outs, ins, asmstr, pattern, itin> {
   bits<10> addr;
-  bits<1> rb;
   let Inst{9-0}  = addr{9-0};
   let DecoderMethod = "DecodeMem";
-
-  let Inst{0-0} = rb{0-0};
 
 }
 
@@ -395,9 +392,9 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
-  FMem<op, (outs), (ins RC:$ra, RC:$rb),//MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$rb"),     //(instr_asm, "\t$ra, $addr"),
-     [(OpNode RC:$ra,RC:$rb)], IIStore> {   // addr:$addr
+  FMem<op, (outs), (ins RC:$ra,MemOpnd:$addr),
+     !strconcat(instr_asm, "\t$ra   $addr"),     //(instr_asm, "\t$ra, $addr"),
+     [(OpNode RC:$ra, addr:$addr)], IIStore> {   // addr:$addr
   let isPseudo = Pseudo;
 }
 

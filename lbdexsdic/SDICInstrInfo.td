@@ -257,9 +257,9 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
-                      FA_a<op,(outs GPROuttwo:$imma), (ins Od:$rf, RC:$rimm8),
+                      FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf  $rimm8   $imma"),
-               [(set GPROuttwo:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
+               [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
                //GPROut:$imma
 }
 // only a immediate num K and a link for outs
@@ -472,7 +472,7 @@ defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
 def ADDLW   : K_Link<SDICAddwfrr, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
-def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICReservedReg>;// SDICRegs>;
+def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf",  SDICRegs>;
 
 
 def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;

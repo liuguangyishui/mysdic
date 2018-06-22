@@ -374,7 +374,8 @@ class LoadUpper<bits<6> op, string instr_asm, RegisterClass RC, Operand Imm>:
 
 class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
           InstrItinClass itin>: FE<op, outs, ins, asmstr, pattern, itin> {
-  bits<10> addr;
+  bits<9> addr;
+  bits<1> rb;
   let Inst{9-1}  = addr{9-1};
   let DecoderMethod = "DecodeMem";
 

@@ -258,7 +258,7 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
                       FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
-                           !strconcat(instr_asm, "\t$rf"),
+                           !strconcat(instr_asm, "\t$rf  $imm8   $rimma"),
                [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
                //
 }

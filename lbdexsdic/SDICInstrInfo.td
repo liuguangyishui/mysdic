@@ -236,9 +236,9 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 //FDA_Link:three parameter and a node to link
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
-                      FA_a<op,(outs GPROuttwo:$imma), (ins RC:$rf, RC:$rimm8),
+                      FA_a<op,(outs GPROut:$imma), (ins RC:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf  $rimm8  $imma"),
-                           [(set GPROuttwo:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
+                           [(set GPROut:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
                           //let imma = 0;
@@ -472,7 +472,7 @@ defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 
 def ADDLW   : K_Link<SDICAddwfrr, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
-def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICRegs>;
+def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf", SDICReservedReg>;// SDICRegs>;
 
 
 def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;

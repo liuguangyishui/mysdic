@@ -238,7 +238,7 @@ class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA_a<op,(outs GPROuttwo:$imma), (ins RC:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf  $rimm8  $imma"),
-                           [(set GPROut:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
+                           [(set GPROuttwo:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
                           //let imma = 0;
@@ -259,7 +259,7 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
                       FA_a<op,(outs GPROuttwo:$imma), (ins Od:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf  $rimm8   $imma"),
-               [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
+               [(set GPROuttwo:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
                //GPROut:$imma
 }
 // only a immediate num K and a link for outs

@@ -379,7 +379,7 @@ class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
   let Inst{9-0}  = addr{9-0};
   let DecoderMethod = "DecodeMem";
 
-  let Inst{0-0} = rb{0-0}
+  let Inst{0-0} = rb{0-0};
 
 }
 

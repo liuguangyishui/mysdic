@@ -237,7 +237,7 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA_a<op,(outs GPROut:$imma), (ins RC:$rf, RC:$rimm8),
-                           !strconcat(instr_asm, "\t$rf  $rimm8"),
+                           !strconcat(instr_asm, "\t$rf  $rimm8  $imma"),
                            [(set GPROut:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
@@ -257,7 +257,7 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
-                      FA_a<op,(outs Od:$imma), (ins Od:$rf, RC:$rimm8),
+                      FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
                            !strconcat(instr_asm, "\t$rf  $rimm8   $imma"),
                [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
                //GPROut:$imma

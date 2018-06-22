@@ -375,8 +375,11 @@ class LoadUpper<bits<6> op, string instr_asm, RegisterClass RC, Operand Imm>:
 class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
           InstrItinClass itin>: FE<op, outs, ins, asmstr, pattern, itin> {
   bits<10> addr;
-  let Inst{9-0}  = addr{9-0};
+  let Inst{9-1}  = addr{9-1};
   let DecoderMethod = "DecodeMem";
+
+  let Inst{0-0} = rb{0-0}
+
 }
 
 // Memory Load/Store
@@ -391,9 +394,9 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
-  FMem<op, (outs), (ins RC:$ra, MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$addr"),     //(instr_asm, "\t$ra, $addr"),
-     [(OpNode RC:$ra, addr:$addr)], IIStore> {
+  FMem<op, (outs), (ins RC:$ra, RC:rb),//MemOpnd:$addr),
+     !strconcat(instr_asm, "\t$rb"),     //(instr_asm, "\t$ra, $addr"),
+     [(OpNode RC:$ra,RC:$rb)], IIStore> {   // addr:$addr
   let isPseudo = Pseudo;
 }
 

@@ -341,7 +341,7 @@ class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
                             
                              }
 
-
+let Predicates = [Ch4_2] in {
 class CmpInstr<bits<6> op, string instr_asm,
                        InstrItinClass itin, RegisterClass RC, RegisterClass RD,
                        bit isComm = 0>:
@@ -350,7 +350,7 @@ class CmpInstr<bits<6> op, string instr_asm,
               let isCommutable = isComm;
               let Predicates = [HasCmp];
 
-              }
+              }}
 
 
 def jmptarget    : Operand<OtherVT>{

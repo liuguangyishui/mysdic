@@ -341,6 +341,31 @@ class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
                             
                              }
 
+def jmptarget    : Operand<OtherVT>{
+    let EncoderMethod = "getJumpTargetOpValue";
+    let OperandType = "OPERAND_PCREL";
+    }
+
+
+//Unconditional branch , such as JMP
+class UncondBranch<bits<6> op, string instr_asm>:
+                           FJ<op, (outs), (ins jmptarget:$addr),
+                                  !strconcat(instr_asm, "\t$addr"),
+                                  [(br bb:$addr)], IIBranch> {
+                           let isBranch = 1;
+                           let isTerminator = 1;
+                           let isBarrier = 1;
+                           let hasDelaySlot = 0;
+                              }
+
+
+
+
+
+
+
+
+
 
 let Predicates = [Ch3_3] in {
 // Shifts
@@ -470,31 +495,27 @@ defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 // IR "add" defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
 //ADD
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
-
-def ADDLW   : K_Link<SDICAddwfrr, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf",  SDICRegs>;
+def ADDLW   : K_Link<SDICAddwfrr, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
+//SUB
+def SUBwf   : FDA_Link<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 
 
 def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;
 
 def DIV_CALL    : CALL_NoLink<SDICDIV_CALL, 0x1c, "call\tDIV",  SDICRegs>;
 
-def SUBwf    : FDA_Link<SDICSubwf, 0x16, "subwf",  SDICRegs>;
-
-
-
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
-
-
 
 def Movlw     : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
 def Movf      : FDA_NoLink<SDICMovf, 0x22, "movf", SDICRegs>;
 //def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 
-
-
-
 def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
+
+//Unconditional branch
+def BRAN       : UncondBranch<0x1c, "bran">;
+
 
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
@@ -587,5 +608,14 @@ def : Pat<(i32 imm:$imm),
     } // let Predicates = [Ch3_4]
 
 
-//addwf
+multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruciton JNEOp,
+           Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instrucion JGEOp,
+           Instruction CMPOp> {
 
+def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
+                  (JNEOp (CMPOp RC:$lhs, RC:$rhs), bb:$dst)>;
+
+//def : Pat<(brcond RC:$cond, bb:$dst),
+//                  (JNEOp (CMPOp RC:$cond, ZEROReg), bb:$dst)>;
+
+}

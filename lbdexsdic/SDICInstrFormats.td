@@ -40,6 +40,7 @@ def FrmF        : Format<6>;
 def FrmG        : Format<7>;//only one operand ie: MOVLW K
 def FrmH        : Format<8>;//
 def FrmI        : Format<11>;
+def FrmJ        : Format<12>;
 
 //Generic SDIC Format
 class SDICInst<dag outs, dag ins, string asmstr, list<dag> pattern,
@@ -260,7 +261,14 @@ class FG<bits<6> op, dag outs, dag ins, string asmstr,
                         let Inst{7-0}  = shamt;
                    }
 
+class FJ<bits<6> op, dag outs, dag ins, string asmstr,
+           list<dag> pattern, InstrItinClass itin>:
+                     SDICInst<outs, ins, asmstr, pattern, itin, FrmJ>
+                     {
 
+
+
+                     }
 
 
 

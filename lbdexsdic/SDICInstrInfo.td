@@ -227,18 +227,18 @@ class ArithLogicR<bits<6> op, string instr_asm, SDNode OpNode,
 // Arithmetic and logical instructions with 2 register operands.
 class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
                   Operand Od, PatLeaf imm_type, RegisterClass RC> :
-  FA<op, (outs GPROut:$rf), (ins RC:$rd, Od:$imm8),
-     !strconcat(instr_asm, "\t$rf, $rd, $imm8"),
-     [(set GPROut:$rf, (OpNode RC:$rd, imm_type:$imm8))], IIAlu> {
+  FA<op, (outs GPROut:$ra), (ins RC:$rb, Od:$rc),
+     !strconcat(instr_asm, "\t$ra, $rb, $rc"),
+     [(set GPROut:$ra, (OpNode RC:$rb, imm_type:$rc))], IIAlu> {
   let isReMaterializable = 1;
 }
 
 //FDA_Link:three parameter and a node to link
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
-                      FA_a<op,(outs GPROut:$imma), (ins RC:$rf, RC:$rimm8),
-                           !strconcat(instr_asm, "\t$rf  $rimm8  $imma"),
-                           [(set GPROut:$imma,(OpNode  RC:$rf, RC:$rimm8))], IIAddluwf> {
+                      FA<op,(outs GPROut:$ra), (ins RC:$rb, RC:$rc),
+                           !strconcat(instr_asm, "\t$ra  $rb  $rc"),
+                           [(set GPROut:$ra,(OpNode  RC:$rb, RC:$rc))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
                           //let imma = 0;
@@ -257,18 +257,18 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
-                      FA_a<op,(outs GPROut:$imma), (ins Od:$rf, RC:$rimm8),
-                           !strconcat(instr_asm, "\t$rf  $rimm8   $imma"),
-               [(set GPROut:$imma,(OpNode  imm_type:$rf, RC:$rimm8))], IIAddluwf> {
+                      FA<op,(outs GPROut:$ra), (ins Od:$rb, RC:$rc),
+                           !strconcat(instr_asm, "\t$ra  $rb  $rc"),
+               [(set GPROut:$ra,(OpNode  imm_type:$rb, RC:$rc))], IIAddluwf> {
                //GPROut:$imma
 }
 // only a immediate num K and a link for outs
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
-                           FA<op, (outs GPROut:$imm8), (ins Od:$rf),
-                                  !strconcat(instr_asm, "\t$rf"),
-                         [(set GPROut:$imm8, (OpNode imm_type:$rf))], IIAlu>{
-                               let rd = 0;
+                           FA<op, (outs GPROut:$ra), (ins Od:$rb),
+                                  !strconcat(instr_asm, "\t$rb"),
+                         [(set GPROut:$ra, (OpNode imm_type:$rb))], IIAlu>{
+                               let rc = 0;
                          }
 
 // for CALL调用子程序
@@ -341,6 +341,18 @@ class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
                             
                              }
 
+
+class CmpInstr<bits<6> op, string instr_asm,
+                       InstrItinClass itin, RegisterClass RC, RegisterClass RD,
+                       bit isComm = 0>:
+              FA<op, (outs RD:$ra, (ins RC:$rb, RC:$rc),
+              !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin>{
+              let isCommutable = isComm;
+              let Predicates = [HasCmp];
+
+              }
+
+
 def jmptarget    : Operand<OtherVT>{
     let EncoderMethod = "getJumpTargetOpValue";
     let OperandType = "OPERAND_PCREL";
@@ -389,9 +401,9 @@ class shift_rotate_imm32<bits<6> op, bits<4> isRotate, string instr_asm,
 let Predicates = [Ch3_3] in {
 // Load Upper Imediate
 class LoadUpper<bits<6> op, string instr_asm, RegisterClass RC, Operand Imm>:
-      FA<op, (outs RC:$rf), (ins Imm:$imm8),
-      !strconcat(instr_asm, "\t$rf, $imm8"), [], IIAlu> {
-      let rd = 0;
+      FA<op, (outs RC:$ra), (ins Imm:$rb),
+      !strconcat(instr_asm, "\t$ra, $rb"), [], IIAlu> {
+      let rc = 0;
       let isReMaterializable = 1;
       }
 }

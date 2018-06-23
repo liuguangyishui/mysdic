@@ -247,7 +247,7 @@ class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
 class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                          RegisterClass RC> :
                       F_K<op, (outs GPROut:$shamt), (ins RC:$rk),
-                              !strconcat(instr_asm, "\t$rk"),
+                              !strconcat(instr_asm, "\t$rk  $shamt"),
                              [(set GPROut:$shamt, (OpNode RC:$rk))], IIAlu> {
 
                            let isReMaterializable =1;
@@ -385,7 +385,7 @@ let canFoldAsLoad = 1 in
 class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
             Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs RC:$ra), (ins MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$addr"),  //(instr_asm, "\t$ra, $addr"),
+     !strconcat(instr_asm, "\t$ra, $addr"),  //(instr_asm, "\t$ra, $addr"),
      [(set RC:$ra, (OpNode addr:$addr))], IILoad> {
   let isPseudo = Pseudo;
 }

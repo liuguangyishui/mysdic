@@ -346,7 +346,7 @@ class CmpInstr<bits<6> op, string instr_asm,
                        InstrItinClass itin, RegisterClass RC, RegisterClass RD,
                        bit isComm = 0>:
               FA<op, (outs RD:$ra, (ins RC:$rb, RC:$rc),
-              !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin>{
+              !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin> {
               let isCommutable = isComm;
               let Predicates = [HasCmp];
 

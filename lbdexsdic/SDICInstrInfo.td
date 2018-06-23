@@ -608,8 +608,8 @@ def : Pat<(i32 imm:$imm),
     } // let Predicates = [Ch3_4]
 
 
-multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruciton JNEOp,
-           Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instrucion JGEOp,
+multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,
+           Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
            Instruction CMPOp> {
 
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),

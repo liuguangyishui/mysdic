@@ -478,7 +478,8 @@ def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf",  SDICRegs>;
 def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;
 
 def DIV_CALL    : CALL_NoLink<SDICDIV_CALL, 0x1c, "call\tDIV",  SDICRegs>;
-//def SUBwf    : ArithLogicFDA<SDICSubwf, 0x16, "subwf",  SDICRegs>;
+
+def SUBwf    : FDA_Link<SDICSubwf, 0x16, "subwf",  SDICRegs>;
 
 
 

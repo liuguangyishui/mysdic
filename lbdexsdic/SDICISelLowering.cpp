@@ -210,8 +210,8 @@ SDValue SDICTargetLowering::LowerSUB(SDValue Op, SelectionDAG &DAG) const
   SDValue Op1 = Op.getOperand(1);
   EVT VT      = Op.getValueType();
   SDValue Flag0;
-  Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
-  return DAG.getNode(SDICISD::Subwf, dl, MVT::i32, Op0, Flag0);
+  //Flag0 = DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op1);
+  return DAG.getNode(SDICISD::Subwf, dl, MVT::i32, Op0, Op1);
 }
 
 

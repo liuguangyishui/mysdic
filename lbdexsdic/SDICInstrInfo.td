@@ -572,7 +572,9 @@ def IORLW       : ArithLogicI<0x2a, "iorlw", or, simm8, immSExt8, SDICRegs>;
 def XORWF       :  ArithLogicR<0x17, "xorwf", xor, IIAlu, SDICRegs, 1>;
 def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 //BSF
+let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
+}
 //CPFSEQ
 //def CPFSEQ      : ArithLogicR<0x0b, "cpfseq", cmp, IIAlu, SDICRegs, 1>;
 
@@ -667,12 +669,11 @@ def : Pat<(i32 imm:$imm),
 
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
-def :  Pat<(seteq RC:$lhs, RC:$rhs),
-                  (BSF (CMP RC:$lhs, RC:$rhs),1)>;
+    def :  Pat<(seteq RC:$lhs, RC:$rhs),
+                  (BSF (CMP RC:$lhs, RC:$rhs), 2)>;
 //A != B
-def :  Pat<(setne RC:$lhs, RC:$rhs),
-                  (BSF (CMP RC:$lhs, RC:$rhs),1)>;
-
+    def :  Pat<(setne RC:$lhs, RC:$rhs),
+                  (BSF (CMP RC:$lhs, RC:$rhs), 2)>;
 }
 
 

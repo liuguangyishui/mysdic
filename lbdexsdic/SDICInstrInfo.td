@@ -351,6 +351,23 @@ class CmpInstr<bits<6> op, string instr_asm,
 
               }
 
+//SetCC
+class SetCC_R<bits<6> op, string instr_asm, PatFrag cond_op, RegisterClass RC>:
+                      FA<op, (outs GPROut:$ra), (ins RC:$rb, RC:$rc),
+                      !strconcat(instr_asm, "\t$ra, $rb, $rc"),
+                      [(set GPROut:$ra, (cond_op RC:$rb, RC:$rc))],
+                      IIAlu>, Requires<[HasSlt]> {
+
+}
+
+class SetCC_I<bits<6> op, string instr_asm, PatFrag cond_op, Operand Od,
+                      PatLeaf imm_type, RegisterClass RC>:
+                  FA<op, (GPROut:$ra), (ins RC:$rb, Od:$rc),
+                  !strconcat(instr_asm, "\t$ra, $rb, $rc"),
+                  [(set GPROut:$ra, (cond_op RC:$rb, imm_type:$rc))],
+                  IIAlu>, Requires<[HasSlt]> {
+
+}
 
 def jmptarget    : Operand<OtherVT>{
     let EncoderMethod = "getJumpTargetOpValue";
@@ -527,7 +544,11 @@ def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 //Unconditional branch
 def BRAN       : UncondBranch<0x1c, "bran">;
 
+let Predicates = [HasCmp] in {
+def CMP        : CmpInstr<0x0b, "cmp", IIAlu, SDICRegs, SDICRegs, 0>;
+}
 
+def AND         : ArithLogicR<0x02, "andwf", and, IIAlu, SDICRegs, 1>;
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;

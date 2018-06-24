@@ -383,6 +383,7 @@ class SetCC_I<bits<6> op, string instr_asm, PatFrag cond_op, Operand Od,
 
 
 
+
 def jmptarget    : Operand<OtherVT>{
     let EncoderMethod = "getJumpTargetOpValue";
     let OperandType = "OPERAND_PCREL";
@@ -572,7 +573,8 @@ def XORWF       :  ArithLogicR<0x17, "xorwf", xor, IIAlu, SDICRegs, 1>;
 def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 //BSF
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
-
+//CPFSEQ
+def CPFSEQ      : ArithLogicR<0x0b, "cpfseq", cmp, IIAlu, SDICRegs, 1>;
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;
@@ -666,10 +668,10 @@ def : Pat<(i32 imm:$imm),
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
 def :  Pat<(seteq RC:$lhs, RC:$rhs),
-                  (BSF (CPFSEQ RC:$lsh, RC:$rhs))>;
+                  (BSF (CMP RC:$lsh, RC:$rhs))>;
 //A != B
 def :  Pat<(setne RC:$lhs, RC:$rhs),
-                  (BSF (CPFSEQ RC:$lsh, RC:$rhs))>;
+                  (BSF (CMP RC:$lsh, RC:$rhs))>;
 
 }
 
@@ -685,5 +687,11 @@ def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
 
 //def : Pat<(brcond RC:$cond, bb:$dst),
 //                  (JNEOp (CMPOp RC:$cond, ZEROReg), bb:$dst)>;
+
+}
+
+let Predicates = [HasCmp] in {
+defm : SeteqPatsCmp<SDICRegs>;
+
 
 }

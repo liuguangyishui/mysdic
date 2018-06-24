@@ -549,7 +549,7 @@ def CMP        : CmpInstr<0x0b, "cmp", IIAlu, SDICRegs, SDICRegs, 0>;
 }
 
 def Andwf         : ArithLogicR<0x02, "andwf", and, IIAlu, SDICRegs, 1>;
-def Andlw       : ArithLogicI<0x03, "andlw", and, IIAlu, simm8, immSExt8, SDICRegs>;
+def Andlw       : ArithLogicI<0x03, "andlw", and, simm8, immSExt8, SDICRegs>;
 
 def OR          : ArithLogicR<0x0c, "iorwf", or, IIAlu, SDICRegs, 1>;
 

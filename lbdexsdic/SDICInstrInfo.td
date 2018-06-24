@@ -549,6 +549,9 @@ def CMP        : CmpInstr<0x0b, "cmp", IIAlu, SDICRegs, SDICRegs, 0>;
 }
 
 def AND         : ArithLogicR<0x02, "andwf", and, IIAlu, SDICRegs, 1>;
+def AND         : ArithLogicI<0x03, "andlw", and, IIAlu, simm8, immSExt8, SDICRegs>;
+
+def OR          : ArithLogicR<0x0c, "iorwf", or, IIAlu, SDICRegs, 1>;
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;

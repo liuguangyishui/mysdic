@@ -214,7 +214,7 @@ let Predicates = [Ch3_3] in {
 class ArithLogicR<bits<6> op, string instr_asm, SDNode OpNode,
       InstrItinClass itin, RegisterClass RC, bit isComm = 0>:
    FF<op, (outs GPROut:$ra), (ins RC:$rb, RC:$rc),
-          !strconcat(instr_asm, "\t$ra, $rb, $rc"),
+          !strconcat(instr_asm, "\t$ra, $rb, $rc"), //留$rb
    [(set GPROut:$ra, (OpNode RC:$rb, RC:$rc))], itin> {
            let shamt = 0;
            let isCommutable = isComm;
@@ -228,7 +228,7 @@ class ArithLogicR<bits<6> op, string instr_asm, SDNode OpNode,
 class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
                   Operand Od, PatLeaf imm_type, RegisterClass RC> :
   FA<op, (outs GPROut:$ra), (ins RC:$rb, Od:$rc),
-     !strconcat(instr_asm, "\t$ra, $rb, $rc"),
+     !strconcat(instr_asm, "\t$ra, $rb, $rc"), //留$rc
      [(set GPROut:$ra, (OpNode RC:$rb, imm_type:$rc))], IIAlu> {
   let isReMaterializable = 1;
 }
@@ -351,6 +351,15 @@ class CmpInstr<bits<6> op, string instr_asm,
 
               }
 
+class CtrInstr<bits<6> op, string instr_asm, InstrItinClass itin,
+              RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
+                  FA<op, (outs RD:$ra), (ins RC:$rb, Od:$rc),
+                  !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin> {
+
+                  }
+ 
+
+
 //SetCC
 class SetCC_R<bits<6> op, string instr_asm, PatFrag cond_op, RegisterClass RC>:
                       FA<op, (outs GPROut:$ra), (ins RC:$rb, RC:$rc),
@@ -368,6 +377,11 @@ class SetCC_I<bits<6> op, string instr_asm, PatFrag cond_op, Operand Od,
                   IIAlu>, Requires<[HasSlt]> {
 
 }
+
+class 
+
+
+
 
 def jmptarget    : Operand<OtherVT>{
     let EncoderMethod = "getJumpTargetOpValue";
@@ -547,11 +561,18 @@ def BRAN       : UncondBranch<0x1c, "bran">;
 let Predicates = [HasCmp] in {
 def CMP        : CmpInstr<0x0b, "cmp", IIAlu, SDICRegs, SDICRegs, 0>;
 }
+//AND
+def ANDWF       : ArithLogicR<0x02, "andwf", and, IIAlu, SDICRegs, 1>;
+def ANDLW       : ArithLogicI<0x29, "andlw", and, simm8, immSExt8, SDICRegs>;
+//OR
+def IORWF       : ArithLogicR<0x0c, "iorwf", or, IIAlu, SDICRegs, 1>;
+def IORLW       : ArithLogicI<0x2a, "iorlw", or, simm8, immSExt8, SDICRegs>;
+//XOR
+def XORWF       :  ArithLogicR<0x17, "xorwf", xor, IIAlu, SDICRegs, 1>;
+def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
+//BSF
+def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 
-def Andwf         : ArithLogicR<0x02, "andwf", and, IIAlu, SDICRegs, 1>;
-def Andlw       : ArithLogicI<0x03, "andlw", and, simm8, immSExt8, SDICRegs>;
-
-def OR          : ArithLogicR<0x0c, "iorwf", or, IIAlu, SDICRegs, 1>;
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;
@@ -641,6 +662,18 @@ let Predicates = [Ch3_3] in {
 def : Pat<(i32 imm:$imm),
                 (ORi (LUi (HI16 imm:$imm)), (LO16 imm:$imm))>;
     } // let Predicates = [Ch3_4]
+
+multiclass SeteqPatsCmp<RegisterClass RC>{
+//A == B
+def :  Pat<(seteq RC:$lhs, RC:$rhs),
+                  (BSF (CPFSEQ RC:$lsh, RC:$rhs))>;
+//A != B
+def :  Pat<(setne RC:$lhs, RC:$rhs),
+                  (BSF (CPFSEQ RC:$lsh, RC:$rhs))>;
+
+}
+
+
 
 
 multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,

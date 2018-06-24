@@ -378,7 +378,7 @@ class SetCC_I<bits<6> op, string instr_asm, PatFrag cond_op, Operand Od,
 
 }
 
-class 
+
 
 
 

@@ -81,6 +81,10 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   setOperationAction(ISD::MUL, MVT::i32, Custom);
   setOperationAction(ISD::SDIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);
+
+
+
+  
   // setOperationAction(ISD::STORE, MVT::i32, Custom);
    
 
@@ -91,6 +95,16 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   //   setOperationAction(ISD::LOAD, MVT::i32, Expand);
   // Operations not directly supported by SDIC.
 
+
+  setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::i1 , Expand);
+  setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::i8 , Expand);
+  setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::i16 , Expand);
+  setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::i32 , Expand);
+  setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::Other , Expand);
+  
+
+
+  
   //setTargetDAGCombine(ISD::ADD);
   //- Set .align 2
 // It will emit .align 2 later

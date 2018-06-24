@@ -668,10 +668,10 @@ def : Pat<(i32 imm:$imm),
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
 def :  Pat<(seteq RC:$lhs, RC:$rhs),
-                  (BSF (CMP RC:$lsh, RC:$rhs),1)>;
+                  (BSF (CMP RC:$lhs, RC:$rhs),1)>;
 //A != B
 def :  Pat<(setne RC:$lhs, RC:$rhs),
-                  (BSF (CMP RC:$lsh, RC:$rhs),1)>;
+                  (BSF (CMP RC:$lhs, RC:$rhs),1)>;
 
 }
 

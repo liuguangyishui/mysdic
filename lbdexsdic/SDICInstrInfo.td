@@ -357,7 +357,7 @@ class CtrInstr<bits<6> op, string instr_asm, InstrItinClass itin,
                   !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin> {
 
                   }
- class CtrInstr_BTFSC<bits<6> op, string instr_asm, InstrItinClass Itin,
+class CtrInstr_BTFSC<bits<6> op, string instr_asm, InstrItinClass itin,
                      RegisterClass RC, Operand Od, PatLeaf imm_type>:
                         FA<op, (outs), (ins RC:$rb, Od:$rc),
                         !strconcat(instr_asm, "\t$rb, $rc"), [], itin> {

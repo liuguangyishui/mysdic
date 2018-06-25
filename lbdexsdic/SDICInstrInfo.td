@@ -693,7 +693,7 @@ multiclass  SetltPatsCmp<RegisterClass RC> {
 //A <= B
 multiclass  SetlePatsCmp<RegisterClass RC> {
     def :  Pat<(setle RC:$lhs, RC:$rhs),
-                  (BTFSC (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1), 1)>
+                  (BTFSC (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1), 1)>;
                   }
 
 multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,

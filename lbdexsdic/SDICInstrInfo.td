@@ -582,7 +582,7 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 }
-def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SRSDICRegs, SDICRegs, simm8, immSExt8>;
+def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 
 //CPFSEQ
 //def CPFSEQ      : ArithLogicR<0x0b, "cpfseq", cmp, IIAlu, SDICRegs, 1>;

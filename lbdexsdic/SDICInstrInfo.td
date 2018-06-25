@@ -583,7 +583,7 @@ let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 }
 //def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
-def BTFSC       :  CtrInstr_BTFSC<0x1a, "btfsc", IIAlu, SDICRegs, simm8, immSExt8>;
+def BTFSC       :  CtrInstr_BTFSC<0x1a, "btfsc", IIAlu, SR, simm8, immSExt8>;
 
 //CPFSEQ
 //def CPFSEQ      : ArithLogicR<0x0b, "cpfseq", cmp, IIAlu, SDICRegs, 1>;

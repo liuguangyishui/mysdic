@@ -357,7 +357,12 @@ class CtrInstr<bits<6> op, string instr_asm, InstrItinClass itin,
                   !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin> {
 
                   }
- 
+ class CtrInstr_BTFSC<bits<6> op, string instr_asm, InstrItinClass Itin,
+                     RegisterClass RC, Operand Od, PatLeaf imm_type>:
+                        FA<op, (outs), (ins RC:$rb, Od:$rc),
+                        !strconcat(instr_asm, "\t$rb, $rc"), [], itin> {
+                        let ra = 0;
+                        }
 
 
 //SetCC
@@ -577,7 +582,7 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 }
-def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
+def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SRSDICRegs, SDICRegs, simm8, immSExt8>;
 
 //CPFSEQ
 //def CPFSEQ      : ArithLogicR<0x0b, "cpfseq", cmp, IIAlu, SDICRegs, 1>;
@@ -701,6 +706,7 @@ def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
 
 let Predicates = [HasCmp] in {
 defm : SeteqPatsCmp<SDICRegs>;
+defm : SetltPatsCmp<SDICRegs>;
 
 
 }

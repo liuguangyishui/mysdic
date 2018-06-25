@@ -345,7 +345,7 @@ class CmpInstr<bits<6> op, string instr_asm,
                        InstrItinClass itin, RegisterClass RC, RegisterClass RD,
                        bit isComm = 0>:
               FA<op, (outs RD:$ra), (ins RC:$rb, RC:$rc),
-              !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin> {
+              !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin> { //留的是$rb
               let isCommutable = isComm;
               let Predicates = [HasCmp];
 
@@ -541,7 +541,9 @@ def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf",  SDICRegs>;
 def ADDLW   : K_Link<SDICAddwfrr, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
 //SUB
-def SUBwf   : FDA_Link<SDICSubwf, 0x16, "subwf",  SDICRegs>;
+def SUBwf   : FDA_Link<SDICSubwf, 0x14, "subwf",  SDICRegs>;
+//SUBWFB 带借位的减法
+def SUBwfb  : FDA_Link<SDICSubwf, 0x15, "subwfb", SDICRegs>;
 
 
 def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;
@@ -560,7 +562,7 @@ def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 def BRAN       : UncondBranch<0x1c, "bran">;
 
 let Predicates = [HasCmp] in {
-def CMP        : CmpInstr<0x0b, "cmp", IIAlu, SDICRegs, SDICRegs, 0>;
+def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
 }
 //AND
 def ANDWF       : ArithLogicR<0x02, "andwf", and, IIAlu, SDICRegs, 1>;
@@ -575,6 +577,8 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 }
+def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
+
 //CPFSEQ
 //def CPFSEQ      : ArithLogicR<0x0b, "cpfseq", cmp, IIAlu, SDICRegs, 1>;
 
@@ -670,13 +674,17 @@ def : Pat<(i32 imm:$imm),
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),
-                  (BSF (CMP RC:$lhs, RC:$rhs), 2)>;
+                  (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1)>;
 //A != B
     def :  Pat<(setne RC:$lhs, RC:$rhs),
-                  (BSF (CMP RC:$lhs, RC:$rhs), 2)>;
+                  (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1)>;
 }
+//A < B
+multiclass  SetltPatsCmp<RegisterClass RC> {
+    def :  Pat<(setlt RC:$lhs, RC:$rhs),
+                   (BTFSC (SUBwfb RC:$lhs, RC:$rhs), 0)>;
 
-
+}
 
 
 multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,

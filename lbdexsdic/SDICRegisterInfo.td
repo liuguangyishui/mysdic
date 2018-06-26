@@ -52,10 +52,10 @@ let Namespace = "SDIC" in {
                 def R9  : SDICGPRReg<9, "r9">, DwarfRegNum<[9]>;
                 def R10  : SDICGPRReg<10, "r10">, DwarfRegNum<[10]>;
                 def R11  : SDICGPRReg<11, "r11">, DwarfRegNum<[11]>;
-                def R10  : SDICGPRReg<12, "r12">, DwarfRegNum<[12]>;
-                def R10  : SDICGPRReg<13, "r13">, DwarfRegNum<[13]>;
-                def R10  : SDICGPRReg<14, "r14">, DwarfRegNum<[14]>;
-                def R10  : SDICGPRReg<15, "r15">, DwarfRegNum<[15]>;
+                def R12  : SDICGPRReg<12, "r12">, DwarfRegNum<[12]>;
+                def R13  : SDICGPRReg<13, "r13">, DwarfRegNum<[13]>;
+                def R14  : SDICGPRReg<14, "r14">, DwarfRegNum<[14]>;
+                def R15  : SDICGPRReg<15, "r15">, DwarfRegNum<[15]>;
                 def R17 : SDICGPRReg<17, "r17">, DwarfRegNum<[17]>;
                 def WREG : SDICReg<0, "wreg">, DwarfRegNum<[260]>;
                 //×´Ì¬Ö¸Ê¾¼Ä´æÆ÷

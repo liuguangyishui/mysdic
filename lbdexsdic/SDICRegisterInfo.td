@@ -40,7 +40,7 @@ let Namespace = "SDIC" in {
         foreach i=0-15 in {
                 def R#i : SDICGPRReg<i, "r"#i>, DwarfRegNum<[i]>;
                 }
-                def R17 : SDICGPRReg<i, "r17">, DwarfRegNum<[17]>;
+                def R17 : SDICGPRReg<17, "r17">, DwarfRegNum<[17]>;
                 def WREG : SDICReg<0, "wreg">, DwarfRegNum<[260]>;
                 //×´Ì¬Ö¸Ê¾¼Ä´æÆ÷
                 //def STATUS : SDICReg<17, "status">, DwarfRegNum<[261]>;

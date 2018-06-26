@@ -359,7 +359,7 @@ class CtrInstr<bits<6> op, string instr_asm, InstrItinClass itin,
                   }
 class CtrInstr_BTFSC<bits<6> op, string instr_asm, InstrItinClass itin,
                      RegisterClass RC, Operand Od, PatLeaf imm_type>:
-                        FA<op, (outs RC:$ra), (ins RC:$rb, Od:$rc),
+                        FA<op, (outs RC:$ra), (Od:$rc),
                         !strconcat(instr_asm, "\t$rb, $rc"), [], itin> {
                         let ra = 0;
                         }

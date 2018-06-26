@@ -68,7 +68,7 @@ def SDICRegs : RegisterClass<"SDIC", [i32], 32, (add
     STATUS, STKPTR, FSR0L, FSR2L, TOSL )>;
 
 //@Status Register Class
-def SR : RegisterClass<"SDIC", [i32], 32, (add (sub SDICRegs, STATUS, R9, R10, R11, R12)>;
+def SR : RegisterClass<"SDIC", [i32], 32, (add (sub SDICRegs, STATUS, R9, R10, R11, R12))>;
 
 //@Co-processor 0 Registers Class
 def C0Regs : RegisterClass<"SDIC", [i32], 32, (add PCL)>;

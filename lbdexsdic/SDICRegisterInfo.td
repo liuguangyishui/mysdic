@@ -42,7 +42,8 @@ let Namespace = "SDIC" in {
                 }
                 def WREG : SDICReg<0, "wreg">, DwarfRegNum<[260]>;
                 //×´Ì¬Ö¸Ê¾¼Ä´æÆ÷
-                def STATUS : SDICReg<17, "status">, DwarfRegNum<[261]>;
+                //def STATUS : SDICReg<17, "status">, DwarfRegNum<[261]>;
+                def STATUS : SDICGPRReg<17, "status">, DwarfRegNum<[17]>;
                 //¶ÑÕ»Ö¸Ê¾¼Ä´æÆ÷
                 def STKPTR : SDICReg<2, "stkptr">, DwarfRegNum<[262]>;
                 //¼ä½ÓÑ°Ö·¼Ä´æÆ÷
@@ -68,7 +69,7 @@ def SDICRegs : RegisterClass<"SDIC", [i32], 32, (add
     STATUS, STKPTR, FSR0L, FSR2L, TOSL )>;
 
 //@Status Register Class
-def SR : RegisterClass<"SDIC", [i32], 32, (add STATUS, R6,R7, R10, R11, R12)>;
+def SR : RegisterClass<"SDIC", [i32], 32, (add STATUS)>;//, R6,R7, R10, R11, R12)>;
 
 //@Co-processor 0 Registers Class
 def C0Regs : RegisterClass<"SDIC", [i32], 32, (add PCL)>;

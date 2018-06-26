@@ -37,9 +37,20 @@ let Namespace = "SDIC" in {
     //@ General Purpose Registers
 
     //循环定义256个通用寄存器
-        foreach i=0-15 in {
+       /* foreach i=0-15 in {
                 def R#i : SDICGPRReg<i, "r"#i>, DwarfRegNum<[i]>;
-                }
+                }*/
+                def R0  : SDICGPRReg<0, "r0">, DwarfRegNum<[0]>;
+                def R1  : SDICGPRReg<1, "r1">, DwarfRegNum<[1]>;
+                def R2  : SDICGPRReg<2, "r2">, DwarfRegNum<[2]>;
+                def R3  : SDICGPRReg<3, "r3">, DwarfRegNum<[3]>;
+                def R4  : SDICGPRReg<4, "r4">, DwarfRegNum<[4]>;
+                def R5  : SDICGPRReg<5, "r5">, DwarfRegNum<[5]>;
+                def R6  : SDICGPRReg<6, "r6">, DwarfRegNum<[6]>;
+                def R7  : SDICGPRReg<7, "r7">, DwarfRegNum<[7]>;
+                def R8  : SDICGPRReg<8, "r8">, DwarfRegNum<[8]>;
+                def R9  : SDICGPRReg<9, "r9">, DwarfRegNum<[9]>;
+                def R10  : SDICGPRReg<10, "r10">, DwarfRegNum<[10]>;
                 def R17 : SDICGPRReg<17, "r17">, DwarfRegNum<[17]>;
                 def WREG : SDICReg<0, "wreg">, DwarfRegNum<[260]>;
                 //状态指示寄存器
@@ -65,8 +76,8 @@ let Namespace = "SDIC" in {
 def SDICRegs : RegisterClass<"SDIC", [i32], 32, (add
     R0,  R1,  R2,  R3,
     R4,  R5,  R6,  R7, 
-    R8,  R9,  R10, R11,
-    R12, R13, R14, R15,
+    R8,//  R9,  R10, R11,
+   // R12, R13, R14, R15,
     R17,
     STATUS, STKPTR, FSR0L, FSR2L, TOSL )>;
 

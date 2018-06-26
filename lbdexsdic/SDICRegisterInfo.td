@@ -38,12 +38,12 @@ let Namespace = "SDIC" in {
 
     //循环定义256个通用寄存器
         foreach i=0-15 in {
-                def R#i : SDICGPRReg<i, "r"#i>, DwarfRegNum<[i]>;
+                def VR#i : SDICGPRReg<i, "vr"#i>, DwarfRegNum<[i]>;
                 }
                 def WREG : SDICReg<0, "wreg">, DwarfRegNum<[260]>;
                 //状态指示寄存器
                 //def STATUS : SDICReg<17, "status">, DwarfRegNum<[261]>;
-                def STATUS : SDICGPRReg<16, "status">, DwarfRegNum<[16]>;
+                def SW : SDICGPRReg<16, "sw">, DwarfRegNum<[16]>;
                 //堆栈指示寄存器
                 def STKPTR : SDICReg<2, "stkptr">, DwarfRegNum<[262]>;
                 //间接寻址寄存器

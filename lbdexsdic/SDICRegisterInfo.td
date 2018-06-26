@@ -38,7 +38,7 @@ let Namespace = "SDIC" in {
 
     //循环定义256个通用寄存器
         foreach i=0-15 in {
-                def VR#i : SDICGPRReg<i, "vr"#i>, DwarfRegNum<[i]>;
+                def R#i : SDICGPRReg<i, "r"#i>, DwarfRegNum<[i]>;
                 }
                 def WREG : SDICReg<0, "wreg">, DwarfRegNum<[260]>;
                 //状态指示寄存器

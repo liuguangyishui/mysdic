@@ -679,7 +679,7 @@ def : Pat<(i32 imm:$imm),
 
 multiclass SLOperator<RegisterClass RC>{
 
-def : Pat<(load RC:$lhs,  frameindex:$rhs),
+def : Pat<(load  frameindex:$rhs,RC:$lhs ),
                 (CPFSEQ RC:$lhs)>;
 }
 multiclass SeteqPatsCmp<RegisterClass RC>{

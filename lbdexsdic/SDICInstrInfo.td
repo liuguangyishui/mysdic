@@ -677,9 +677,9 @@ def : Pat<(i32 imm:$imm),
                 (ORi (LUi (HI16 imm:$imm)), (LO16 imm:$imm))>;
     } // let Predicates = [Ch3_4]
 
-multiclass SLOperator<RegisterClass RC, addr MemOpnd>{
+multiclass SLOperator<RegisterClass RCd>{
 
-def : Pat<(load RC:$lhs, MemOpnd:$rhs),
+def : Pat<(load RC:$lhs, RC:$rhs),
                 (Movf RC:$lhs)>;
 }
 multiclass SeteqPatsCmp<RegisterClass RC>{

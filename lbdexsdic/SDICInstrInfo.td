@@ -345,7 +345,7 @@ class CmpInstr<bits<6> op, string instr_asm,
                        InstrItinClass itin, RegisterClass RC, RegisterClass RD,
                        bit isComm = 0>:
               FA<op, (outs RD:$ra), (ins RC:$rb, RC:$rc),
-              !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin> { //留的是$rb
+              !strconcat(instr_asm, "\t$rb, $rc"), [], itin> {//"\t$ra, $rb, $rc" 留的是$rb
               let isCommutable = isComm;
               let Predicates = [HasCmp];
 
@@ -534,8 +534,8 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 
 /// Load and Store Instructions
 ///  aligned
-defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
-defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
+//defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
+//defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 
 
 
@@ -677,13 +677,18 @@ def : Pat<(i32 imm:$imm),
                 (ORi (LUi (HI16 imm:$imm)), (LO16 imm:$imm))>;
     } // let Predicates = [Ch3_4]
 
+multiclass SLOperator<RegisterClass RC, Operand MemOpnd>{
+
+def : Pat<(load RC:$lhs, MemOpnd:$rhs),
+                (Movf RC:$lhs, MemOpnd:$rhs)>;
+}
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),
                   (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1)>;
 //A != B
     def :  Pat<(setne RC:$lhs, RC:$rhs),
-                  (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1)>;
+                  (BSF (CPFSEQ  RC:$lhs, RC:$rhs), 1)>;
 }
 //A < B
 multiclass  SetltPatsCmp<RegisterClass RC> {
@@ -694,6 +699,7 @@ multiclass  SetltPatsCmp<RegisterClass RC> {
 multiclass  SetlePatsCmp<RegisterClass RC> {
     def :  Pat<(setle RC:$lhs, RC:$rhs),
                   (BTFSC (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1), 1)>;
+                  
                   }
 
 multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,

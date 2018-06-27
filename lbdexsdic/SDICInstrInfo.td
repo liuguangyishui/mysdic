@@ -535,7 +535,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 /// Load and Store Instructions
 ///  aligned
 //defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
-//defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
+defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 
 
 
@@ -680,7 +680,7 @@ def : Pat<(i32 imm:$imm),
 multiclass SLOperator<RegisterClass RC, Operand MemOpnd>{
 
 def : Pat<(load RC:$lhs, MemOpnd:$rhs),
-                (Movf RC:$lhs, MemOpnd:$rhs)>;
+                (Movf RC:$lhs)>;
 }
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B

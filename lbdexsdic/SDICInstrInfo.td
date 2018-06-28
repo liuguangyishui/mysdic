@@ -415,7 +415,7 @@ class UncondBranch<bits<6> op, string instr_asm>:
                            let hasDelaySlot = 0;
                               }
 
-class CBranch24<bits<8> op, string instr_asm, RegisterClass RC,
+class CBranch24<bits<6> op, string instr_asm, RegisterClass RC,
                         list<Register> UseRegs>:
                     FJ<op, (outs), (ins RC:$ra, brtarget24:$addr),
                        !strconcat(instr_asm, "\t$ra, $addr"),

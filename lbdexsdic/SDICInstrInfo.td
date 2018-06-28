@@ -406,7 +406,14 @@ class UncondBranch<bits<6> op, string instr_asm>:
                            let hasDelaySlot = 0;
                               }
 
-
+class CBranch24<bits<8> op, string instr_asm, RegisterClass RC,
+                        list<Register> UseRegs>:
+                    FJ<op, (outs), (ins RC:$ra, brtarget24:$addr),
+                        [], IIBranch>, Requires<[HasCmp]> {
+                        let isBranch = 1;
+                        let isTerminator = 1;
+                        let hasDelaySlot = 1;
+                        }
 
 
 
@@ -587,6 +594,10 @@ def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>
 //BRA
 def BRA         :  UncondBranch<0x1c, "bra">;
 
+let Predicates = [HasCmp] in {
+def JNE        :  CBranch24<0x1d, "jne", SR, [R9]>;
+}
+
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;
@@ -702,12 +713,12 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   
                   }
 
-multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction BRANOp,
+multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,
            Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
            Instruction CPFSEQOp> {
 
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRANOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
+                  (JNEOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
 
 //def : Pat<(brcond RC:$cond, bb:$dst),
 //                  (JNEOp (CMPOp RC:$cond, ZEROReg), bb:$dst)>;
@@ -718,5 +729,6 @@ let Predicates = [HasCmp] in {
 defm : SeteqPatsCmp<SDICRegs>;
 defm : SetltPatsCmp<SDICRegs>;
 
+defm : BrandPatsCMp<SDICRegs>;
 
 }

@@ -534,7 +534,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 
 /// Load and Store Instructions
 ///  aligned
-//defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
+defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
 defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 
 
@@ -584,9 +584,9 @@ def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSE
 }
 //def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>;
+//BRA
+def BRA         :  UncondBranch<0x1c, "bra">;
 
-//CPFSEQ
-//def CPFSEQ      : ArithLogicR<0x0b, "cpfseq", cmp, IIAlu, SDICRegs, 1>;
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;

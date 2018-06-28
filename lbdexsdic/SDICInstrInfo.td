@@ -605,7 +605,7 @@ def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>
 def BRA         :  UncondBranch<0x1c, "bra">;
 
 let Predicates = [HasCmp] in {
-def JNE        :  CBranch24<0x1d, "jne", SR, [R9]>;
+def JNE        :  CBranch24<0x1d, "jne", SDICRegs, [R9]>;
 }
 
 

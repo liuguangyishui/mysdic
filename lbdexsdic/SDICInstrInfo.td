@@ -184,6 +184,15 @@ def addr :
 
 
 
+def brtarget24     :  Operand<OtherVT> {
+    let EncoderMethod = "getBranch24TargetOpValue";
+    let OperandType = "OPERAND_PCREL";
+    let DecoderMethod = "DecodeBranch24Target";
+    }
+
+
+
+
 //===----------------------------------------------------------------------===//
 // Pattern fragment for load/store
 //===----------------------------------------------------------------------===//

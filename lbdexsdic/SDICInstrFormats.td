@@ -266,7 +266,9 @@ class FJ<bits<6> op, dag outs, dag ins, string asmstr,
                      SDICInst<outs, ins, asmstr, pattern, itin, FrmJ>
                      {
 
-
+                     bits<10> addr;
+                     let Opcode = op;
+                     let Inst{9-0} = addr;
 
                      }
 

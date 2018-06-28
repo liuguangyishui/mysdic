@@ -95,6 +95,8 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
   //   setOperationAction(ISD::LOAD, MVT::i32, Expand);
   // Operations not directly supported by SDIC.
 
+  setOperationAction(ISD::BR_CC,             MVT::i32,  Expand);
+
 
   setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::i1 , Expand);
   setOperationAction(ISD::SIGN_EXTEND_INREG, MVT::i8 , Expand);

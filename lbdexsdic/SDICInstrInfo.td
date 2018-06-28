@@ -617,7 +617,7 @@ def Pesuo_None     : AriSDICPseudo_None<SDICPesuo_None, "Pesuo_None", SDICRegs>;
 
 
 let Predicates = [Ch3_3] in {
-    def ORi     : ArithLogicI<0x1d, "ori", or, uimm16, immZExt16, SDICRegs>;
+    def ORi     : ArithLogicI<0x1e, "ori", or, uimm16, immZExt16, SDICRegs>;
 }
 
 let Predicates = [Ch3_3] in {

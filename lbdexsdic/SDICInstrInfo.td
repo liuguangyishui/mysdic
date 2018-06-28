@@ -731,8 +731,8 @@ multiclass BrcondPatsCmp<RegisterClass RC,  Instruction JNEOp,  Instruction CPFS
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (JNEOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
                   
-//def : Pat<(brcond RC:$cond, bb:$dst),
-//                  (JNEOp (CPFSEQOp RC:$cond, RC:), bb:$dst)>;
+def : Pat<(brcond RC:$cond, bb:$dst),
+                  (JNEOp (CPFSEQOp RC:$cond, R6), bb:$dst)>;
 
 }
 

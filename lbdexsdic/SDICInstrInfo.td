@@ -729,9 +729,9 @@ multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,
 
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (JNEOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
-
-//def : Pat<(brcond RC:$cond, bb:$dst),
-//                  (JNEOp (CMPOp RC:$cond, ZEROReg), bb:$dst)>;
+                  
+def : Pat<(brcond RC:$cond, bb:$dst),
+                  (JNEOp (CPFSEQOp RC:$cond, R7), bb:$dst)>;
 
 }
 

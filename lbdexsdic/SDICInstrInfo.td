@@ -723,15 +723,16 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   
                   }
 
-multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,
-           Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
-           Instruction CPFSEQOp> {
+multiclass BrcondPatsCmp<RegisterClass RC,  Instruction JNEOp,  Instruction CPFSEQOp> {
+//             Instruction JEQOp,
+  //         Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
+    //      > {
 
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (JNEOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
                   
-def : Pat<(brcond RC:$cond, bb:$dst),
-                  (JNEOp (CPFSEQOp RC:$cond, SDICRegs), bb:$dst)>;
+//def : Pat<(brcond RC:$cond, bb:$dst),
+//                  (JNEOp (CPFSEQOp RC:$cond, RC:), bb:$dst)>;
 
 }
 
@@ -741,4 +742,7 @@ defm : SetltPatsCmp<SDICRegs>;
 
 
 
+}
+let Predicates = [HasCmp] in {
+defm : BrcondPatsCmp<SDICRegs, JNE, CPFSEQ>;
 }

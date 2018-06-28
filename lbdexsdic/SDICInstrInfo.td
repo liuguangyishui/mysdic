@@ -702,12 +702,12 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   
                   }
 
-multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction JNEOp,
+multiclass BrandPatsCmp<RegisterClass RC, Instruction JEQOp, Instruction BRANOp,
            Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
-           Instruction CMPOp> {
+           Instruction CPFSEQOp> {
 
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
-                  (JNEOp (CMPOp RC:$lhs, RC:$rhs), bb:$dst)>;
+                  (BRANOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
 
 //def : Pat<(brcond RC:$cond, bb:$dst),
 //                  (JNEOp (CMPOp RC:$cond, ZEROReg), bb:$dst)>;

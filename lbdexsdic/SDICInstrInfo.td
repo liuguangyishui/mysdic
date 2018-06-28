@@ -418,6 +418,7 @@ class UncondBranch<bits<6> op, string instr_asm>:
 class CBranch24<bits<8> op, string instr_asm, RegisterClass RC,
                         list<Register> UseRegs>:
                     FJ<op, (outs), (ins RC:$ra, brtarget24:$addr),
+                       !strconcat(instr_asm, "\t$ra, $addr"),
                         [], IIBranch>, Requires<[HasCmp]> {
                         let isBranch = 1;
                         let isTerminator = 1;

@@ -739,6 +739,6 @@ let Predicates = [HasCmp] in {
 defm : SeteqPatsCmp<SDICRegs>;
 defm : SetltPatsCmp<SDICRegs>;
 
-defm : BrandPatsCMp<SDICRegs>;
+defm : BrandPatsCmp<SDICRegs>;
 
 }

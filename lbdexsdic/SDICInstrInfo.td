@@ -551,7 +551,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 
 /// Load and Store Instructions
 ///  aligned
-//defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
+defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
 defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 
 
@@ -721,7 +721,7 @@ multiclass  SetltPatsCmp<RegisterClass RC> {
 //A <= B
 multiclass  SetlePatsCmp<RegisterClass RC> {
     def :  Pat<(setle RC:$lhs, RC:$rhs),
-                  (BTFSC (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1), 1)>;
+                  (BTFSC (BSF(CPFSEQ RC:$lhs, RC:$rhs), 1), 1)>;
                   
                   }
 
@@ -733,7 +733,7 @@ multiclass BrcondPatsCmp<RegisterClass RC,  Instruction BRAOp,  Instruction CPFS
 //A == B
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
-//A < B
+//A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令
 def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 
@@ -741,6 +741,8 @@ def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
 def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 //A <= B
+def : Pat<(brcond (i32 (setle RC:$lhs, RC:$rhs)), bb:$dst),
+     (BRAOp (BTFSCOp (BRAOp (SUBwfb(CPFSEQOp RC:$lhs, RC:$rhs)), bb:$dst)), bb:$dst)>;
 
                   
 def : Pat<(brcond RC:$cond, bb:$dst),

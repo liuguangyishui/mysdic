@@ -598,8 +598,9 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 }
-//def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
+
 def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>;
+def BTFSS       :  CtrInstr<0x1b, "btfss", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 //Unconditional branch   BRA
 def BRA         :  UncondBranch<0x1c, "bra">;
 
@@ -724,16 +725,21 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   
                   }
 
-multiclass BrcondPatsCmp<RegisterClass RC,  Instruction BRAOp,  Instruction CPFSEQOp> {
+multiclass BrcondPatsCmp<RegisterClass RC,  Instruction BRAOp,  Instruction CPFSEQOp,
+                             Instruction BTFSSOp> {
 //             Instruction JEQOp,
   //         Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
     //      > {
-
+//A == B
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
+//A < B
+def : Pat<(brcond (i32 (set   RC:$lhs, RC:$rhs)), bb:$dst),
+                  (BRAOp (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
+
                   
 def : Pat<(brcond RC:$cond, bb:$dst),
-                  (JNEOp (CPFSEQOp RC:$cond, R6), bb:$dst)>;
+                  (BRAOp (CPFSEQOp RC:$cond, R6), bb:$dst)>;
 
 }
 
@@ -745,5 +751,5 @@ defm : SetltPatsCmp<SDICRegs>;
 
 }
 let Predicates = [HasCmp] in {
-defm : BrcondPatsCmp<SDICRegs, BRA, CPFSEQ>;
+defm : BrcondPatsCmp<SDICRegs, BRA, CPFSEQ, BTFSS>;
 }

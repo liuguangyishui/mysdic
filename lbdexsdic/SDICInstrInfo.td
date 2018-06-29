@@ -700,8 +700,8 @@ def : Pat<(i32 imm:$imm),
 
 multiclass SLOperator<RegisterClass RC>{
 
-def : Pat<(load RC:$lhs),
-                (Movf RC:$lhs)>;
+def : Pat<(load RC:$lhs, RC:$rhs),
+                (CPFSEQ RC:$lhs, RC:$rhs)>;
 }
 defm : SLOperator<SDICRegs>;
 

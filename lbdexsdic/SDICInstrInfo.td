@@ -734,8 +734,11 @@ multiclass BrcondPatsCmp<RegisterClass RC,  Instruction BRAOp,  Instruction CPFS
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
 //A < B
-def : Pat<(brcond (i32 (set   RC:$lhs, RC:$rhs)), bb:$dst),
+def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
+
+//A > B
+//def : Pat<(brcond (i32 (setlt
 
                   
 def : Pat<(brcond RC:$cond, bb:$dst),

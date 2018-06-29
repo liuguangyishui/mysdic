@@ -12,6 +12,7 @@
 
 #include "SDICConfig.h"
 
+#include "MCTargetDesc/SDICMCExpr.h"
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/CodeGen/MachineOperand.h"
 #include "llvm/Support/Compiler.h"
@@ -36,6 +37,10 @@ public:
   void Initialize(MCContext* C);
   void Lower(const MachineInstr *MI, MCInst &OutMI) const;
   MCOperand LowerOperand(const MachineOperand& MO, unsigned offset = 0) const;
+
+ private:
+  MCOperand LowerSymbolOperand(const MachineOperand &MO,
+			       MachineOperand MOTy, unsigned Offset) const;
 };
 }
 

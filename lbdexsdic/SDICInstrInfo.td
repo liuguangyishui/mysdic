@@ -741,8 +741,8 @@ def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
 def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 //A <= B
-def : Pat<(brcond (i32 (setle RC:$lhs, RC:$rhs)), bb:$dst),
-     (BRAOp (BTFSCOp (BRAOp (SUBwfb(CPFSEQOp RC:$lhs, RC:$rhs)), bb:$dst)), bb:$dst)>;
+//def : Pat<(brcond (i32 (setle RC:$lhs, RC:$rhs)), bb:$dst),
+//     (BRAOp (BTFSCOp (BRAOp (SUBwfb(CPFSEQOp RC:$lhs, RC:$rhs)), bb:$dst)), bb:$dst)>;
 
                   
 def : Pat<(brcond RC:$cond, bb:$dst),

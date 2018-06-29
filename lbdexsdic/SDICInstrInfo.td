@@ -703,6 +703,8 @@ multiclass SLOperator<RegisterClass RC>{
 def : Pat<(load RC:$lhs, RC:$rhs),
                 (Movf RC:$lhs)>;
 }
+defm : SLOperator<SDICRegs>;
+
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),

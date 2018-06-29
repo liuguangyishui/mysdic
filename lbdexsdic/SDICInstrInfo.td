@@ -551,7 +551,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 
 /// Load and Store Instructions
 ///  aligned
-defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
+//defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
 defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
 
 
@@ -740,6 +740,7 @@ def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
 //A > B
 def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
+//A <= B
 
                   
 def : Pat<(brcond RC:$cond, bb:$dst),

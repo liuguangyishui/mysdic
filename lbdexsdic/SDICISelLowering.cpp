@@ -89,7 +89,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
    
 
    
-  //setOperationAction(ISD::LOAD, MVT::i32, Custom);
+  setOperationAction(ISD::LOAD, MVT::i32, Custom);
 
    
   //   setOperationAction(ISD::LOAD, MVT::i32, Expand);

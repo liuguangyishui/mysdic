@@ -42,7 +42,7 @@ MCOperand SDICMCInstLower::LowerSymbolOperand(const MachineOperand &MO,
   SDICMCExpr::SDICExprKind TargetKind = SDICMCExpr::CEK_None;
   const MCSymbol *Symbol;
 
-  switch(MO.getTargetFlasg()) {
+  switch(MO.getTargetFlags()) {
   default:            llvm_unreachable("Invalid target flag!");
   case SDICII::MO_NO_FLAG:
     break;
@@ -54,7 +54,7 @@ MCOperand SDICMCInstLower::LowerSymbolOperand(const MachineOperand &MO,
     Offset += MO.getOffset();
     break;
 
-  case MachineOperand::MO_MahineBasicBlock:
+  case MachineOperand::MO_MachineBasicBlock:
     Symbol = MO.getMBB() -> getSymbol();
     break;
 

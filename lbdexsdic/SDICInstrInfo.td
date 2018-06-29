@@ -698,12 +698,12 @@ def : Pat<(i32 imm:$imm),
                 (ORi (LUi (HI16 imm:$imm)), (LO16 imm:$imm))>;
     } // let Predicates = [Ch3_4]
 
-multiclass SLOperator<RegisterClass RC, Operand Od>{
+multiclass SLOperator<RegisterClass RC>{
 
-def : Pat<(load RC:$lhs, Od:$rhs),
+def : Pat<(load RC:$lhs),
                 (Movf RC:$lhs)>;
 }
-defm : SLOperator<SDICRegs, simm8 >;
+defm : SLOperator<SDICRegs>;
 
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B

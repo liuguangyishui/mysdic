@@ -726,7 +726,7 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   }
 
 multiclass BrcondPatsCmp<RegisterClass RC,  Instruction BRAOp,  Instruction CPFSEQOp,
-                             Instruction BTFSSOp> {
+                             Instruction BTFSSOp, Instruction BTFSCOp> {
 //             Instruction JEQOp,
   //         Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
     //      > {
@@ -755,5 +755,5 @@ defm : SetltPatsCmp<SDICRegs>;
 
 }
 let Predicates = [HasCmp] in {
-defm : BrcondPatsCmp<SDICRegs, JNE, CPFSEQ, BTFSS>;
+defm : BrcondPatsCmp<SDICRegs, JNE, CPFSEQ, BTFSS, BTFSC>;
 }

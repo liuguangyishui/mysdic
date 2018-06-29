@@ -580,8 +580,7 @@ def Movf      : FDA_NoLink<SDICMovf, 0x22, "movf", SDICRegs>;
 
 def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 
-//Unconditional branch
-def BRAN       : UncondBranch<0x1c, "bran">;
+
 
 let Predicates = [HasCmp] in {
 def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
@@ -601,7 +600,7 @@ def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSE
 }
 //def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>;
-//BRA
+//Unconditional branch   BRA
 def BRA         :  UncondBranch<0x1c, "bra">;
 
 let Predicates = [HasCmp] in {
@@ -725,13 +724,13 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   
                   }
 
-multiclass BrcondPatsCmp<RegisterClass RC,  Instruction JNEOp,  Instruction CPFSEQOp> {
+multiclass BrcondPatsCmp<RegisterClass RC,  Instruction BRAOp,  Instruction CPFSEQOp> {
 //             Instruction JEQOp,
   //         Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
     //      > {
 
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
-                  (JNEOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
+                  (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
                   
 def : Pat<(brcond RC:$cond, bb:$dst),
                   (JNEOp (CPFSEQOp RC:$cond, R6), bb:$dst)>;
@@ -746,5 +745,5 @@ defm : SetltPatsCmp<SDICRegs>;
 
 }
 let Predicates = [HasCmp] in {
-defm : BrcondPatsCmp<SDICRegs, JNE, CPFSEQ>;
+defm : BrcondPatsCmp<SDICRegs, BRA, CPFSEQ>;
 }

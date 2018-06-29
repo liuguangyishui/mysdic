@@ -738,7 +738,8 @@ def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 
 //A > B
-//def : Pat<(brcond (i32 (setlt
+def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
+                  (BRAOp (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 
                   
 def : Pat<(brcond RC:$cond, bb:$dst),
@@ -754,5 +755,5 @@ defm : SetltPatsCmp<SDICRegs>;
 
 }
 let Predicates = [HasCmp] in {
-defm : BrcondPatsCmp<SDICRegs, BRA, CPFSEQ, BTFSS>;
+defm : BrcondPatsCmp<SDICRegs, JNE, CPFSEQ, BTFSS>;
 }

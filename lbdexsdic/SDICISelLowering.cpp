@@ -285,10 +285,11 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
     {
     default: printf("this is defualt");
       break;
-    case ISD::FrameIndex:
-      printf("\n this is FrameIndex");
-      return SDValue();
+      // case ISD::FrameIndex:
+      //  printf("\n this is FrameIndex");
+      //  return SDValue();
     }
+
   
   SDValue Op0 = Op.getOperand(0);
   SDValue Op1 = Op.getOperand(1);
@@ -301,7 +302,8 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
   printf("\n%u",Op1);
   printf("\n%u\n",Op2);
   // return DAG.getNode(ISD::LOAD, dl, MVT::Other, Op0, Op1, Op2, Op3);
-  return DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
+  //return DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
+  return DAG.getNode(ISD::TokenFactor, dl, MVT::Other, Op0, Op1);
 
   }
 

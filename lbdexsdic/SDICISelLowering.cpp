@@ -299,15 +299,17 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
   SDValue Lo = DAG.getLoad(MVT::i8, dl, Chain, BasePtr,
     MachinePointerInfo(), LD->isVolatile(), LD->isNonTemporal(),
     LD->isInvariant(), LD->getAlignment());
-   SDValue HighAddr = DAG.getNode(ISD::ADD, dl, MVT::i16, BasePtr,
+
+  SDValue HighAddr = DAG.getNode(ISD::ADD, dl, MVT::i16, BasePtr,
     DAG.getConstant(1, MVT::i16));
+
    SDValue Hi = DAG.getLoad(MVT::i8, dl, Chain, HighAddr,
     MachinePointerInfo(), LD->isVolatile(), LD->isNonTemporal(),
     LD->isInvariant(), LD->getAlignment());
 
   // return DAG.getNode(ISD::LOAD, dl, MVT::Other, Op0, Op1, Op2, Op3);
   //return DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
-   return DAG.getNode(ISD::TokenFactor, dl, MVT::Other, LO.getValue(1), Hi.getValue(1));
+   return DAG.getNode(ISD::TokenFactor, dl, MVT::Other, Lo.getValue(1), Hi.getValue(1));
 
   }
 

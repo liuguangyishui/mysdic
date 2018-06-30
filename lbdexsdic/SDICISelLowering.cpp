@@ -89,7 +89,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
    
 
    
-  // setOperationAction(ISD::LOAD, MVT::i32, Custom);
+   setOperationAction(ISD::LOAD, MVT::i32, Custom);
 
    
   //   setOperationAction(ISD::LOAD, MVT::i32, Expand);
@@ -133,7 +133,7 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
     case ISD::SDIV:   return LowerDIV(Op, DAG);
 
     case ISD::SUB:   return LowerSUB(Op, DAG);
-      //  case ISD::LOAD:  return LowerLOAD(Op, DAG);
+       case ISD::LOAD:  return LowerLOAD(Op, DAG);
 
       
       //  case ISD::STORE: return LowerSTORE(Op, DAG);
@@ -284,7 +284,7 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
   printf("\n the Op0 is %u",Op0);
   printf("\n%u",Op1);
   printf("\n%u\n",Op2);
-  return DAG.getNode(SDICISD::Pesuo_None, dl, MVT::Other, Op1);
+  return DAG.getNode(ISD::LOAD, dl, MVT::Other, Op1);
 
   }
 

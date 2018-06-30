@@ -285,8 +285,8 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
     {
     default: printf("this is defualt");
       break;
-      // case ISD::FrameIndex:
-      //  printf("\n this is FrameIndex");
+      //  case ISD::FrameIndex:
+      //   printf("\n this is FrameIndex");
       //  return SDValue();
     }
 
@@ -296,14 +296,18 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
   SDValue Op2 = Op.getOperand(2);
   SDValue Op3 = Op.getOperand(3);
 
-  
-  
-  printf("\n the Op0 is %u",Op0);
-  printf("\n%u",Op1);
-  printf("\n%u\n",Op2);
+  SDValue Lo = DAG.getLoad(MVT::i8, dl, Chain, BasePtr,
+    MachinePointerInfo(), LD->isVolatile(), LD->isNonTemporal(),
+    LD->isInvariant(), LD->getAlignment());
+   SDValue HighAddr = DAG.getNode(ISD::ADD, dl, MVT::i16, BasePtr,
+    DAG.getConstant(1, MVT::i16));
+   SDValue Hi = DAG.getLoad(MVT::i8, dl, Chain, HighAddr,
+    MachinePointerInfo(), LD->isVolatile(), LD->isNonTemporal(),
+    LD->isInvariant(), LD->getAlignment());
+
   // return DAG.getNode(ISD::LOAD, dl, MVT::Other, Op0, Op1, Op2, Op3);
   //return DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
-  return DAG.getNode(ISD::TokenFactor, dl, MVT::Other, Op0, Op1);
+   return DAG.getNode(ISD::TokenFactor, dl, MVT::Other, LO.getValue(1), Hi.getOp(1));
 
   }
 

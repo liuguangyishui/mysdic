@@ -288,6 +288,7 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
     case ISD::FrameIndex:
       printf("\n this is FrameIndex");
       return SDVlaue();
+    }
   
   SDValue Op0 = Op.getOperand(0);
   SDValue Op1 = Op.getOperand(1);

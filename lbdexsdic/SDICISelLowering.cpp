@@ -285,7 +285,8 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
   printf("\n the Op0 is %u",Op0);
   printf("\n%u",Op1);
   printf("\n%u\n",Op2);
-  return DAG.getNode(ISD::LOAD, dl, MVT::Other, Op0, Op1, Op2, Op3);
+  // return DAG.getNode(ISD::LOAD, dl, MVT::Other, Op0, Op1, Op2, Op3);
+  return DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
 
   }
 

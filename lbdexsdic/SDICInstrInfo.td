@@ -246,7 +246,7 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA<op,(outs GPROut:$ra), (ins RC:$rb, RC:$rc),
-                           !strconcat(instr_asm, "\t$ra  $rb  $rc"),
+                           !strconcat(instr_asm, "\t$rb  $rc"), //$ra $rb $rc
                            [(set GPROut:$ra,(OpNode  RC:$rb, RC:$rc))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
@@ -743,6 +743,9 @@ def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
 //A <= B
 def : Pat<(brcond (i32 (setge RC:$lhs, RC:$rhs)), bb:$dst),
 (BRAOp (BTFSCOp (CPFSEQOp (SUBwfb RC:$lhs, RC:$rhs), RC:$rhs), 0), bb:$dst)>;
+
+//A >= b
+//def : Pat<(brcond (i32 (set
 
              //  (BRAOp (BTFSCOp      ), bb:$dst)
 def : Pat<(brcond RC:$cond, bb:$dst),

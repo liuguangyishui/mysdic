@@ -605,7 +605,7 @@ def BTFSS       :  CtrInstr<0x1b, "btfss", IIAlu, SDICRegs, SDICRegs, simm8, imm
 def BRA         :  UncondBranch<0x1c, "bra">;
 
 let Predicates = [HasCmp] in {
-def JNE        :  CBranch24<0x1d, "jne", SDICRegs, [R9]>;
+def BRA2        :  CBranch24<0x1d, "bra", SDICRegs, [R9]>;
 }
 
 
@@ -761,5 +761,5 @@ defm : SetltPatsCmp<SDICRegs>;
 
 }
 let Predicates = [HasCmp] in {
-defm : BrcondPatsCmp<SDICRegs, JNE, CPFSEQ, BTFSS, BTFSC>;
+defm : BrcondPatsCmp<SDICRegs, BRA2, CPFSEQ, BTFSS, BTFSC>;
 }

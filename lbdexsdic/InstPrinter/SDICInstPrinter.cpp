@@ -80,7 +80,7 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
     }
     }
   //add for the load node
-  if(getOpcodeName(MI->getOpcode())== "ld")
+  if(getOpcodeName(MI->getOpcode())== "load")
     {
       if(Op.isReg())
 	{

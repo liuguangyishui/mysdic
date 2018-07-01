@@ -40,43 +40,44 @@ let Namespace = "SDIC" in {
        /* foreach i=0-15 in {
                 def R#i : SDICGPRReg<i, "r"#i>, DwarfRegNum<[i]>;
                 }*/
-                def R0  : SDICGPRReg<0, "vr0">, DwarfRegNum<[0]>;
-                def R1  : SDICGPRReg<1, "vr1">, DwarfRegNum<[1]>;
-                def R2  : SDICGPRReg<2, "vr2">, DwarfRegNum<[2]>;
-                def R3  : SDICGPRReg<3, "vr3">, DwarfRegNum<[3]>;
-                def R4  : SDICGPRReg<4, "vr4">, DwarfRegNum<[4]>;
-                def R5  : SDICGPRReg<5, "vr5">, DwarfRegNum<[5]>;
-                def R6  : SDICGPRReg<6, "vr6">, DwarfRegNum<[6]>;
-                def R7  : SDICGPRReg<7, "vr7">, DwarfRegNum<[7]>;
-                def R8  : SDICGPRReg<8, "vr8">, DwarfRegNum<[8]>;
-                def R9  : SDICGPRReg<9, "vr9">, DwarfRegNum<[9]>;
+                // 16¸öÐéÄâ¼Ä´æÆ÷
+                def R0   : SDICGPRReg<0,  "vr0">, DwarfRegNum<[0]>;
+                def R1   : SDICGPRReg<1,  "vr1">, DwarfRegNum<[1]>;
+                def R2   : SDICGPRReg<2,  "vr2">, DwarfRegNum<[2]>;
+                def R3   : SDICGPRReg<3,  "vr3">, DwarfRegNum<[3]>;
+                def R4   : SDICGPRReg<4,  "vr4">, DwarfRegNum<[4]>;
+                def R5   : SDICGPRReg<5,  "vr5">, DwarfRegNum<[5]>;
+                def R6   : SDICGPRReg<6,  "vr6">, DwarfRegNum<[6]>;
+                def R7   : SDICGPRReg<7,  "vr7">, DwarfRegNum<[7]>;
+                def R8   : SDICGPRReg<8,  "vr8">, DwarfRegNum<[8]>;
+                def R9   : SDICGPRReg<9,  "vr9">, DwarfRegNum<[9]>;
                 def R10  : SDICGPRReg<10, "vr10">, DwarfRegNum<[10]>;
                 def R11  : SDICGPRReg<11, "vr11">, DwarfRegNum<[11]>;
                 def R12  : SDICGPRReg<12, "vr12">, DwarfRegNum<[12]>;
                 def R13  : SDICGPRReg<13, "vr13">, DwarfRegNum<[13]>;
                 def R14  : SDICGPRReg<14, "vr14">, DwarfRegNum<[14]>;
                 def R15  : SDICGPRReg<15, "vr15">, DwarfRegNum<[15]>;
-                
-             
-                 //×´Ì¬Ö¸Ê¾¼Ä´æÆ÷
-                //def STATUS : SDICReg<17, "status">, DwarfRegNum<[261]>;
-             
-                def STATUS : SDICGPRReg<16, "sw">, DwarfRegNum<[16]>;
-                def WREG : SDICReg<0, "wreg">, DwarfRegNum<[260]>;
-               
-                //¶ÑÕ»Ö¸Ê¾¼Ä´æÆ÷
-                def STKPTR : SDICReg<2, "stkptr">, DwarfRegNum<[262]>;
+                //ÁÙÊ±¼Ä´æÆ÷
+                def Temp_Reg £»SDICGPRReg<16, "temp_reg">, DwarfRegNum<[16]>;
+                //¹¤×÷¼Ä´æÆ÷
+                def WREG : SDICGPRReg<17, "wreg">, DwarfRegNum<[17]>;
+                //×´Ì¬Ö¸Ê¾¼Ä´æÆ÷
+                def STATUS : SDICGPRReg<18, "status">, DwarfRegNum<[18]>;
                 //¼ä½ÓÑ°Ö·¼Ä´æÆ÷
-                def FSR0L : SDICFSRReg<0, "fsr0l">, DwarfRegNum<[263]>;
-                def FSR0H : SDICFSRReg<1, "fsr0h">, DwarfRegNum<[264]>;
-                def FSR2L : SDICFSRReg<2, "fsr2l">, DwarfRegNum<[265]>;
-                def FSR2H : SDICFSRReg<3, "fsr2h">, DwarfRegNum<[267]>;
+                def FSR0L : SDICGPRReg<19, "fsr0l">, DwarfRegNum<[19]>;
+                def FSR0H : SDICGPRReg<20, "fsr0h">, DwarfRegNum<[20]>;
+                def FSR2L : SDICGPRReg<21, "fsr2l">, DwarfRegNum<[21]>;
+                def FSR2H : SDICGPRReg<22, "fsr2h">, DwarfRegNum<[22]>;
+
+
                 //¶ÑÕ»Õ»¶¥¼Ä´æÆ÷
                 def TOSL :  SDICPTReg<0, "tosl">, DwarfRegNum<[268]>;
                 def TOSH : SDICPTReg<1, "tosh">,DwarfRegNum<[269]>;
                 //PC¼Ä´æÆ÷
                 def PCL : SDICPTReg<2, "pcl">, DwarfRegNum<[270]>;
                 def PCH : SDICPTReg<3, "pch">, DwarfRegNum<[271]>;
+                 //¶ÑÕ»Ö¸Ê¾¼Ä´æÆ÷
+                def STKPTR : SDICReg<2, "stkptr">, DwarfRegNum<[262]>;
 }
 
 //@Register Classes
@@ -90,7 +91,7 @@ def SDICRegs : RegisterClass<"SDIC", [i32], 32, (add
     STATUS, STKPTR, FSR0L, FSR2L, TOSL )>;
 
 //@Status Register Class
-def SR : RegisterClass<"SDIC", [i32], 32, (add STATUS)>;//, R6,R7, R10, R11, R12)>;
+def SR : RegisterClass<"SDIC", [i32], 32, (add STATUS£¬ R7)>;//, R6,R7, R10, R11, R12)>;
 
 //@Co-processor 0 Registers Class
 def C0Regs : RegisterClass<"SDIC", [i32], 32, (add PCL)>;

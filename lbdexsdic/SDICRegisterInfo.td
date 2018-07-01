@@ -40,22 +40,23 @@ let Namespace = "SDIC" in {
        /* foreach i=0-15 in {
                 def R#i : SDICGPRReg<i, "r"#i>, DwarfRegNum<[i]>;
                 }*/
-                def R0  : SDICGPRReg<0, "r0">, DwarfRegNum<[0]>;
-                def R1  : SDICGPRReg<1, "r1">, DwarfRegNum<[1]>;
-                def R2  : SDICGPRReg<2, "r2">, DwarfRegNum<[2]>;
-                def R3  : SDICGPRReg<3, "r3">, DwarfRegNum<[3]>;
-                def R4  : SDICGPRReg<4, "r4">, DwarfRegNum<[4]>;
-                def R5  : SDICGPRReg<5, "r5">, DwarfRegNum<[5]>;
-                def R6  : SDICGPRReg<6, "r6">, DwarfRegNum<[6]>;
-                def S77  : SDICGPRReg<7, "sw2">, DwarfRegNum<[7]>;
-                def R8  : SDICGPRReg<8, "r8">, DwarfRegNum<[8]>;
-                def R9  : SDICGPRReg<9, "r9">, DwarfRegNum<[9]>;
-                def R10  : SDICGPRReg<10, "r10">, DwarfRegNum<[10]>;
-                def R11  : SDICGPRReg<11, "r11">, DwarfRegNum<[11]>;
-                def R12  : SDICGPRReg<12, "r12">, DwarfRegNum<[12]>;
-                def R13  : SDICGPRReg<13, "r13">, DwarfRegNum<[13]>;
-                def R14  : SDICGPRReg<14, "r14">, DwarfRegNum<[14]>;
-                def R15  : SDICGPRReg<15, "r15">, DwarfRegNum<[15]>;
+                def R0  : SDICGPRReg<0, "vr0">, DwarfRegNum<[0]>;
+                def R1  : SDICGPRReg<1, "vr1">, DwarfRegNum<[1]>;
+                def R2  : SDICGPRReg<2, "vr2">, DwarfRegNum<[2]>;
+                def R3  : SDICGPRReg<3, "vr3">, DwarfRegNum<[3]>;
+                def R4  : SDICGPRReg<4, "vr4">, DwarfRegNum<[4]>;
+                def R5  : SDICGPRReg<5, "vr5">, DwarfRegNum<[5]>;
+                def R6  : SDICGPRReg<6, "vr6">, DwarfRegNum<[6]>;
+                def S7  : SDICGPRReg<7, "vr7">, DwarfRegNum<[7]>;
+                def R8  : SDICGPRReg<8, "vr8">, DwarfRegNum<[8]>;
+                def R9  : SDICGPRReg<9, "vr9">, DwarfRegNum<[9]>;
+                def R10  : SDICGPRReg<10, "vr10">, DwarfRegNum<[10]>;
+                def R11  : SDICGPRReg<11, "vr11">, DwarfRegNum<[11]>;
+                def R12  : SDICGPRReg<12, "vr12">, DwarfRegNum<[12]>;
+                def R13  : SDICGPRReg<13, "vr13">, DwarfRegNum<[13]>;
+                def R14  : SDICGPRReg<14, "vr14">, DwarfRegNum<[14]>;
+                def R15  : SDICGPRReg<15, "vr15">, DwarfRegNum<[15]>;
+                
                 def R17 : SDICGPRReg<17, "sw">, DwarfRegNum<[17]>;
                  //×´Ì¬Ö¸Ê¾¼Ä´æÆ÷
                 //def STATUS : SDICReg<17, "status">, DwarfRegNum<[261]>;

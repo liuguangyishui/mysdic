@@ -544,24 +544,19 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 //===----------------------------------------------------------------------===//
 // Instruction definition
 //===----------------------------------------------------------------------===//
-
 //===----------------------------------------------------------------------===//
 // SDIC Instructions
 //===----------------------------------------------------------------------===//
 
-/// Load and Store Instructions
-///  aligned
-defm LD     : LoadM32<0x01,  "movf(ld)",  load_a>;  //ld
-defm ST     : StoreM32<0x02, "movwf(st)",  store_a>;  //st
+//// Load and Store Instructions
+defm LD     : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
+defm ST     : StoreM32<0x3e, "movwf(s)",  store_a>;  //st
 
-
-
-/// Arithmetic Instructions (ALU Immediate)
-// IR "add" defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
-//ADD
+// Arithmetic Instructions (ALU Immediate)
+// add defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
 def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
-def ADDWF   : FDA_Link<SDICAddwf, 0x33, "addwf",  SDICRegs>;
-def ADDLW   : K_Link<SDICAddwfrr, 0x34, "addlw", simm8, immSExt8, SDICRegs>;
+def ADDWF   : FDA_Link<SDICAddwf, 0x00, "addwf",  SDICRegs>;
+def ADDLW   : K_Link<SDICAddwfrr, 0x28, "addlw", simm8, immSExt8, SDICRegs>;
 //SUB
 def SUBwf   : FDA_Link<SDICSubwf, 0x14, "subwf",  SDICRegs>;
 //SUBWFB 带借位的减法
@@ -574,17 +569,14 @@ def DIV_CALL    : CALL_NoLink<SDICDIV_CALL, 0x1c, "call\tDIV",  SDICRegs>;
 
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
+// MOVF Instruction
 def Movlw     : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
-def Movf      : FDA_NoLink<SDICMovf, 0x22, "movf", SDICRegs>;
-//def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
+def Movf      : FDA_NoLink<SDICMovf, 0x0d, "movf", SDICRegs>;
 
+//def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 
-
-
-let Predicates = [HasCmp] in {
-def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
-}
+//Logic Instruction
 //AND
 def ANDWF       : ArithLogicR<0x02, "andwf", and, IIAlu, SDICRegs, 1>;
 def ANDLW       : ArithLogicI<0x29, "andlw", and, simm8, immSExt8, SDICRegs>;
@@ -594,6 +586,10 @@ def IORLW       : ArithLogicI<0x2a, "iorlw", or, simm8, immSExt8, SDICRegs>;
 //XOR
 def XORWF       :  ArithLogicR<0x17, "xorwf", xor, IIAlu, SDICRegs, 1>;
 def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
+
+let Predicates = [HasCmp] in {
+def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
+}
 //BSF
 let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
@@ -724,19 +720,19 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   (BTFSC (BSF(CPFSEQ RC:$lhs, RC:$rhs), 1), 1)>;
                   
                   }
-
-multiclass BrcondPatsCmp<RegisterClass RC,  Instruction BRAOp,  Instruction CPFSEQOp,
+// Control Flow Statement
+multiclass BrcondPatsCmp<RegisterClass RC, Instruction BRAOp, Instruction CPFSEQOp,
                              Instruction BTFSSOp, Instruction BTFSCOp> {
-//             Instruction JEQOp,
-  //         Instruction JLTOp, Instruction JGTOp, Instruction JLEOp, Instruction JGEOp,
-    //      > {
 //A == B
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
+//A != B
+def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
+                  (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
+                  
 //A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令
 def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
-
 //A > B
 def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;

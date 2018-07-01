@@ -57,7 +57,7 @@ let Namespace = "SDIC" in {
                 def R14  : SDICGPRReg<14, "vr14">, DwarfRegNum<[14]>;
                 def R15  : SDICGPRReg<15, "vr15">, DwarfRegNum<[15]>;
                 
-                def R17 : SDICGPRReg<17, "sw">, DwarfRegNum<[17]>;
+             
                  //×´Ì¬Ö¸Ê¾¼Ä´æÆ÷
                 //def STATUS : SDICReg<17, "status">, DwarfRegNum<[261]>;
              

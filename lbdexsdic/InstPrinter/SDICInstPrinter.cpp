@@ -79,6 +79,24 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
 	return;
     }
     }
+  //add for the load node
+  if(getOpcodeName(MI->getOpcode())== "load")
+    {
+      if(Op.isReg())
+	{
+	  printf("\nthis is the Reg");
+	  printRegName(O, Op.getReg());
+	  O << "\t"<< Op.getReg();
+	  return;
+	}
+      
+      if(Op.isImm()){
+	printf("\nthis is the Imm");
+	O << Op.getImm();
+	O << "\t";
+	return;
+      }
+    }
 
 
       

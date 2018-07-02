@@ -732,7 +732,7 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   }
 // Control Flow Statement
 multiclass BrcondPatsCmp<RegisterClass RC, Instruction BRAOp, Instruction CPFSEQOp,
-                             Instruction CPFSEQOp2,
+                             Instruction CPFSEQOp2, Instruction BSFOp,
                              Instruction BTFSSOp, Instruction BTFSCOp> {
 //A == B
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
@@ -768,5 +768,5 @@ defm : SetltPatsCmp<SDICRegs>;
 
 }
 let Predicates = [HasCmp] in {
-defm : BrcondPatsCmp<SDICRegs, BRA2, CPFSEQ, CPFSEQ2, BTFSS, BTFSC>;
+defm : BrcondPatsCmp<SDICRegs, BRA2, CPFSEQ, CPFSEQ2, BSF,  BTFSS, BTFSC>;
 }

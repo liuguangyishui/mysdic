@@ -360,7 +360,7 @@ class CmpInstr<bits<6> op, string instr_asm,
 
               }
 class CmpInstr2<bits<6> op, string instr_asm, InstrItinClass itin, RegisterClass RC,
-                        RegisterClass RD, bit isComm = 0>;
+                        RegisterClass RD, bit isComm = 0>:
                FF<op, (outs RD:$ra), (ins RC:$rb, RC:$rc, RC:$shamt),
                !strconcat(instr_asm, "\t$rb, $rc"), [], itin> {
 

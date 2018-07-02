@@ -735,10 +735,10 @@ multiclass BrcondPatsCmp<RegisterClass RC, Instruction BRAOp, Instruction CPFSEQ
                              Instruction CPFSEQOp2, Instruction BSFOp,
                              Instruction BTFSSOp, Instruction BTFSCOp> {
 //A == B
-def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
+def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
 //A != B
-def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
+def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
  (BRAOp (BTFSSOp (CPFSEQOp2 RC:$lhs, RC:$rhs,(BSFOp SR, 0)), 0), bb:$dst)>;
                   
 //A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令

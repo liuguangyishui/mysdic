@@ -597,7 +597,7 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 
 let Predicates = [HasCmp] in {
 def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
-def CPFSEQ2       : CmpInstr<0x4b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
+def CPFSEQ2       : CmpInstr<0x3b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
 }
 
 //BSF

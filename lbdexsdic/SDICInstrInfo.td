@@ -359,6 +359,14 @@ class CmpInstr<bits<6> op, string instr_asm,
               let Predicates = [HasCmp];
 
               }
+class CmpInstr2<bits<6> op, string instr_asm, InstrItinClass itin, RegisterClass RC,
+                        RegisterClass RD, bit isComm = 0>;
+               FF<op, (outs RD:$ra), (ins RC:$rb, RC:$rc, RC:$shamt),
+               !strconcat(instr_asm, "\t$rb, $rc"), [], itin> {
+
+               let isCommutable = isComm;
+               let Predicates = [HasCmp];
+               }
 
 class CtrInstr<bits<6> op, string instr_asm, InstrItinClass itin,
               RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
@@ -589,7 +597,9 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 
 let Predicates = [HasCmp] in {
 def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
+def CPFSEQ2       : CmpInstr<0x4b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
 }
+
 //BSF
 let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
@@ -722,13 +732,14 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   }
 // Control Flow Statement
 multiclass BrcondPatsCmp<RegisterClass RC, Instruction BRAOp, Instruction CPFSEQOp,
+                             Instruction CPFSEQOp2,
                              Instruction BTFSSOp, Instruction BTFSCOp> {
 //A == B
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
 //A != B
-def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), jmptarget:$dst),// bb:$dst),
-                  (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), jmptarget:$dst)>; // bb:$dst)>;
+def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
+ (BRAOp (BTFSSOp (CPFSEQOp2 RC:$lhs, RC:$rhs, BSFOp(SR, 0)), 0), bb:$dst)>;
                   
 //A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令
 def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
@@ -757,5 +768,5 @@ defm : SetltPatsCmp<SDICRegs>;
 
 }
 let Predicates = [HasCmp] in {
-defm : BrcondPatsCmp<SDICRegs, BRA2, CPFSEQ, BTFSS, BTFSC>;
+defm : BrcondPatsCmp<SDICRegs, BRA2, CPFSEQ, CPFSEQ2, BTFSS, BTFSC>;
 }

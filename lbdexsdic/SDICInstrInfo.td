@@ -763,7 +763,7 @@ defm : BrcondPatsCmp<SDICRegs, CPFSEQ, BSF2, BSF, BTFSS, BTFSC, BRA2>;
 }
 
 let Predicates = [HasCmp] in {
-defm : SeteqPatsCmp<SDICRegs>;
+defm : SeteqPatsCmp<SDICRegs, simm8>;
 defm : SetltPatsCmp<SDICRegs>;
 
 

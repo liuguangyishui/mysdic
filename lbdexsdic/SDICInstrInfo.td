@@ -362,7 +362,7 @@ class CmpInstr<bits<6> op, string instr_asm,
 class CtrInstr2<bits<6> op, string instr_asm, InstrItinClass itin,
                RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
                  FF<op, (outs RD:$ra), (ins RC:$rb, RD:$rc, Od:$shamt),
-                 !strconcat(instr_asm, "\t$shamt"), [], itin> {
+                 !strconcat(instr_asm, "\t$rb  $shamt"), [], itin> {
 
                
                }

@@ -711,12 +711,12 @@ def : Pat<(load RC:$lhs),
 defm : SLOperator<SDICRegs>;
 
 // ========== COMPARE Instruction ==========
-multiclass SeteqPatsCmp<RegisterClass RC, Operand Od>{
+multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),
                   (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1)>;
     def :  Pat<(seteq RC:$lhs, Od:$rhs),
-                  (BSF (CPFSEQ RC:$lhs, Od:$rhs), 1)>;
+                  (BSF (CPFSEQ RC:$lhs, immSExt8:$rhs), 1)>;
 //A != B
     def :  Pat<(setne RC:$lhs, RC:$rhs),
                   (BSF (CPFSEQ  RC:$lhs, RC:$rhs), 1)>;
@@ -763,7 +763,7 @@ defm : BrcondPatsCmp<SDICRegs, CPFSEQ, BSF2, BSF, BTFSS, BTFSC, BRA2>;
 }
 
 let Predicates = [HasCmp] in {
-defm : SeteqPatsCmp<SDICRegs, simm8>;
+defm : SeteqPatsCmp<SDICRegs>;
 defm : SetltPatsCmp<SDICRegs>;
 
 

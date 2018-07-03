@@ -361,8 +361,8 @@ class CmpInstr<bits<6> op, string instr_asm,
               }
 class CtrInstr2<bits<6> op, string instr_asm, InstrItinClass itin,
                RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
-                 FF<op, (outs RD:$ra), (ins RC:$rb, RC:$rc, Od:$shamt),
-                 !strconcat(instr_asm, "\t$ra, $rb, $rc,$shamt"), [], itin> {
+                 FF<op, (outs RD:$ra), (ins RC:$rb, RD:$rc, Od:$shamt),
+                 !strconcat(instr_asm, "\t"), [], itin> {
 
                
                }
@@ -602,7 +602,7 @@ def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
 //BSF
 let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
-def BSF2        :  CtrInstr2<0x39, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
+def BSF2        :  CtrInstr2<0x39, "bsf", IIAlu, SR, SDICRegs, simm8, immSExt8>;
 }
 
 def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>;
@@ -735,10 +735,10 @@ multiclass BrcondPatsCmp<RegisterClass RC, Instruction BRAOp, Instruction CPFSEQ
                              Instruction BSFOp2, Instruction BSFOp,
                              Instruction BTFSSOp, Instruction BTFSCOp> {
 //A == B
-def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),
+def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
 //A != B
-def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
+def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
  (BRAOp (BTFSSOp (CPFSEQOp (BSFOp2 RC:$lhs, RC:$rhs, 0), RC:$rhs), 0), bb:$dst)>;
                   
 //A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令

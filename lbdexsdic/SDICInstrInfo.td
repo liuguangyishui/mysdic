@@ -490,8 +490,8 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs), (ins RC:$ra,MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$ra   $addr"),     //(instr_asm, "\t$ra, $addr"),
-     [(OpNode RC:$ra, addr:$addr)], IIStore> {   // addr:$addr
+     !strconcat(instr_asm, "\t$addr"),     //(instr_asm, "\t$ra, $addr"),
+     [(OpNode RC:$ra, addr:$addr)], IIStore> {   
   let isPseudo = Pseudo;
 }
 
@@ -606,7 +606,7 @@ def BSF2        :  CtrInstr2<0x39, "bsf", IIAlu, SR, SDICRegs, simm8, immSExt8>;
 }
 
 def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>;
-def BTFSS       :  CtrInstr<0x1b, "btfss", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
+def BTFSS       :  CtrInstr<0x1b, "btfss", IIAlu, SDICRegs, SR, simm8, immSExt8>;
 //Unconditional branch   BRA
 def BRA         :  UncondBranch<0x1c, "bra">;
 

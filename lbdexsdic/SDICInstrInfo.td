@@ -711,10 +711,12 @@ def : Pat<(load RC:$lhs),
 defm : SLOperator<SDICRegs>;
 
 // ========== COMPARE Instruction ==========
-multiclass SeteqPatsCmp<RegisterClass RC>{
+multiclass SeteqPatsCmp<RegisterClass RC, Operand Od>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),
                   (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1)>;
+    def :  Pat<(seteq RC:$lhs, Od:$rhs),
+                  (BSF (CPFSEQ RC:$lhs, Od:$rhs), 1)>;
 //A != B
     def :  Pat<(setne RC:$lhs, RC:$rhs),
                   (BSF (CPFSEQ  RC:$lhs, RC:$rhs), 1)>;

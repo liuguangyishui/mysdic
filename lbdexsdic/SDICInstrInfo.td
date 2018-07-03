@@ -362,7 +362,7 @@ class CmpInstr<bits<6> op, string instr_asm,
 class CtrInstr2<bits<6> op, string instr_asm, InstrItinClass itin,
                RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
                  FF<op, (outs RD:$ra), (ins RC:$rb, RD:$rc, Od:$shamt),
-                 !strconcat(instr_asm, "\t"), [], itin> {
+                 !strconcat(instr_asm, "\t$shamt"), [], itin> {
 
                
                }
@@ -425,7 +425,7 @@ class UncondBranch<bits<6> op, string instr_asm>:
 class CBranch24<bits<6> op, string instr_asm, RegisterClass RC,
                         list<Register> UseRegs>:
                     FJ<op, (outs), (ins RC:$ra, brtarget24:$addr),
-                       !strconcat(instr_asm, "\t$ra, $addr"),
+                       !strconcat(instr_asm, "\t$addr"),//\t$ra, $addr
                         [], IIBranch>, Requires<[HasCmp]> {
                         let isBranch = 1;
                         let isTerminator = 1;
@@ -731,32 +731,33 @@ multiclass  SetlePatsCmp<RegisterClass RC> {
                   
                   }
 // Control Flow Statement
-multiclass BrcondPatsCmp<RegisterClass RC, Instruction BRAOp, Instruction CPFSEQOp,
+multiclass BrcondPatsCmp<RegisterClass RC, Instruction CPFSEQOp,
                              Instruction BSFOp2, Instruction BSFOp,
-                             Instruction BTFSSOp, Instruction BTFSCOp> {
+                             Instruction BTFSSOp, Instruction BTFSCOp,
+                             Instruction BRAOp2> {
 //A == B
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
+                  (BRAOp2 (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
 //A != B
 def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
- (BRAOp (BTFSSOp (CPFSEQOp (BSFOp2 RC:$lhs, RC:$rhs, 0), RC:$rhs), 0), bb:$dst)>;
+ (BRAOp2 (BTFSSOp (CPFSEQOp (BSFOp2 RC:$lhs, RC:$rhs, 0), RC:$rhs), 0), bb:$dst)>;
                   
 //A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令
 def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
+                  (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 //A > B
 def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
+                  (BRAOp2 (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 //A <= B
 def : Pat<(brcond (i32 (setge RC:$lhs, RC:$rhs)), bb:$dst),
-(BRAOp (BTFSCOp (CPFSEQOp (SUBwfb RC:$lhs, RC:$rhs), RC:$rhs), 0), bb:$dst)>;
+(BRAOp2 (BTFSCOp2 (CPFSEQOp (SUBwfb RC:$lhs, RC:$rhs), RC:$rhs), 0), bb:$dst)>;
 
 //A >= b
 //def : Pat<(brcond (i32 (set
 
              //  (BRAOp (BTFSCOp      ), bb:$dst)
 def : Pat<(brcond RC:$cond, bb:$dst),
-                  (BRAOp (CPFSEQOp RC:$cond, R6), bb:$dst)>;
+                  (BRAOp2 (CPFSEQOp RC:$cond, R6), bb:$dst)>;
 
 }
 
@@ -768,5 +769,5 @@ defm : SetltPatsCmp<SDICRegs>;
 
 }
 let Predicates = [HasCmp] in {
-defm : BrcondPatsCmp<SDICRegs, BRA2, CPFSEQ, BSF2, BSF, BTFSS, BTFSC>;
+defm : BrcondPatsCmp<SDICRegs, CPFSEQ, BSF2, BSF, BTFSS, BTFSC, BRA2>;
 }

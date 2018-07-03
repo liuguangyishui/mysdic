@@ -275,7 +275,7 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
                            FA<op, (outs GPROut:$ra), (ins Od:$rb),
-                                  !strconcat(instr_asm, "\t$rb"),
+                                  !strconcat(instr_asm, "\t$ra, $rb"),
                          [(set GPROut:$ra, (OpNode imm_type:$rb))], IIAlu>{
                                let rc = 0;
                          }
@@ -370,7 +370,7 @@ class CtrInstr2<bits<6> op, string instr_asm, InstrItinClass itin,
 class CtrInstr<bits<6> op, string instr_asm, InstrItinClass itin,
               RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
                   FA<op, (outs RD:$ra), (ins RC:$rb, Od:$rc),
-                  !strconcat(instr_asm, "\t$ra, $rb, $rc"), [], itin> {
+                  !strconcat(instr_asm, "\t$ra, $rc"), [], itin> {//\t$ra, $rb, $rc
 
                   }
 class CtrInstr_BTFSC<bits<6> op, string instr_asm, InstrItinClass itin,
@@ -490,7 +490,7 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs), (ins RC:$ra,MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$addr"),     //(instr_asm, "\t$ra, $addr"),
+     !strconcat(instr_asm, "\t$ra, $addr"),     //(instr_asm, "\t$ra, $addr"),
      [(OpNode RC:$ra, addr:$addr)], IIStore> {   
   let isPseudo = Pseudo;
 }
@@ -555,35 +555,30 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 // SDIC Instructions
 //===----------------------------------------------------------------------===//
 
-//// Load and Store Instructions
-defm LD     : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
-defm ST     : StoreM32<0x3e, "movwf(s)",  store_a>;  //st
+// ========== Load and Store Instructions and MOVF Instruction ==========
+defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
+defm ST      : StoreM32<0x3e, "movwf(s)",  store_a>;  //st
+def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
+def Movf     : FDA_NoLink<SDICMovf, 0x0d, "movf", SDICRegs>;
+//def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
+def Movlwr   : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
 
-// Arithmetic Instructions (ALU Immediate)
+// ========== Arithmetic Instructions  ==========
 // add defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
-def ADDiu   : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
-def ADDWF   : FDA_Link<SDICAddwf, 0x00, "addwf",  SDICRegs>;
-def ADDLW   : K_Link<SDICAddwfrr, 0x28, "addlw", simm8, immSExt8, SDICRegs>;
+def ADDiu    : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
+def ADDWF    : FDA_Link<SDICAddwf, 0x00, "addwf",  SDICRegs>;
+def ADDLW    : K_Link<SDICAddwfrr, 0x28, "addlw", simm8, immSExt8, SDICRegs>;
 //SUB
-def SUBwf   : FDA_Link<SDICSubwf, 0x14, "subwf",  SDICRegs>;
+def SUBwf    : FDA_Link<SDICSubwf, 0x14, "subwf",  SDICRegs>;
 //SUBWFB 带借位的减法
-def SUBwfb  : FDA_Link<SDICSubwf, 0x15, "subwfb", SDICRegs>;
+def SUBwfb   : FDA_Link<SDICSubwf, 0x15, "subwfb", SDICRegs>;
 
-
-def MUL_CALL    : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;
-
-def DIV_CALL    : CALL_NoLink<SDICDIV_CALL, 0x1c, "call\tDIV",  SDICRegs>;
-
+// uncomplish
+def MUL_CALL : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;
+def DIV_CALL : CALL_NoLink<SDICDIV_CALL, 0x1c, "call\tDIV",  SDICRegs>;
 def MUL      : ArithLogicI<0x17, "mul", mul, simm8, immSExt8, SDICRegs>;
 
-// MOVF Instruction
-def Movlw     : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
-def Movf      : FDA_NoLink<SDICMovf, 0x0d, "movf", SDICRegs>;
-
-//def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
-def Movlwr    : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
-
-//Logic Instruction
+// ========== Logic Instruction ==========
 //AND
 def ANDWF       : ArithLogicR<0x02, "andwf", and, IIAlu, SDICRegs, 1>;
 def ANDLW       : ArithLogicI<0x29, "andlw", and, simm8, immSExt8, SDICRegs>;
@@ -599,20 +594,24 @@ def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
 //def CPFSEQ2       : CmpInstr2<0x3b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
 }
 
-//BSF
+// ========== JUMP Instruction ==========
+//Unconditional branch   BRA
+def BRA         :  UncondBranch<0x1c, "bra">;
+let Predicates = [HasCmp] in {
+def BRA2        :  CBranch24<0x1d, "bra", SDICRegs, [R9]>;
+}
+
+// ========== TEST Instruction ==========
+// BSF 将寄存器中的某位置 1 
 let Predicates = [HasCmp] in {
 def BSF         :  CtrInstr<0x19, "bsf", IIAlu, SDICRegs, SDICRegs, simm8, immSExt8>;
 def BSF2        :  CtrInstr2<0x39, "bsf", IIAlu, SR, SDICRegs, simm8, immSExt8>;
 }
-
+// BTFFSC 测试寄存器中的位，为 0 则跳过下条指令
 def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>;
+// BTFFSS 测试寄存器中的位，为 1 则跳过下条指令
 def BTFSS       :  CtrInstr<0x1b, "btfss", IIAlu, SDICRegs, SR, simm8, immSExt8>;
-//Unconditional branch   BRA
-def BRA         :  UncondBranch<0x1c, "bra">;
 
-let Predicates = [HasCmp] in {
-def BRA2        :  CBranch24<0x1d, "bra", SDICRegs, [R9]>;
-}
 
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
@@ -711,6 +710,7 @@ def : Pat<(load RC:$lhs),
 }
 defm : SLOperator<SDICRegs>;
 
+// ========== COMPARE Instruction ==========
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),
@@ -728,9 +728,8 @@ multiclass  SetltPatsCmp<RegisterClass RC> {
 multiclass  SetlePatsCmp<RegisterClass RC> {
     def :  Pat<(setle RC:$lhs, RC:$rhs),
                   (BTFSC (BSF(CPFSEQ RC:$lhs, RC:$rhs), 1), 1)>;
-                  
-                  }
-// Control Flow Statement
+}
+// ========== Control Instruction ==========
 multiclass BrcondPatsCmp<RegisterClass RC, Instruction CPFSEQOp,
                              Instruction BSFOp2, Instruction BSFOp,
                              Instruction BTFSSOp, Instruction BTFSCOp,

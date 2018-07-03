@@ -715,7 +715,7 @@ multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),
                   (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1)>;
-    def :  Pat<(seteq RC:$lhs, Od:$rhs),
+    def :  Pat<(seteq RC:$lhs, immSExt8:$rhs),
                   (BSF (CPFSEQ RC:$lhs, immSExt8:$rhs), 1)>;
 //A != B
     def :  Pat<(setne RC:$lhs, RC:$rhs),

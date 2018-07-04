@@ -48,7 +48,7 @@ let Namespace = "SDIC" in {
                 def R4   : SDICGPRReg<4,  "vr4">, DwarfRegNum<[4]>;
                 def R5   : SDICGPRReg<5,  "vr5">, DwarfRegNum<[5]>;
                 def R6   : SDICGPRReg<6,  "vr6">, DwarfRegNum<[6]>;
-                def R7   : SDICGPRReg<7,  "vr7">, DwarfRegNum<[7]>;
+                def R7   : SDICGPRReg<7,  "sw">, DwarfRegNum<[7]>;
                 def R8   : SDICGPRReg<8,  "vr8">, DwarfRegNum<[8]>;
                 def R9   : SDICGPRReg<9,  "vr9">, DwarfRegNum<[9]>;
                 def R10  : SDICGPRReg<10, "vr10">, DwarfRegNum<[10]>;
@@ -91,7 +91,7 @@ def SDICRegs : RegisterClass<"SDIC", [i32], 32, (add
     STATUS, STKPTR, FSR0L, FSR2L, TOSL )>;
 
 //@Status Register Class
-def SR : RegisterClass<"SDIC", [i32], 32, (add STATUS, R8)>;//, R6,R7, R10, R11, R12)>;
+def SR : RegisterClass<"SDIC", [i32], 32, (add STATUS, R7)>;//, R6,R7, R10, R11, R12)>;
 
 //@Co-processor 0 Registers Class
 def C0Regs : RegisterClass<"SDIC", [i32], 32, (add PCL)>;

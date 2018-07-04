@@ -256,7 +256,7 @@ class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
 class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                          RegisterClass RC> :
                       F_K<op, (outs GPROut:$shamt), (ins RC:$rk),
-                              !strconcat(instr_asm, "\t$rk  $shamt"),
+                              !strconcat(instr_asm, "\t$rk  $shamt"), //留$rk
                              [(set GPROut:$shamt, (OpNode RC:$rk))], IIAlu> {
 
                            let isReMaterializable =1;
@@ -362,7 +362,7 @@ class CmpInstr<bits<6> op, string instr_asm,
 class CtrInstr2<bits<6> op, string instr_asm, InstrItinClass itin,
                RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
                  FF<op, (outs RD:$ra), (ins RC:$rb, RD:$rc, Od:$shamt),
-                 !strconcat(instr_asm, "\t$rb  $shamt"), [], itin> {
+                 !strconcat(instr_asm, "\t$ra, $rb, $rc, $shamt"), [], itin> {
 
                
                }
@@ -560,8 +560,9 @@ defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
 defm ST      : StoreM32<0x3e, "movwf(s)",  store_a>;  //st
 def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
 def Movf     : FDA_NoLink<SDICMovf, 0x0d, "movf", SDICRegs>;
+def Movwf    : FDA_Nolink<SDICMovf, 0x0e, "movwf", SDICRegs>;
 //def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
-def Movlwr   : ArithLogicFKR<SDICMovlw, 0x0e, "movlwr", SDICRegs>;
+def Movlwr   : ArithLogicFKR<SDICMovlw, 0x13, "movlwr", SDICRegs>;
 
 // ========== Arithmetic Instructions  ==========
 // add defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
@@ -738,7 +739,7 @@ multiclass BrcondPatsCmp<RegisterClass RC, Instruction CPFSEQOp,
                              Instruction BRAOp2> {
 //A == B
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp2 (CPFSEQOp RC:$lhs, (Movf RC:$rhs)), bb:$dst)>;
+                  (BRAOp2 (CPFSEQOp RC:$lhs, (Movwf RC:$rhs)), bb:$dst)>;
 //A != B
 def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
  (BRAOp2 (BTFSSOp (CPFSEQOp (BSFOp2 RC:$lhs, RC:$rhs, 0), RC:$rhs), 0), bb:$dst)>;

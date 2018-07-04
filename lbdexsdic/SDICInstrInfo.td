@@ -560,7 +560,7 @@ defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
 defm ST      : StoreM32<0x3e, "movwf(s)",  store_a>;  //st
 def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
 def Movf     : FDA_NoLink<SDICMovf, 0x0d, "movf", SDICRegs>;
-def Movwf    : FDA_Nolink<SDICMovf, 0x0e, "movwf", SDICRegs>;
+def Movwf    : FDA_NoLink<SDICMovf, 0x0e, "movwf", SDICRegs>;
 //def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;
 def Movlwr   : ArithLogicFKR<SDICMovlw, 0x13, "movlwr", SDICRegs>;
 

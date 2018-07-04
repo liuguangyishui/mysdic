@@ -738,7 +738,7 @@ multiclass BrcondPatsCmp<RegisterClass RC, Instruction CPFSEQOp,
                              Instruction BRAOp2> {
 //A == B
 def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp2 (CPFSEQOp RC:$lhs, RC:$rhs), bb:$dst)>;
+                  (BRAOp2 (CPFSEQOp RC:$lhs, (Movf RC:$rhs)), bb:$dst)>;
 //A != B
 def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
  (BRAOp2 (BTFSSOp (CPFSEQOp (BSFOp2 RC:$lhs, RC:$rhs, 0), RC:$rhs), 0), bb:$dst)>;

@@ -742,7 +742,7 @@ def : Pat<(brcond (i32 (setne RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp2 (CPFSEQOp RC:$lhs, (Movwf RC:$rhs)), bb:$dst)>;
 //A != B
 def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
- (BRAOp2 (BTFSSOp (CPFSEQOp (BSFOp SR, 0), (Movwf RC:$rhs)), 0), bb:$dst)>;
+ (BRAOp2 (BTFSSOp (CPFSEQOp (BSFOp2 RC:$lhs, SR, 0), (Movwf RC:$rhs)), 0), bb:$dst)>;
                   
 //A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令
 def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),

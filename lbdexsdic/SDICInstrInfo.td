@@ -757,8 +757,8 @@ def : Pat<(brcond (i32 (setgt RC:$lhs, immSExt8:$rhs)),bb:$dst),
 //A >= B
 def : Pat<(brcond (i32 (setge RC:$lhs, RC:$rhs)), bb:$dst),
     (BRAOp2 (BTFSCOp (CPFSEQOp (SUBwfb RC:$lhs, RC:$rhs), RC:$rhs), 0), bb:$dst)>;
-def : Pat<(brcond (i32 (setge RC:$lhs, immSExt8:$rhs)), bb:$dst).
-    (BRAOp2 (BTFSCOp (CPFSEQOp (SUBwfb RC:$lhs, immSExt8:$rhs), RC:$rhs), 0), bb:$dst)>;
+def : Pat<(brcond (i32 (setge RC:$lhs, immSExt8:$rhs)), bb:$dst),
+    (BRAOp2 (BTFSCOp (CPFSEQOp (SUBwfb RC:$lhs, immSExt8:$rhs), immSExt8:$rhs), 0), bb:$dst)>;
 //A <= B
 def : Pat<(brcond (i32 (setle RC:$lhs, RC:$rhs)), bb:$dst),
     (BRAOp2 (BTFSCOp (CPFSEQOp (SUBwfb RC:$lhs, RC:$rhs), RC:$rhs), 0), bb:$dst)>;

@@ -362,7 +362,7 @@ class CmpInstr<bits<6> op, string instr_asm,
 class CtrInstr2<bits<6> op, string instr_asm, InstrItinClass itin,
                RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
                  FF<op, (outs RD:$ra), (ins RC:$rb, RD:$rc, Od:$shamt),
-                 !strconcat(instr_asm, "\t$ra, $rb, $rc, $shamt"), [], itin> {
+                 !strconcat(instr_asm, "\t$rb, $shamt"), [], itin> {
 
                
                }
@@ -746,11 +746,13 @@ def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
                   
 //A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令
 def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
+                  (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, (Movwf RC:$rhs)), 0), bb:$dst)>;
+def : Pat<(brcond (i32 (setlt RC:$lhs, immSExt8:$rhs)), bb:$dst),
+   (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, (Movwf immSExt8:$rhs)), 0), bb:$dst)>;
 //A > B
 def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp2 (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
-//A <= B
+                  (BRAOp2 (BTFSCOp (SUBwfb RC:$lhs, (Movwf RC:$rhs)), 0), bb:$dst)>;
+//A >= B
 def : Pat<(brcond (i32 (setge RC:$lhs, RC:$rhs)), bb:$dst),
 (BRAOp2 (BTFSCOp (CPFSEQOp (SUBwfb RC:$lhs, RC:$rhs), RC:$rhs), 0), bb:$dst)>;
 //A >= b

@@ -458,7 +458,7 @@ static bool CC_SDICO32(unsigned ValNo, MVT ValVT, MVT LocVT,
 //===----------------------------------------------------------------------===//
 
 static const MCPhysReg O32IntRegs[] = {
-  SDIC::R0, SADIC::R1
+  SDIC::R0, SDIC::R1
 };
 
 //@LowerCall {
@@ -812,6 +812,10 @@ unsigned SDICTargetLowering::SDICCC::reservedArgArea() const
   return (IsO32 && (CallConv != CallingConv::Fast)) ? 8 : 0;
 }
 
+
+const ArrayRef<MCPhysReg> SDICTargetLowering::SDICCC::intArgRegs() const {
+  return makeArrayRef(O32IntRegs);
+}
 
 llvm::CCAssignFn *SDICTargetLowering::SDICCC::fixedArgFn() const {
   if (IsO32)

@@ -275,7 +275,7 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
                            FA<op, (outs GPROut:$ra), (ins Od:$rb),
-                                  !strconcat(instr_asm, "\t$ra, $rb"),
+                                  !strconcat(instr_asm, "\t$rb \n\t movwf $ra"),
                          [(set GPROut:$ra, (OpNode imm_type:$rb))], IIAlu>{
                                let rc = 0;
                          }
@@ -490,7 +490,7 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs), (ins RC:$ra,MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$ra, $addr"),     //(instr_asm, "\t$ra, $addr"),
+     !strconcat(instr_asm, "\t$ra \n\tmovwf \t$addr"),     //(instr_asm, "\t$ra, $addr"),
      [(OpNode RC:$ra, addr:$addr)], IIStore> {   
   let isPseudo = Pseudo;
 }
@@ -557,7 +557,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 
 // ========== Load and Store Instructions and MOVF Instruction ==========
 defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
-defm ST      : StoreM32<0x3e, "movwf(s)",  store_a>;  //st
+defm ST      : StoreM32<0x3e, "movf(ls)",  store_a>;  //st
 def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
 def Movf     : FDA_NoLink<SDICMovf, 0x0d, "movf", SDICRegs>;
 def Movwf    : FDA_NoLink<SDICMovf, 0x0e, "movwf", SDICRegs>;

@@ -899,7 +899,7 @@ copyByValRegs(SDValue Chain, const SDLoc &DL, std::vector<SDValue> &OutChains,
     //                            StorePtr, MachinePointerInfo(FuncArg, Offset));
     
     //HYL ADD
-    SDValue OP1 = DAG.getNode(SDICISD::Movf, DL, DAG.getRegister(VReg, RegTy));
+    SDValue OP1 = DAG.getNode(SDICISD::Movf, DL, MVT::i32, DAG.getRegister(VReg, RegTy));
     SDValue Store = DAG.getStore(Chain, DL, OP1,
                                StorePtr, MachinePointerInfo(FuncArg, Offset));
     

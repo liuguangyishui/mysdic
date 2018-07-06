@@ -894,9 +894,15 @@ copyByValRegs(SDValue Chain, const SDLoc &DL, std::vector<SDValue> &OutChains,
     unsigned VReg = addLiveIn(MF, ArgReg, RC);
     unsigned Offset = I * CC.regSize();
     SDValue StorePtr = DAG.getNode(ISD::ADD, DL, PtrTy, FIN,
-                                   DAG.getConstant(Offset, DL, PtrTy));
-    SDValue Store = DAG.getStore(Chain, DL, DAG.getRegister(VReg, RegTy),
-                                 StorePtr, MachinePointerInfo(FuncArg, Offset));
+                                   DAG.getConstant(Offset, DL, PtrTy)); 
+    //  SDValue Store = DAG.getStore(Chain, DL, DAG.getRegister(VReg, RegTy),
+    //                            StorePtr, MachinePointerInfo(FuncArg, Offset));
+    
+    //HYL ADD
+    SDValue OP1 = DAG.getNode(SDICISD::Movf, DL, DAG.getRegister(VReg, RegTy));
+    SDValue Store = DAG.getStore(Chain, DL, OP1,
+                               StorePtr, MachinePointerInfo(FuncArg, Offset));
+    
     OutChains.push_back(Store);
   }
 }

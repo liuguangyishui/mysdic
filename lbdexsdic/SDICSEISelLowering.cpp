@@ -56,3 +56,18 @@ llvm::createSDICSETargetLowering(const SDICTargetMachine &TM,
   return new SDICSETargetLowering(TM, STI);
 }
 
+bool SDICSETargetLowering::
+isEligibleForTailCallOptimization(const SDICCC &SDICCCInfo,
+                                  unsigned NextStackOffset,
+                                  const SDICFunctionInfo& FI) const {
+  if (!EnableSDICTailCalls)
+    return false;
+
+  // Return false if either the callee or caller has a byval argument.
+  if (SDICCCInfo.hasByValArg() || FI.hasByvalArg())
+    return false;
+
+  // Return true if the callee's argument area is no larger than the
+  // caller's.
+  return NextStackOffset <= FI.getIncomingArgSize();
+}

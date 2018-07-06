@@ -27,6 +27,9 @@ namespace llvm {
 
     SDValue LowerOperation(SDValue Op, SelectionDAG &DAG) const override;
   private:
+     bool isEligibleForTailCallOptimization(const SDICCC &SDICCCInfo,
+                                     unsigned NextStackOffset,
+                                     const SDICFunctionInfo& FI) const override;
   };
 }
 

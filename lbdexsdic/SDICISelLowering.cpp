@@ -458,7 +458,9 @@ static bool CC_SDICO32(unsigned ValNo, MVT ValVT, MVT LocVT,
 //===----------------------------------------------------------------------===//
 
 static const MCPhysReg O32IntRegs[] = {
-  SDIC::R0, SDIC::R1
+  SDIC::R0, SDIC::R1,
+  SDIC::R2, SDIC::R3，
+  SDIC::R4, SDIC::R5
 };
 
 //@LowerCall {
@@ -895,13 +897,13 @@ copyByValRegs(SDValue Chain, const SDLoc &DL, std::vector<SDValue> &OutChains,
     unsigned Offset = I * CC.regSize();
     SDValue StorePtr = DAG.getNode(ISD::ADD, DL, PtrTy, FIN,
                                    DAG.getConstant(Offset, DL, PtrTy)); 
-    //  SDValue Store = DAG.getStore(Chain, DL, DAG.getRegister(VReg, RegTy),
-    //                            StorePtr, MachinePointerInfo(FuncArg, Offset));
+    //SDValue Store = DAG.getStore(Chain, DL, DAG.getRegister(VReg, RegTy),
+    //                           StorePtr, MachinePointerInfo(FuncArg, Offset));
     
     //HYL ADD
-    SDValue OP1 = DAG.getNode(SDICISD::Movf, DL, MVT::i32, DAG.getRegister(VReg, RegTy));
+     SDValue OP1 = DAG.getNode(SDICISD::Movf, DL, MVT::Other, DAG.getRegister(VReg, RegTy));
     SDValue Store = DAG.getStore(Chain, DL, OP1,
-                               StorePtr, MachinePointerInfo(FuncArg, Offset));
+                              StorePtr, MachinePointerInfo(FuncArg, Offset));
     
     OutChains.push_back(Store);
   }

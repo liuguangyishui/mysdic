@@ -149,6 +149,11 @@ public:
 
       SDICCC(CallingConv::ID CallConv, bool IsO32, CCState &Info,
 	     SpecialCallingConvType SpecialCallingConv = NoSpecialCallingConv);
+
+      void analyzeFormalArguments(const SmallVectorImpl<ISD::InputArg> &Ins,
+				  bool IsSoftFloat,
+				  Function::const_arg_iterator FuncArg);
+      
       void analyzeCallResult(const SmallVectorImpl<ISD::InputArg> &Ins,
 			     bool IsSoftFloat, const SDNode *CallNode,
 			     const Type *RetTy) const;
@@ -160,9 +165,16 @@ public:
 
       // hasByValArg - Returns true if function has byval arguments.
       bool hasByValArg() const { return !ByValArgs.empty(); }
+
+      ///regSize - Size (in number of bits) of integet registers.
+      unsigned regSize() const { return IsO32 ? 4 : 4; }
+      /// numIntArgRegs - Number of integer registers available for calls.
+      unsigned numIntArgRegs() const;
+      
       /// reservedArgArea - The size of the area the caller reserves for
       /// register arguments. This is 16-byte if ABI is O32.
       unsigned reservedArgArea() const;
+      
       typedef SmallVectorImpl<ByValArgInfo>::const_iterator byval_iterator;
       byval_iterator byval_begin() const { return ByValArgs.begin(); }
 
@@ -170,7 +182,19 @@ public:
 
 
       private:
+      void handleByValArg(unsigned ValNo, MVT ValVT, MVT LocVT,
+                          CCValAssign::LocInfo LocInfo,
+                          ISD::ArgFlagsTy ArgFlags);
+       /// useRegsForByval - Returns true if the calling convention allows the
+      /// use of registers to pass byval arguments.
+      bool useRegsForByval() const { return CallConv != CallingConv::Fast; }
 
+      /// Return the function that analyzes fixed argument list functions.
+      llvm::CCAssignFn *fixedArgFn() const;
+
+      void allocateRegs(ByValArgInfo &ByVal, unsigned ByValSize,
+                        unsigned Align);
+      
       ///Return the type of the register which is used to pass an argument or
       ///return a value. This function returns f64 if the argument is an i64
       ///value which has been generated as a result of softening an f128 value.
@@ -197,6 +221,24 @@ public:
     const SDICABIInfo &ABI;
 
   private:
+    /// isEligibleForTailCallOptimization - Check whether the call is eligible
+    /// for tail call optimization.
+    virtual bool
+    isEligibleForTailCallOptimization(const SDICCC &SDICCCInfo,
+                                      unsigned NextStackOffset,
+                                      const SDICFunctionInfo& FI) const = 0;
+
+    /// copyByValArg - Copy argument registers which were used to pass a byval
+    /// argument to the stack. Create a stack frame object for the byval
+    /// argument.
+    void copyByValRegs(SDValue Chain, const SDLoc &DL,
+                       std::vector<SDValue> &OutChains, SelectionDAG &DAG,
+                       const ISD::ArgFlagsTy &Flags,
+                       SmallVectorImpl<SDValue> &InVals,
+                       const Argument *FuncArg,
+                       const SDICCC &CC, const ByValArgInfo &ByVal) const;
+
+    
 
     // Lower Operand specifics
     SDValue lowerGlobalAddress(SDValue Op, SelectionDAG &DAG) const;
@@ -209,12 +251,16 @@ public:
                            const SDLoc &dl, SelectionDAG &DAG,
                            SmallVectorImpl<SDValue> &InVals) const override;
 
+     SDValue LowerCall(TargetLowering::CallLoweringInfo &CLI,
+                      SmallVectorImpl<SDValue> &InVals) const override;
+    
     SDValue LowerReturn(SDValue Chain,
                         CallingConv::ID CallConv, bool IsVarArg,
                         const SmallVectorImpl<ISD::OutputArg> &Outs,
                         const SmallVectorImpl<SDValue> &OutVals,
                         const SDLoc &dl, SelectionDAG &DAG) const override;
 
+    
   };
   const SDICTargetLowering *
   createSDICSETargetLowering(const SDICTargetMachine &TM, const SDICSubtarget &STI);

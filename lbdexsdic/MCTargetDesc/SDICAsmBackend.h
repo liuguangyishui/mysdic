@@ -12,8 +12,8 @@
 //===----------------------------------------------------------------------===//
 //
 
-#ifndef LLVM_LIB_TARGET_CPU0_MCTARGETDESC_CPU0ASMBACKEND_H
-#define LLVM_LIB_TARGET_CPU0_MCTARGETDESC_CPU0ASMBACKEND_H
+#ifndef LLVM_LIB_TARGET_SDIC_MCTARGETDESC_SDICASMBACKEND_H
+#define LLVM_LIB_TARGET_SDIC_MCTARGETDESC_SDICASMBACKEND_H
 
 #include "SDICConfig.h"
 

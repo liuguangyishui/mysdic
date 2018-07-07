@@ -69,7 +69,7 @@ MCOperand SDICMCInstLower::LowerSymbolOperand(const MachineOperand &MO,
     break;
 
   case MachineOperand::MO_ExternalSymbol:
-    Symbol = AsmPrinter.GetExternalSymbol(MO.getSymbolName());
+    Symbol = AsmPrinter.GetExternalSymbolSymbol(MO.getSymbolName());
     Offset += MO.getOffset();
     break;
     

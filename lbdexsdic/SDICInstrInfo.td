@@ -33,7 +33,7 @@ def SDT_SDICPESUO_None   : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 def SDICJmpLink  : SDNode<"SDICISD::JmpLink", SDT_SDICJmpLink, [SDNPHasChain, SDNPOutGlue, SDNPOptInGlue, SDNPVariadic]>;
 
 //Tail Call
-def SDICTailCall : SDNode<"SDICISD::TailCall", SDT_SDICJmpLink, [SDNPHasChain, SDNPOptIntGlue, SDNPVariadic]>;
+def SDICTailCall : SDNode<"SDICISD::TailCall", SDT_SDICJmpLink, [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
 def SDICMUL_CALL : SDNode<"SDICISD::Mul_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
 def SDICDIV_CALL : SDNode<"SDICISD::Div_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;

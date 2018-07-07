@@ -423,13 +423,6 @@ class SetCC_I<bits<6> op, string instr_asm, PatFrag cond_op, Operand Od,
 
 }
 
-
-
-
-
-
-
-
 //Unconditional branch , such as JMP
 class UncondBranch<bits<6> op, string instr_asm>:
                            FJ<op, (outs), (ins jmptarget:$addr),
@@ -459,9 +452,9 @@ class JumpLink<bits<6> op, string instr_asm>:
       FJ<op, (outs), (ins calltarget:$target, variable_ops),
       !strconcat(instr_asm, "\t$target"), [(SDICJmpLink imm:$target)],
       IIBranch> {
-// #if CH >= CH10_1 2
-  // let DecoderMethod = "DecodeJumpTarget";
-// #endif
+      // #if CH >= CH10_1 2
+      // let DecoderMethod = "DecodeJumpTarget";
+      // #endif
    }
 
 //@JumpLink }
@@ -476,8 +469,7 @@ class JumpLinkReg<bits<6> op, string instr_asm,
       }
 }
 
-
-
+}
 
 
 

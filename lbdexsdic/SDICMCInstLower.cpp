@@ -46,6 +46,11 @@ MCOperand SDICMCInstLower::LowerSymbolOperand(const MachineOperand &MO,
   default:            llvm_unreachable("Invalid target flag!");
   case SDICII::MO_NO_FLAG:
     break;
+
+  case SDICII::MO_GOT_CALL:
+    TargetKind = SDICMCExpr::CEK_GOT_CALL;
+    break;
+
   }
 
   switch (MOTy) {
@@ -63,6 +68,11 @@ MCOperand SDICMCInstLower::LowerSymbolOperand(const MachineOperand &MO,
     Offset += MO.getOffset();
     break;
 
+  case MachineOperand::MO_ExternalSymbol:
+    Symbol = AsmPrinter.GetExternalSymbol(MO.getSymbolName());
+    Offset += MO.getOffset();
+    break;
+    
   case MachineOperand::MO_JumpTableIndex:
     Symbol = AsmPrinter.GetJTISymbol(MO.getIndex());
     break;
@@ -113,6 +123,7 @@ MCOperand SDICMCInstLower::LowerOperand(const MachineOperand& MO,
     return MCOperand::createImm(MO.getImm() + offset);
 
   case MachineOperand::MO_MachineBasicBlock:
+  case MachineOperand::MO_ExternalSymbol:
   case MachineOperand::MO_JumpTableIndex:
   case MachineOperand::MO_BlockAddress:
   case MachineOperand::MO_GlobalAddress:

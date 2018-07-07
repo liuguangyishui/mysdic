@@ -37,6 +37,18 @@ const SDICInstrInfo *SDICInstrInfo::create(SDICSubtarget &STI) {
   return llvm::createSDICSEInstrInfo(STI);
 }
 
+MachineMemOperand *
+Cpu0InstrInfo::GetMemOperand(MachineBasicBlock &MBB, int FI,
+                             MachineMemOperand::Flags Flags) const {
+
+  MachineFunction &MF = *MBB.getParent();
+  MachineFrameInfo &MFI = *MF.getFrameInfo();
+  unsigned Align = MFI.getObjectAlignment(FI);
+
+  return MF.getMachineMemOperand(MachinePointerInfo::getFixedStack(MF, FI),
+                                 Flags, MFI.getObjectSize(FI), Align);
+}
+
 //@GetInstSizeInBytes {
 /// Return the number of bytes of code the specified instruction may be.
 unsigned SDICInstrInfo::GetInstSizeInBytes(const MachineInstr &MI) const {

@@ -458,8 +458,8 @@ static bool CC_SDICO32(unsigned ValNo, MVT ValVT, MVT LocVT,
 //===----------------------------------------------------------------------===//
 
 static const MCPhysReg O32IntRegs[] = {
-  SDIC::R0, SDIC::R1,
-  SDIC::R2, SDIC::R3
+  SDIC::R0, SDIC::R1
+  // SDIC::R2, SDIC::R3
   // SDIC::R4, SDIC::R5
 };
 

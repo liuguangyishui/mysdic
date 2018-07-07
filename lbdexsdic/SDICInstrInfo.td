@@ -25,10 +25,16 @@ def SDT_SDICMOVLW        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 
 def SDT_SDICPESUO        : SDTypeProfile<1, 1, [SDTCisInt<0>]>;
 //CALL
+def SDT_SDICJmpLink      : SDTypeProfile<0, 1, [SDTCisVT<0, iPTR>]>;
 def SDT_SDICCALL         : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 def SDT_SDICPESUO_None   : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
 //Call
+def SDICJmpLink  : SDNode<"SDICISD::JmpLink", SDT_SDICJmpLink, [SDNPHasChain, SDNPOutGlue, SDNPOptInGlue, SDNPVariadic]>;
+
+//Tail Call
+def SDICTailCall : SDNode<"SDICISD::TailCall", SDT_SDICJmpLink, [SDNPHasChain, SDNPOptIntGlue, SDNPVariadic]>;
+
 def SDICMUL_CALL : SDNode<"SDICISD::Mul_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
 def SDICDIV_CALL : SDNode<"SDICISD::Div_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
 // Return
@@ -105,6 +111,15 @@ def HasSlt      :     Predicate<"Subtarget->hasSlt()">;
 
 class SDICInstAlias<string Asm, dag Result, bit Emit = 0b1> :
       InstAlias<Asm, Result, Emit>;
+
+class IsTailCall {
+      bit isCall = 1;
+      bit isTerminator = 1;
+      bit isReturn = 1;
+      bit isBarrier = 1;
+      bit hasExtraSrcRegAllocReq = 1;
+      bit isCodeGenOnly = 1;
+      }
 
 //===----------------------------------------------------------------------===//
 // Instruction format superclass
@@ -190,6 +205,15 @@ def brtarget24     :  Operand<OtherVT> {
     let DecoderMethod = "DecodeBranch24Target";
     }
 
+//JMP
+def jmptarget    : Operand<OtherVT>{
+    let EncoderMethod = "getJumpTargetOpValue";
+    let OperandType = "OPERAND_PCREL";
+    }
+
+def calltarget  : Operand<iPTR> {
+    let = EncoderMethod = "getJumpTargetOpValue";
+    }
 
 
 
@@ -275,7 +299,7 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
                            FA<op, (outs GPROut:$ra), (ins Od:$rb),
-                                  !strconcat(instr_asm, "\t$rb \n\t movwf $ra"),
+                                  !strconcat(instr_asm, "\t$rb \n\tmovwf $ra"),
                          [(set GPROut:$ra, (OpNode imm_type:$rb))], IIAlu>{
                                let rc = 0;
                          }
@@ -405,11 +429,6 @@ class SetCC_I<bits<6> op, string instr_asm, PatFrag cond_op, Operand Od,
 
 
 
-def jmptarget    : Operand<OtherVT>{
-    let EncoderMethod = "getJumpTargetOpValue";
-    let OperandType = "OPERAND_PCREL";
-    }
-
 
 //Unconditional branch , such as JMP
 class UncondBranch<bits<6> op, string instr_asm>:
@@ -432,6 +451,30 @@ class CBranch24<bits<6> op, string instr_asm, RegisterClass RC,
                         let hasDelaySlot = 1;
                         }
 
+let Predicates = [Ch9_1] in {
+// Jump and Link (Call)
+let isCall = 1, hasDelaySlot = 1 in {
+//@JumpLink {
+class JumpLink<bits<6> op, string instr_asm>:
+      FJ<op, (outs), (ins calltarget:$target, variable_ops),
+      !strconcat(instr_asm, "\t$target"), [(SDICJmpLink imm:$target)],
+      IIBranch> {
+// #if CH >= CH10_1 2
+   let DecoderMethod = "DecodeJumpTarget";
+// #endif
+   }
+
+//@JumpLink }
+
+class JumpLinkReg<bits<6> op, string instr_asm,
+                          RegisterClass RC>:
+      FA<op, (outs), (ins RC:$rb, variable_ops),
+      ！strconcat(instr_asm, "\t$rb"), [(SDICJmpLink RC:$rb)], IIBranch> {
+      let rc = 0;
+      let ra = 7;
+      let shamt = 0;
+      }
+}
 
 
 
@@ -612,8 +655,13 @@ def BSF2        :  CtrInstr2<0x39, "bsf", IIAlu, SR, SDICRegs, simm8, immSExt8>;
 def BTFSC       :  CtrInstr<0x1a, "btfsc", IIAlu, SDICRegs, SR, simm8, immSExt8>;
 // BTFFSS 测试寄存器中的位，为 1 则跳过下条指令
 def BTFSS       :  CtrInstr<0x1b, "btfss", IIAlu, SDICRegs, SR, simm8, immSExt8>;
-
-
+/// Jump & link and Return Instructions
+let Predicates = [Ch9_1] in {
+def JSUB        :  JumpLink<0x07, "jsub">;
+}
+let Predicates = [Ch9_1] in {
+def JALR        :  JumpLinkReg<0x08, "jalr", GPROut>;
+}
 
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;
@@ -777,8 +825,11 @@ defm : BrcondPatsCmp<SDICRegs, CPFSEQ, BSF2, BSF, BTFSS, BTFSC, BRA2>;
 let Predicates = [HasCmp] in {
 defm : SeteqPatsCmp<SDICRegs>;
 defm : SetltPatsCmp<SDICRegs>;
-
-
-
 }
 
+let Predicates = [Ch9_1] in  {
+def  : Pat<(SDICJmpLink (i32 tglobaladdr:$dst)),
+       (JSUB tglobaladdr:$dst)>;
+def  : Pat<(SDICJmpLink (i32 texternalsym:$dst)),
+       (JSUB texternalsym:$dst)>;
+       }

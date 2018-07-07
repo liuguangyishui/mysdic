@@ -32,6 +32,21 @@ public:
 
   const SDICRegisterInfo &getRegisterInfo() const override;
 
+
+  void storeRegToStack(MachineBasicBlock &MBB,
+                       MachineBasicBlock::iterator MI,
+                       unsigned SrcReg, bool isKill, int FrameIndex,
+                       const TargetRegisterClass *RC,
+                       const TargetRegisterInfo *TRI,
+                       int64_t Offset) const override;
+
+  void loadRegFromStack(MachineBasicBlock &MBB,
+                        MachineBasicBlock::iterator MI,
+                        unsigned DestReg, int FrameIndex,
+                        const TargetRegisterClass *RC,
+                        const TargetRegisterInfo *TRI,
+                        int64_t Offset) const override;
+
   //@expandPostRAPseudo
   bool expandPostRAPseudo( MachineInstr &MI) const override;
 

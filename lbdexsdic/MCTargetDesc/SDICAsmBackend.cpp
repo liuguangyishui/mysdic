@@ -29,7 +29,7 @@ using namespace llvm;
 
 //@adjustFixupValue {
 // Prepare value for the target space for it
-static unsigned adjustFixupValue(const MCFixup &Fixup, unint64_t Value,
+static unsigned adjustFixupValue(const MCFixup &Fixup, uint64_t Value,
 				 MCContext *Ctx = nullptr) {
   unsigned Kind = Fixup.getKind();
 

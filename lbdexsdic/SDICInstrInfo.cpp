@@ -38,7 +38,7 @@ const SDICInstrInfo *SDICInstrInfo::create(SDICSubtarget &STI) {
 }
 
 MachineMemOperand *
-Cpu0InstrInfo::GetMemOperand(MachineBasicBlock &MBB, int FI,
+SDICInstrInfo::GetMemOperand(MachineBasicBlock &MBB, int FI,
                              MachineMemOperand::Flags Flags) const {
 
   MachineFunction &MF = *MBB.getParent();

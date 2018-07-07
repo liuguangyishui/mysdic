@@ -460,7 +460,7 @@ class JumpLink<bits<6> op, string instr_asm>:
       !strconcat(instr_asm, "\t$target"), [(SDICJmpLink imm:$target)],
       IIBranch> {
 // #if CH >= CH10_1 2
-   let DecoderMethod = "DecodeJumpTarget";
+  // let DecoderMethod = "DecodeJumpTarget";
 // #endif
    }
 

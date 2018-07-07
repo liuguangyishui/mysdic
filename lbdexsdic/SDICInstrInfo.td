@@ -212,7 +212,7 @@ def jmptarget    : Operand<OtherVT>{
     }
 
 def calltarget  : Operand<iPTR> {
-    let = EncoderMethod = "getJumpTargetOpValue";
+    let  EncoderMethod = "getJumpTargetOpValue";
     }
 
 

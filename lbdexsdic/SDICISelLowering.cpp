@@ -46,6 +46,31 @@ SDValue SDICTargetLowering::getGlobalReg(SelectionDAG &DAG, EVT Ty) const {
   return DAG.getRegister(FI->getGlobalBaseReg(), Ty);
 }
 
+//@getTargetNode(GlobalAddressSDNode
+SDValue SDICTargetLowering::getTargetNode(GlobalAddressSDNode *N, EVT Ty,
+                                          SelectionDAG &DAG,
+                                          unsigned Flag) const {
+  return DAG.getTargetGlobalAddress(N->getGlobal(), SDLoc(N), Ty, 0, Flag);
+}
+
+//@getTargetNode(ExternalSymbolSDNode
+SDValue SDICTargetLowering::getTargetNode(ExternalSymbolSDNode *N, EVT Ty,
+                                          SelectionDAG &DAG,
+                                          unsigned Flag) const {
+  return DAG.getTargetExternalSymbol(N->getSymbol(), Ty, Flag);
+}
+
+SDValue SDICTargetLowering::getTargetNode(BlockAddressSDNode *N, EVT Ty,
+                                          SelectionDAG &DAG,
+                                          unsigned Flag) const {
+  return DAG.getTargetBlockAddress(N->getBlockAddress(), Ty, 0, Flag);
+}
+
+SDValue SDICTargetLowering::getTargetNode(JumpTableSDNode *N, EVT Ty,
+                                          SelectionDAG &DAG,
+                                          unsigned Flag) const {
+  return DAG.getTargetJumpTable(N->getIndex(), Ty, Flag);
+}
 
 //@3_1 1 {
 const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {

@@ -99,3 +99,10 @@ bool SDICFrameLowering::hasFP(const MachineFunction &MF) const {
       TRI->needsStackRealignment(MF);
 }
 
+// Eliminate ADJCALLSTACKDOWN, ADJCALLSTACKUP pseudo instructions
+MachineBasicBlock::iterator Cpu0FrameLowering::
+eliminateCallFramePseudoInstr(MachineFunction &MF, MachineBasicBlock &MBB,
+                              MachineBasicBlock::iterator I) const {
+
+  return MBB.erase(I);
+}

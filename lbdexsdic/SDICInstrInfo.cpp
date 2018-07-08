@@ -30,7 +30,8 @@ void SDICInstrInfo::anchor() {}
 
 //@SDICInstrInfo {
 SDICInstrInfo::SDICInstrInfo(const SDICSubtarget &STI)
-    : 
+    :
+      SDICGenInstrInfo(SDIC::ADJCALLSTACKDOWN, SDIC::ADJCALLSTACKUP),
       Subtarget(STI) {}
 
 const SDICInstrInfo *SDICInstrInfo::create(SDICSubtarget &STI) {

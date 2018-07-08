@@ -29,6 +29,15 @@ def SDT_SDICJmpLink      : SDTypeProfile<0, 1, [SDTCisVT<0, iPTR>]>;
 def SDT_SDICCALL         : SDTypeProfile<1, 2, [SDTCisInt<0>]>;
 def SDT_SDICPESUO_None   : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 
+def SDT_SDICCallSeqStart : SDCallSeqStart<[SDTCisVT<0, i32>]>;
+def SDT_SDICCallSeqEnd   : SDCallSeqEnd<[SDTCisVT<0, i32>, SDTCisVT<1, i32>]>;
+
+// These are target-independent nodes, but have target-specific formats.
+def callseq_start        : SDNode<"ISD::CALLSEQ_START", SDT_SDICCallSeqStart,
+                           [SDNPHasChain, SDNPOutGlue]>;
+def callseq_end          : SDNode<"ISD::CALLSEQ_END", SDT_SDICCallSeqEnd,
+                           [SDNPHasChain, SDNPOptInGlue, SDNPOutGlue]>;
+
 //Call
 def SDICJmpLink  : SDNode<"SDICISD::JmpLink", SDT_SDICJmpLink, [SDNPHasChain, SDNPOutGlue, SDNPOptInGlue, SDNPVariadic]>;
 
@@ -470,8 +479,29 @@ class JumpLinkReg<bits<6> op, string instr_asm,
 }
 
 }
+// ===-----------------------------------------------------------------===//
+// Pseudo instructions
+// ===-----------------------------------------------------------------===//
+let Predicates = [9_2] in {
+// As stack alignment is always done with addiu, we need a 16-bit immediate
+let Defs = [R10], Uses = [R10] in {
+def ADJCALLSTACKDOWN  : SDICPseudo<(outs), (ins uimm16:$amt),
+                                   "!ADJCALLSTACKDOWN $amt",
+                                   [(callseq_start timm:$amt)]>;
+def ADJCALLSTACKUP    : SDICPseudo<(outs), (ins uimm16:$amt1, uimm16:$amt2),
+                                    "!ADJCALLSTACKUP $amt1",
+                                   [(callseq_end timm:$amt1, timm:$amt2)]>;
+}
 
-
+//@def CPRESTORE {
+// When handling PIC code the assembler needs .cpload and .cprestore
+// directives. If the real instructions corresponding these directives
+// are used, we have the same behavior, but get also a bunch of warnings
+// from the assembler.
+let hasSideEffects = 0 in
+def CPRESTORE : Cpu0Pseudo<(outs), (ins i32imm:$loc, CPURegs:$r9),
+                                   ".cprestore\t$loc", []>;
+} // let Predicates = [Ch9_2]
 
 
 let Predicates = [Ch3_3] in {

@@ -278,6 +278,23 @@ public:
     const SDICABIInfo &ABI;
 
   private:
+
+     // Create a TargetGlobalAddress node.
+    SDValue getTargetNode(GlobalAddressSDNode *N, EVT Ty, SelectionDAG &DAG,
+                          unsigned Flag) const;
+
+    // Create a TargetExternalSymbol node.
+    SDValue getTargetNode(ExternalSymbolSDNode *N, EVT Ty, SelectionDAG &DAG,
+                          unsigned Flag) const;
+
+    // Create a TargetBlockAddress node.
+    SDValue getTargetNode(BlockAddressSDNode *N, EVT Ty, SelectionDAG &DAG,
+                          unsigned Flag) const;
+
+    // Create a TargetJumpTable node.
+    SDValue getTargetNode(JumpTableSDNode *N, EVT Ty, SelectionDAG &DAG,
+                          unsigned Flag) const;
+    
     SDICCC::SpecialCallingConvType getSpecialCallingConv(SDValue Callee) const;
 
        // Lower Operand helpers

@@ -499,7 +499,7 @@ def ADJCALLSTACKUP    : SDICPseudo<(outs), (ins uimm16:$amt1, uimm16:$amt2),
 // are used, we have the same behavior, but get also a bunch of warnings
 // from the assembler.
 let hasSideEffects = 0 in
-def CPRESTORE : Cpu0Pseudo<(outs), (ins i32imm:$loc, CPURegs:$r9),
+def CPRESTORE : SDICPseudo<(outs), (ins i32imm:$loc, CPURegs:$r9),
                                    ".cprestore\t$loc", []>;
 } // let Predicates = [Ch9_2]
 

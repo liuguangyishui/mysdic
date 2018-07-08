@@ -217,7 +217,7 @@ private:
                       std::deque< std::pair<unsigned, SDValue> > &RegsToPass,
                       SmallVectorImpl<SDValue> &MemOpChains, SDValue StackPtr,
                       MachineFrameInfo *MFI, SelectionDAG &DAG, SDValue Arg,
-                      const Cpu0CC &CC, const ByValArgInfo &ByVal,
+                      const SDICCC &CC, const ByValArgInfo &ByVal,
                       const ISD::ArgFlagsTy &Flags, bool isLittle) const;
 
       SDValue passArgOnStack(SDValue StackPtr, unsigned Offset, SDValue Chain,
@@ -227,7 +227,7 @@ private:
       bool CanLowerReturn(CallingConv::ID CallConv, MachineFunction &MF,
                         bool isVarArg,
                         const SmallVectorImpl<ISD::OutputArg> &Outs,
-                        LLVMContext &Context) const override;
+			  LLVMContext &Context) const ;//override;
       
       void handleByValArg(unsigned ValNo, MVT ValVT, MVT LocVT,
                           CCValAssign::LocInfo LocInfo,

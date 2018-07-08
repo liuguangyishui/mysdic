@@ -128,6 +128,7 @@ namespace llvm {
     SDValue PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) const override;
     
   protected:
+     SDValue getGlobalReg(SelectionDAG &DAG, EVT Ty) const;
     // This method creates the following nodes, which are necessary for
     // computing a local symbol's address:
     //

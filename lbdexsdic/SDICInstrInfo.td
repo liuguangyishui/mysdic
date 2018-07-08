@@ -482,7 +482,7 @@ class JumpLinkReg<bits<6> op, string instr_asm,
 // ===-----------------------------------------------------------------===//
 // Pseudo instructions
 // ===-----------------------------------------------------------------===//
-let Predicates = [9_2] in {
+let Predicates = [Ch9_2] in {
 // As stack alignment is always done with addiu, we need a 16-bit immediate
 let Defs = [R10], Uses = [R10] in {
 def ADJCALLSTACKDOWN  : SDICPseudo<(outs), (ins uimm16:$amt),

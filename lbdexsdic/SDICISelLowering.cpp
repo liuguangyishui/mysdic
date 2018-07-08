@@ -1306,3 +1306,101 @@ copyByValRegs(SDValue Chain, const SDLoc &DL, std::vector<SDValue> &OutChains,
     OutChains.push_back(Store);
   }
 }
+
+// Copy byVal arg to registers and stack.
+void SDICTargetLowering::
+passByValArg(SDValue Chain, const SDLoc &DL,
+             std::deque< std::pair<unsigned, SDValue> > &RegsToPass,
+             SmallVectorImpl<SDValue> &MemOpChains, SDValue StackPtr,
+             MachineFrameInfo *MFI, SelectionDAG &DAG, SDValue Arg,
+             const SDICCC &CC, const ByValArgInfo &ByVal,
+             const ISD::ArgFlagsTy &Flags, bool isLittle) const {
+  unsigned ByValSizeInBytes = Flags.getByValSize();
+  unsigned OffsetInBytes = 0; // From beginning of struct
+  unsigned RegSizeInBytes = CC.regSize();
+  unsigned Alignment = std::min(Flags.getByValAlign(), RegSizeInBytes);
+  EVT PtrTy = getPointerTy(DAG.getDataLayout()),
+      RegTy = MVT::getIntegerVT(RegSizeInBytes * 8);
+
+  if (ByVal.NumRegs) {
+    const ArrayRef<MCPhysReg> ArgRegs = CC.intArgRegs();
+    bool LeftoverBytes = (ByVal.NumRegs * RegSizeInBytes > ByValSizeInBytes);
+    unsigned I = 0;
+
+    // Copy words to registers.
+    for (; I < ByVal.NumRegs - LeftoverBytes;
+         ++I, OffsetInBytes += RegSizeInBytes) {
+      SDValue LoadPtr = DAG.getNode(ISD::ADD, DL, PtrTy, Arg,
+                                    DAG.getConstant(OffsetInBytes, DL, PtrTy));
+      SDValue LoadVal = DAG.getLoad(RegTy, DL, Chain, LoadPtr,
+                                    MachinePointerInfo());
+      MemOpChains.push_back(LoadVal.getValue(1));
+      unsigned ArgReg = ArgRegs[ByVal.FirstIdx + I];
+      RegsToPass.push_back(std::make_pair(ArgReg, LoadVal));
+    }
+
+    // Return if the struct has been fully copied.
+    if (ByValSizeInBytes == OffsetInBytes)
+      return;
+     // Copy the remainder of the byval argument with sub-word loads and shifts.
+    if (LeftoverBytes) {
+      assert((ByValSizeInBytes > OffsetInBytes) &&
+             (ByValSizeInBytes < OffsetInBytes + RegSizeInBytes) &&
+             "Size of the remainder should be smaller than RegSizeInBytes.");
+      SDValue Val;
+
+      for (unsigned LoadSizeInBytes = RegSizeInBytes / 2, TotalBytesLoaded = 0;
+           OffsetInBytes < ByValSizeInBytes; LoadSizeInBytes /= 2) {
+        unsigned RemainingSizeInBytes = ByValSizeInBytes - OffsetInBytes;
+
+        if (RemainingSizeInBytes < LoadSizeInBytes)
+          continue;
+
+        // Load subword.
+        SDValue LoadPtr = DAG.getNode(ISD::ADD, DL, PtrTy, Arg,
+                                      DAG.getConstant(OffsetInBytes, DL, PtrTy));
+        SDValue LoadVal = DAG.getExtLoad(
+            ISD::ZEXTLOAD, DL, RegTy, Chain, LoadPtr, MachinePointerInfo(),
+            MVT::getIntegerVT(LoadSizeInBytes * 8), Alignment);
+        MemOpChains.push_back(LoadVal.getValue(1));
+
+        // Shift the loaded value.
+        unsigned Shamt;
+
+        if (isLittle)
+          Shamt = TotalBytesLoaded * 8;
+        else
+          Shamt = (RegSizeInBytes - (TotalBytesLoaded + LoadSizeInBytes)) * 8;
+
+        SDValue Shift = DAG.getNode(ISD::SHL, DL, RegTy, LoadVal,
+                                    DAG.getConstant(Shamt, DL, MVT::i32));
+
+        if (Val.getNode())
+          Val = DAG.getNode(ISD::OR, DL, RegTy, Val, Shift);
+        else
+          Val = Shift;
+
+        OffsetInBytes += LoadSizeInBytes;
+        TotalBytesLoaded += LoadSizeInBytes;
+        Alignment = std::min(Alignment, LoadSizeInBytes);
+      }
+
+      unsigned ArgReg = ArgRegs[ByVal.FirstIdx + I];
+      RegsToPass.push_back(std::make_pair(ArgReg, Val));
+      return;
+    }
+  }
+
+   // Copy remainder of byval arg to it with memcpy.
+  unsigned MemCpySize = ByValSizeInBytes - OffsetInBytes;
+  SDValue Src = DAG.getNode(ISD::ADD, DL, PtrTy, Arg,
+                            DAG.getConstant(OffsetInBytes, DL, PtrTy));
+  SDValue Dst = DAG.getNode(ISD::ADD, DL, PtrTy, StackPtr,
+                            DAG.getIntPtrConstant(ByVal.Address, DL));
+  Chain = DAG.getMemcpy(Chain, DL, Dst, Src,
+                        DAG.getConstant(MemCpySize, DL, PtrTy),
+                        Alignment, /*isVolatile=*/false, /*AlwaysInline=*/false,
+                        /*isTailCall=*/false,
+                        MachinePointerInfo(), MachinePointerInfo());
+  MemOpChains.push_back(Chain);
+}

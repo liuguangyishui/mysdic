@@ -743,9 +743,6 @@ SDICTargetLowering::LowerCall(TargetLowering::CallLoweringInfo &CLI,
   return LowerCallResult(Chain, InFlag, CallConv, IsVarArg,
                          Ins, DL, DAG, InVals, CLI.Callee.getNode(), CLI.RetTy);
 
-  
-
-  return CLI.Chain;
 }
 //@LowerCall }
 

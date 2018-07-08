@@ -34,6 +34,7 @@ public:
   SDICFunctionInfo(MachineFunction& MF)
   : MF(MF),
     SRetReturnReg(0),CallsEhReturn(false),CallsEhDwarf(false),
+    GlobalBaseReg(0),
     VarArgsFrameIndex(0),
     InArgFIRange(std::make_pair(-1, 0)),
     OutArgFIRange(std::make_pair(-1, 0)), GPFI(0), DynAllocFI(0),

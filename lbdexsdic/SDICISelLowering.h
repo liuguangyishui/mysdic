@@ -200,34 +200,7 @@ public:
 
       byval_iterator byval_end() const { return ByValArgs.end(); }
 
-private:
-
-      SDICCC::SpecialCallingConvType getSpecialCallingConv(SDValue Callee) const;
-
-       // Lower Operand helpers
-      SDValue LowerCallResult(SDValue Chain, SDValue InFlag,
-                            CallingConv::ID CallConv, bool isVarArg,
-                            const SmallVectorImpl<ISD::InputArg> &Ins,
-                            const SDLoc &dl, SelectionDAG &DAG,
-                            SmallVectorImpl<SDValue> &InVals,
-                            const SDNode *CallNode, const Type *RetTy) const;
-
-       /// passByValArg - Pass a byval argument in registers or on stack.
-      void passByValArg(SDValue Chain, const SDLoc &DL,
-                      std::deque< std::pair<unsigned, SDValue> > &RegsToPass,
-                      SmallVectorImpl<SDValue> &MemOpChains, SDValue StackPtr,
-                      MachineFrameInfo *MFI, SelectionDAG &DAG, SDValue Arg,
-                      const SDICCC &CC, const ByValArgInfo &ByVal,
-                      const ISD::ArgFlagsTy &Flags, bool isLittle) const;
-
-      SDValue passArgOnStack(SDValue StackPtr, unsigned Offset, SDValue Chain,
-                           SDValue Arg, const SDLoc &DL, bool IsTailCall,
-                           SelectionDAG &DAG) const;
-
-      bool CanLowerReturn(CallingConv::ID CallConv, MachineFunction &MF,
-                        bool isVarArg,
-                        const SmallVectorImpl<ISD::OutputArg> &Outs,
-			  LLVMContext &Context) const override;
+    private:
       
       void handleByValArg(unsigned ValNo, MVT ValVT, MVT LocVT,
                           CCValAssign::LocInfo LocInfo,
@@ -268,6 +241,17 @@ private:
     const SDICABIInfo &ABI;
 
   private:
+    SDICCC::SpecialCallingConvType getSpecialCallingConv(SDValue Callee) const;
+
+       // Lower Operand helpers
+    SDValue LowerCallResult(SDValue Chain, SDValue InFlag,
+                            CallingConv::ID CallConv, bool isVarArg,
+                            const SmallVectorImpl<ISD::InputArg> &Ins,
+                            const SDLoc &dl, SelectionDAG &DAG,
+                            SmallVectorImpl<SDValue> &InVals,
+                            const SDNode *CallNode, const Type *RetTy) const;
+
+    
     /// isEligibleForTailCallOptimization - Check whether the call is eligible
     /// for tail call optimization.
     virtual bool
@@ -286,7 +270,23 @@ private:
                        const SDICCC &CC, const ByValArgInfo &ByVal) const;
 
     
+    /// passByValArg - Pass a byval argument in registers or on stack.
+    void passByValArg(SDValue Chain, const SDLoc &DL,
+                      std::deque< std::pair<unsigned, SDValue> > &RegsToPass,
+                      SmallVectorImpl<SDValue> &MemOpChains, SDValue StackPtr,
+                      MachineFrameInfo *MFI, SelectionDAG &DAG, SDValue Arg,
+                      const SDICCC &CC, const ByValArgInfo &ByVal,
+                      const ISD::ArgFlagsTy &Flags, bool isLittle) const;
 
+    SDValue passArgOnStack(SDValue StackPtr, unsigned Offset, SDValue Chain,
+                           SDValue Arg, const SDLoc &DL, bool IsTailCall,
+                           SelectionDAG &DAG) const;
+
+    bool CanLowerReturn(CallingConv::ID CallConv, MachineFunction &MF,
+                        bool isVarArg,
+                        const SmallVectorImpl<ISD::OutputArg> &Outs,
+			  LLVMContext &Context) const override;
+    
     // Lower Operand specifics
     SDValue lowerGlobalAddress(SDValue Op, SelectionDAG &DAG) const;
 
@@ -298,7 +298,8 @@ private:
                            const SDLoc &dl, SelectionDAG &DAG,
                            SmallVectorImpl<SDValue> &InVals) const override;
 
-     SDValue LowerCall(TargetLowering::CallLoweringInfo &CLI,
+
+    SDValue LowerCall(TargetLowering::CallLoweringInfo &CLI,
                       SmallVectorImpl<SDValue> &InVals) const override;
     
     SDValue LowerReturn(SDValue Chain,

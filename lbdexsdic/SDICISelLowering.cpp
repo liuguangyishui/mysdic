@@ -39,6 +39,14 @@ using namespace llvm;
 
 #define DEBUG_TYPE "sdic-lower"
 
+STATISTIC(NumTailCalls, "Number of tail calls");
+
+SDValue SDICTargetLowering::getGlobalReg(SelectionDAG &DAG, EVT Ty) const {
+  SDICFunctionInfo *FI = DAG.getMachineFunction().getInfo<SDICFunctionInfo>();
+  return DAG.getRegister(FI->getGlobalBaseReg(), Ty);
+}
+
+
 //@3_1 1 {
 const char *SDICTargetLowering::getTargetNodeName(unsigned Opcode) const {
   switch (Opcode) {
@@ -615,10 +623,6 @@ SDICTargetLowering::LowerCall(TargetLowering::CallLoweringInfo &CLI,
   SmallVector<SDValue, 8> MemOpChains;
   SDICCC::byval_iterator ByValArg = SDICCCInfo.byval_begin();
 
-  // With EABI is it possible to have 16 args on registers.
-  std::deque< std::pair<unsigned, SDValue> > RegsToPass;
-  SmallVector<SDValue, 8> MemOpChains;
-  SDICCC::byval_iterator ByValArg = SDICCCInfo.byval_begin();
 
   //@1 {
   // Walk the register/memloc assignments, inserting copies/loads.

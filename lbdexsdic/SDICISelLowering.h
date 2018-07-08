@@ -128,6 +128,42 @@ namespace llvm {
     SDValue PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) const override;
     
   protected:
+    // This method creates the following nodes, which are necessary for
+    // computing a local symbol's address:
+    //
+    // (add (load (wrapper $gp, %got(sym)), %lo(sym))
+    template<class NodeTy>
+    SDValue getAddrLocal(NodeTy *N, EVT Ty, SelectionDAG &DAG) const {
+      SDLoc DL(N);
+      unsigned GOTFlag = SDICII::MO_GOT;
+      SDValue GOT = DAG.getNode(SDICISD::Wrapper, DL, Ty, getGlobalReg(DAG, Ty),
+                                getTargetNode(N, Ty, DAG, GOTFlag));
+      SDValue Load =
+          DAG.getLoad(Ty, DL, DAG.getEntryNode(), GOT,
+                      MachinePointerInfo::getGOT(DAG.getMachineFunction()));
+      unsigned LoFlag = SDICII::MO_ABS_LO;
+      SDValue Lo = DAG.getNode(SDICISD::Lo, DL, Ty,
+                               getTargetNode(N, Ty, DAG, LoFlag));
+      return DAG.getNode(ISD::ADD, DL, Ty, Load, Lo);
+    }
+
+    //@getAddrGlobal {
+    // This method creates the following nodes, which are necessary for
+    // computing a global symbol's address:
+    //
+    // (load (wrapper $gp, %got(sym)))
+    template<class NodeTy>
+    SDValue getAddrGlobal(NodeTy *N, EVT Ty, SelectionDAG &DAG,
+                          unsigned Flag, SDValue Chain,
+                          const MachinePointerInfo &PtrInfo) const {
+      SDLoc DL(N);
+      SDValue Tgt = DAG.getNode(SDICISD::Wrapper, DL, Ty, getGlobalReg(DAG, Ty),
+                                getTargetNode(N, Ty, DAG, Flag));
+      return DAG.getLoad(Ty, DL, Chain, Tgt, PtrInfo);
+    }
+    //@getAddrGlobal }
+
+
     /// This function fills Ops, which is the list of operands that will later
     /// be used when a function call node is created. It also generates
     /// copyToReg nodes to set up argument registers.

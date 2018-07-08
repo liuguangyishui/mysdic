@@ -100,7 +100,7 @@ bool SDICFrameLowering::hasFP(const MachineFunction &MF) const {
 }
 
 // Eliminate ADJCALLSTACKDOWN, ADJCALLSTACKUP pseudo instructions
-MachineBasicBlock::iterator Cpu0FrameLowering::
+MachineBasicBlock::iterator SDICFrameLowering::
 eliminateCallFramePseudoInstr(MachineFunction &MF, MachineBasicBlock &MBB,
                               MachineBasicBlock::iterator I) const {
 

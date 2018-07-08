@@ -47,6 +47,30 @@ MCOperand SDICMCInstLower::LowerSymbolOperand(const MachineOperand &MO,
   case SDICII::MO_NO_FLAG:
     break;
 
+// SDIC_GPREL is for llc -march=cpu0 -relocation-model=static -cpu0-islinux-
+//  format=false (global var in .sdata).
+  case SDICII::MO_GPREL:
+    TargetKind = SDICMCExpr::CEK_GPREL;
+    break;
+
+    case SDICII::MO_GOT:
+    TargetKind = SDICMCExpr::CEK_GOT;
+    break;
+// ABS_HI and ABS_LO is for llc -march=cpu0 -relocation-model=static (global 
+//  var in .data).
+  case SDICII::MO_ABS_HI:
+    TargetKind = SDICMCExpr::CEK_ABS_HI;
+    break;
+  case SDICII::MO_ABS_LO:
+    TargetKind = SDICMCExpr::CEK_ABS_LO;
+    break;
+  case SDICII::MO_GOT_HI16:
+    TargetKind = SDICMCExpr::CEK_GOT_HI16;
+    break;
+  case SDICII::MO_GOT_LO16:
+    TargetKind = SDICMCExpr::CEK_GOT_LO16;
+    break;
+    
   case SDICII::MO_GOT_CALL:
     TargetKind = SDICMCExpr::CEK_GOT_CALL;
     break;

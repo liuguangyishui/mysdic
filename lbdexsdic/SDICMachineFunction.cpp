@@ -23,6 +23,9 @@ bool FixGlobalBaseReg;
 SDICFunctionInfo::~SDICFunctionInfo() {}
 
 
+unsigned SDICFunctionInfo::getGlobalBaseReg() {
+  return GlobalBaseReg = SDIC::R10;
+}
 
 MachinePointerInfo SDICFunctionInfo::callPtrInfo(const char *ES) {
   return MachinePointerInfo(MF.getPSVManager().getExternalSymbolCallEntry(ES));

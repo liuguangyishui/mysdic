@@ -53,7 +53,10 @@ MCOperand SDICMCInstLower::LowerSymbolOperand(const MachineOperand &MO,
     TargetKind = SDICMCExpr::CEK_GPREL;
     break;
 
-    case SDICII::MO_GOT:
+  case SDICII::MO_GOT_CALL:
+    TargetKind = SDICMCExpr::CEK_GOT_CALL;
+    break;
+  case SDICII::MO_GOT:
     TargetKind = SDICMCExpr::CEK_GOT;
     break;
 // ABS_HI and ABS_LO is for llc -march=cpu0 -relocation-model=static (global 
@@ -71,9 +74,7 @@ MCOperand SDICMCInstLower::LowerSymbolOperand(const MachineOperand &MO,
     TargetKind = SDICMCExpr::CEK_GOT_LO16;
     break;
     
-  case SDICII::MO_GOT_CALL:
-    TargetKind = SDICMCExpr::CEK_GOT_CALL;
-    break;
+ 
 
   }
 

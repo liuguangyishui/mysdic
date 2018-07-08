@@ -22,9 +22,16 @@ bool FixGlobalBaseReg;
 
 SDICFunctionInfo::~SDICFunctionInfo() {}
 
-void SDICFunctionInfo::anchor() {
- 
 
+
+MachinePointerInfo SDICFunctionInfo::callPtrInfo(const char *ES) {
+  return MachinePointerInfo(MF.getPSVManager().getExternalSymbolCallEntry(ES));
 }
 
+MachinePointerInfo SDICFunctionInfo::callPtrInfo(const GlobalValue *GV) {
+  return MachinePointerInfo(MF.getPSVManager().getGlobalValueCallEntry(GV));
+}
 
+void SDICFunctionInfo::anchor() {
+ 
+}

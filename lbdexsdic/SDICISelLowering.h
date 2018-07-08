@@ -128,7 +128,19 @@ namespace llvm {
     SDValue PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) const override;
     
   protected:
+    /// This function fills Ops, which is the list of operands that will later
+    /// be used when a function call node is created. It also generates
+    /// copyToReg nodes to set up argument registers.
+    virtual void
+    getOpndList(SmallVectorImpl<SDValue> &Ops,
+                std::deque< std::pair<unsigned, SDValue> > &RegsToPass,
+                bool IsPICCall, bool GlobalOrExternal, bool InternalLinkage,
+                CallLoweringInfo &CLI, SDValue Callee, SDValue Chain) const;
 
+
+
+
+    
     /// ByValArgInfo - Byval argument information.
     struct ByValArgInfo {
       unsigned FirstIdx; // Index of the first register used.
@@ -150,6 +162,11 @@ public:
       SDICCC(CallingConv::ID CallConv, bool IsO32, CCState &Info,
 	     SpecialCallingConvType SpecialCallingConv = NoSpecialCallingConv);
 
+      void analyzeCallOperands(const SmallVectorImpl<ISD::OutputArg> &Outs,
+                               bool IsVarArg, bool IsSoftFloat,
+                               const SDNode *CallNode,
+                               std::vector<ArgListEntry> &FuncArgs);
+      
       void analyzeFormalArguments(const SmallVectorImpl<ISD::InputArg> &Ins,
 				  bool IsSoftFloat,
 				  Function::const_arg_iterator FuncArg);
@@ -183,8 +200,35 @@ public:
 
       byval_iterator byval_end() const { return ByValArgs.end(); }
 
+private:
 
-      private:
+      SDICCC::SpecialCallingConvType getSpecialCallingConv(SDValue Callee) const;
+
+       // Lower Operand helpers
+      SDValue LowerCallResult(SDValue Chain, SDValue InFlag,
+                            CallingConv::ID CallConv, bool isVarArg,
+                            const SmallVectorImpl<ISD::InputArg> &Ins,
+                            const SDLoc &dl, SelectionDAG &DAG,
+                            SmallVectorImpl<SDValue> &InVals,
+                            const SDNode *CallNode, const Type *RetTy) const;
+
+       /// passByValArg - Pass a byval argument in registers or on stack.
+      void passByValArg(SDValue Chain, const SDLoc &DL,
+                      std::deque< std::pair<unsigned, SDValue> > &RegsToPass,
+                      SmallVectorImpl<SDValue> &MemOpChains, SDValue StackPtr,
+                      MachineFrameInfo *MFI, SelectionDAG &DAG, SDValue Arg,
+                      const Cpu0CC &CC, const ByValArgInfo &ByVal,
+                      const ISD::ArgFlagsTy &Flags, bool isLittle) const;
+
+      SDValue passArgOnStack(SDValue StackPtr, unsigned Offset, SDValue Chain,
+                           SDValue Arg, const SDLoc &DL, bool IsTailCall,
+                           SelectionDAG &DAG) const;
+
+      bool CanLowerReturn(CallingConv::ID CallConv, MachineFunction &MF,
+                        bool isVarArg,
+                        const SmallVectorImpl<ISD::OutputArg> &Outs,
+                        LLVMContext &Context) const override;
+      
       void handleByValArg(unsigned ValNo, MVT ValVT, MVT LocVT,
                           CCValAssign::LocInfo LocInfo,
                           ISD::ArgFlagsTy ArgFlags);

@@ -39,10 +39,12 @@ def callseq_end          : SDNode<"ISD::CALLSEQ_END", SDT_SDICCallSeqEnd,
                            [SDNPHasChain, SDNPOptInGlue, SDNPOutGlue]>;
 
 //Call
-def SDICJmpLink  : SDNode<"SDICISD::JmpLink", SDT_SDICJmpLink, [SDNPHasChain, SDNPOutGlue, SDNPOptInGlue, SDNPVariadic]>;
+def SDICJmpLink  : SDNode<"SDICISD::JmpLink", SDT_SDICJmpLink,
+                           [SDNPHasChain, SDNPOutGlue, SDNPOptInGlue, SDNPVariadic]>;
 
 //Tail Call
-def SDICTailCall : SDNode<"SDICISD::TailCall", SDT_SDICJmpLink, [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
+def SDICTailCall : SDNode<"SDICISD::TailCall", SDT_SDICJmpLink,
+                                               [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
 def SDICMUL_CALL : SDNode<"SDICISD::Mul_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
 def SDICDIV_CALL : SDNode<"SDICISD::Div_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
@@ -854,4 +856,11 @@ def  : Pat<(SDICJmpLink (i32 tglobaladdr:$dst)),
        (JSUB tglobaladdr:$dst)>;
 def  : Pat<(SDICJmpLink (i32 texternalsym:$dst)),
        (JSUB texternalsym:$dst)>;
-       }
+
+//@Pat<SDICTailCall>
+def  : Pat<(SDICTailCall (iPTR tglobaladdr:$dst)),
+                         (TAILCALL tglobaladdr:$dst)>;
+
+def  : Pat<(SDICTailCall (iPTR texternalsym:$dst)),
+                         (TAILCALL texternalsym:$dst)>;
+}

@@ -480,7 +480,26 @@ class JumpLinkReg<bits<6> op, string instr_asm,
       }
 }
 
+//@class TailCall
+let isCall = 1, isTerminator = 1, isReturn = 1, isBarrier = 1, hasDelaySlot = 1,
+    hasExtraSrcRegAllocReq = 1, Defs = [R2] in {
+  class TailCall<Instruction JumpInst> :
+    PseudoSE<(outs), (ins calltarget:$target), [], IIBranch>,
+    PseudoInstExpansion<(JumpInst jmptarget:$target)>;
+
+  class TailCallReg<RegisterClass RO, Instruction JRInst,
+                    RegisterClass ResRO = RO> :
+    PseudoSE<(outs), (ins RO:$rs), [(SDICTailCall RO:$rs)], IIBranch>,
+    PseudoInstExpansion<(JRInst ResRO:$rs)>;
 }
+
+
+}
+
+
+
+
+
 // ===-----------------------------------------------------------------===//
 // Pseudo instructions
 // ===-----------------------------------------------------------------===//

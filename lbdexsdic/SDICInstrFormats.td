@@ -82,6 +82,12 @@ class SDICPseudo<dag outs, dag ins, string asmstr, list<dag> pattern>:
                 //  bits<1> ra;
                 //  let Inst{9-9} = ra;
                   }
+// SDIC32 Pseudo Instruction Format
+class PseudoSE<dag outs, dag ins, list<dag> pattern,
+               InstrItinClass itin = IIPseudo> :
+  SDICPseudo<outs, ins, "", pattern> {
+}
+
 
 
 class SDICPseudo_I<dag outs, dag ins, string asmstr, list<dag> pattern>:

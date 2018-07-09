@@ -121,14 +121,14 @@ class SDICPseudo_None<dag outs, dag ins, string asmstr, list<dag> pattern>:
                     list<dag> pattern, InstrItinClass itin>:
                     SDICInst<outs, ins, asmstr, pattern, itin, FrmA>
         {
-         bits<8> ra; //   rf;      // 对应F，F是8位寄存器地址
-         bits<1> rb;  //rd;      // 对应D, D是目标寄存器选择位 1位
-         bits<1> rc;  //imm8;      // 对应A, A是快速操作RAM位 1位
+         bits<4> ra; //   rf;      // 对应F，F是8位寄存器地址
+         bits<4> rb;  //rd;      // 对应D, D是目标寄存器选择位 1位
+         bits<2> rc;  //imm8;      // 对应A, A是快速操作RAM位 1位
 
          let Opcode = op;
-         let Inst{9-2} = ra; //rf;
-         let Inst{1-1} = rb; //rd;
-         let Inst{0-0} = rc; //imm8;
+         let Inst{9-6} = ra; //rf;
+         let Inst{5-2} = rb; //rd;
+         let Inst{1-0} = rc; //imm8;
          }
 
 //===--------------------------------------------------------------===//

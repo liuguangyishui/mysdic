@@ -475,7 +475,7 @@ class JumpLinkReg<bits<6> op, string instr_asm,
       FA<op, (outs), (ins RC:$rb, variable_ops),
       !strconcat(instr_asm, "\t$rb"), [(SDICJmpLink RC:$rb)], IIBranch> {
       let rc = 0;
-      let ra = 7;
+      let ra = 14;
     //  let shamt = 0;
       }
 }

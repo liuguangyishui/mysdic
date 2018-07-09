@@ -687,6 +687,15 @@ let Predicates = [Ch9_1] in {
 def JALR        :  JumpLinkReg<0x08, "jalr", GPROut>;
 }
 
+def JR          :  JumpFR<0x09, "jr", GPROut>;
+
+let Predicates = [Ch9_1] in {
+def TAILCALL : TailCall<BRA>;
+def TAILCALL_R : TailCallReg<GPROut, JR>;
+}
+
+
+
 def Pesuo     : ArithLogicPesuo<SDICPesuo, "Pesuo", SDICRegs>;
 def Pesuo_NoRet : ArithLogicPesuo_NoRet<SDICPesuo_NoRet, "Pesuo_NoRet", SDICRegs>;
 def Pesuo_None     : AriSDICPseudo_None<SDICPesuo_None, "Pesuo_None", SDICRegs>;

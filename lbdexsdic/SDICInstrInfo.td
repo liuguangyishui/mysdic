@@ -706,7 +706,7 @@ let Predicates = [Ch9_1] in {
 def JALR        :  JumpLinkReg<0x08, "jalr", GPROut>;
 }
 
-def JR          :  JumpFR<0x09, "jr", GPROut>;
+
 
 let Predicates = [Ch9_1] in {
 def TAILCALL : TailCall<BRA>;

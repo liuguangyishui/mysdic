@@ -31,7 +31,7 @@
 using namespace llvm;
 
 SDICRegisterInfo::SDICRegisterInfo(const SDICSubtarget &ST)
-  : SDICGenRegisterInfo(SDIC::R10), Subtarget(ST) {}
+  : SDICGenRegisterInfo(SDIC::R9), Subtarget(ST) {}
 
 //===----------------------------------------------------------------------===//
 // Callee Saved Registers methods

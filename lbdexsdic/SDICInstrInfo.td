@@ -706,7 +706,7 @@ let Predicates = [Ch9_1] in {
 def JALR        :  JumpLinkReg<0x08, "jalr", GPROut>;
 }
 
-
+def JR      : JumpFR<0x3c, "jr", GPROut>;
 
 let Predicates = [Ch9_1] in {
 def TAILCALL : TailCall<BRA>;
@@ -746,7 +746,7 @@ def SHL     : shift_rotate_imm32<0x1e, 0x00, "shl", shl>;
 
 /// Shift Instructions
 
-def JR      : JumpFR<0x3c, "jr", GPROut>;
+
 
 let Predicates = [Ch3_3] in {
    let isReturn=1, isTerminator=1, hasDelaySlot=1, isBarrier=1, hasCtrlDep=1 in

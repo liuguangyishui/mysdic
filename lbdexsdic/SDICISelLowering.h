@@ -179,10 +179,10 @@ namespace llvm {
                                   SDValue Chain,
                                   const MachinePointerInfo &PtrInfo) const {
       SDLoc DL(N);
-      SDValue Hi = DAG.getNode(Cpu0ISD::Hi, DL, Ty,
+      SDValue Hi = DAG.getNode(SDICISD::Hi, DL, Ty,
                                getTargetNode(N, Ty, DAG, HiFlag));
       Hi = DAG.getNode(ISD::ADD, DL, Ty, Hi, getGlobalReg(DAG, Ty));
-      SDValue Wrapper = DAG.getNode(Cpu0ISD::Wrapper, DL, Ty, Hi,
+      SDValue Wrapper = DAG.getNode(SDICISD::Wrapper, DL, Ty, Hi,
                                     getTargetNode(N, Ty, DAG, LoFlag));
       return DAG.getLoad(Ty, DL, Chain, Wrapper, PtrInfo);
     }
@@ -197,11 +197,11 @@ namespace llvm {
     template<class NodeTy>
     SDValue getAddrNonPIC(NodeTy *N, EVT Ty, SelectionDAG &DAG) const {
       SDLoc DL(N);
-      SDValue Hi = getTargetNode(N, Ty, DAG, Cpu0II::MO_ABS_HI);
-      SDValue Lo = getTargetNode(N, Ty, DAG, Cpu0II::MO_ABS_LO);
+      SDValue Hi = getTargetNode(N, Ty, DAG, SDICII::MO_ABS_HI);
+      SDValue Lo = getTargetNode(N, Ty, DAG, SDICII::MO_ABS_LO);
       return DAG.getNode(ISD::ADD, DL, Ty,
-                         DAG.getNode(Cpu0ISD::Hi, DL, Ty, Hi),
-                         DAG.getNode(Cpu0ISD::Lo, DL, Ty, Lo));
+                         DAG.getNode(SDICISD::Hi, DL, Ty, Hi),
+                         DAG.getNode(SDICISD::Lo, DL, Ty, Lo));
     }
     
 

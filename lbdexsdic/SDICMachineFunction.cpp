@@ -22,6 +22,13 @@ bool FixGlobalBaseReg;
 
 SDICFunctionInfo::~SDICFunctionInfo() {}
 
+bool SDICFunctionInfo::globalBaseRegFixed() const {
+  return FixGlobalBaseReg;
+}
+
+bool SDICFunctionInfo::globalBaseRegSet() const {
+  return GlobalBaseReg;
+}
 
 unsigned SDICFunctionInfo::getGlobalBaseReg() {
   return GlobalBaseReg = SDIC::R10;

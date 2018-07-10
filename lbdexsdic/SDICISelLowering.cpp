@@ -109,7 +109,8 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
     : TargetLowering(TM), Subtarget(STI), ABI(TM.getABI()) {
 
   // SDIC Custom Operations
-
+  setOperationAction(ISD::GlobalAddress,      MVT::i32,   Custom);
+  
   setOperationAction(ISD::ADD, MVT::i32, Custom);
   setOperationAction(ISD::MUL, MVT::i32, Custom);
   setOperationAction(ISD::SDIV, MVT::i32, Custom);
@@ -177,7 +178,7 @@ const SDICTargetLowering *SDICTargetLowering::create(const SDICTargetMachine &TM
 
 SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
 {
-  printf("5/18 test for add and mov3");
+
   switch(Op.getOpcode())
     {
     case ISD::ADD:   return LowerADD(Op, DAG);
@@ -190,15 +191,71 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
       
       //  case ISD::STORE: return LowerSTORE(Op, DAG);
     
-      
+    case ISD::GlobalAddress:      return lowerGlobalAddress(Op, DAG);
     default:
-      // llvm_unreachable("unimplemented operation")
-      ;
+       llvm_unreachable("unimplemented operation");
     }
-
+  return SDValue();
 
 
 }
+
+
+//===----------------------------------------------------------------------===//
+//  Lower helper functions
+//===----------------------------------------------------------------------===//
+
+//===----------------------------------------------------------------------===//
+//  Misc Lower Operation implementation
+//===----------------------------------------------------------------------===//
+
+SDValue SDICTargetLowering::lowerGlobalAddress(SDValue Op,
+                                               SelectionDAG &DAG) const {
+  //@lowerGlobalAddress }
+  SDLoc DL(Op);
+  const SDICTargetObjectFile *TLOF =
+        static_cast<const SDICTargetObjectFile *>(
+            getTargetMachine().getObjFileLowering());
+  //@lga 1 {
+  EVT Ty = Op.getValueType();
+  GlobalAddressSDNode *N = cast<GlobalAddressSDNode>(Op);
+  const GlobalValue *GV = N->getGlobal();
+  //@lga 1 }
+
+  if (!isPositionIndependent()) {
+    //@ %gp_rel relocation
+    if (TLOF->IsGlobalInSmallSection(GV, getTargetMachine())) {
+      SDValue GA = DAG.getTargetGlobalAddress(GV, DL, MVT::i32, 0,
+                                              SDICII::MO_GPREL);
+      SDValue GPRelNode = DAG.getNode(SDICISD::GPRel, DL,
+                                      DAG.getVTList(MVT::i32), GA);
+      SDValue GPReg = DAG.getRegister(SDIC::R10, MVT::i32);
+      return DAG.getNode(ISD::ADD, DL, MVT::i32, GPReg, GPRelNode);
+    }
+
+    //@ %hi/%lo relocation
+    return getAddrNonPIC(N, Ty, DAG);
+  }
+
+  if (GV->hasInternalLinkage() || (GV->hasLocalLinkage() && !isa<Function>(GV)))
+    return getAddrLocal(N, Ty, DAG);
+
+  //@large section
+  if (!TLOF->IsGlobalInSmallSection(GV, getTargetMachine()))
+    return getAddrGlobalLargeGOT(
+        N, Ty, DAG, SDICII::MO_GOT_HI16, SDICII::MO_GOT_LO16, 
+        DAG.getEntryNode(), 
+        MachinePointerInfo::getGOT(DAG.getMachineFunction()));
+  return getAddrGlobal(
+      N, Ty, DAG, SDICII::MO_GOT, DAG.getEntryNode(), 
+      MachinePointerInfo::getGOT(DAG.getMachineFunction()));
+}
+
+
+
+
+
+
 
 SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
 {

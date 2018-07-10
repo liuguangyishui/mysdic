@@ -68,6 +68,17 @@ def SDICSubwf : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue
 
 def SDICAddtest : SDNode<"SDICISD::Addtest", SDTIntBinOp>;
 def SDICGPRel   : SDNode<"SDICISD::GPReltest", SDTIntUnaryOp>;
+
+
+// Hi and Lo nodes are used to handle global addresses. Used on
+// SDICISelLowering to lower stuff like GlobalAddress, ExternalSymbol
+// static model. (nothing to do with SDIC Registers Hi and Lo)
+def SDICHi    : SDNode<"SDICISD::Hi", SDTIntUnaryOp>;
+def SDICLo    : SDNode<"SDICISD::Lo", SDTIntUnaryOp>;
+def SDICGPRel : SDNode<"SDICISD::GPRel", SDTIntUnaryOp>;
+def SDICWrapper    : SDNode<"SDICISD::Wrapper", SDTIntBinOp>;
+
+
 //===----------------------------------------------------------------------===//
 // SDIC Instruction Predicate Definitions.
 //===----------------------------------------------------------------------===//
@@ -119,6 +130,8 @@ def DisableOverflow : Predicate<"Subtarget->disableOverflow()">;
 def HasCmp      :     Predicate<"Subtarget->hasCmp()">;
 def HasSlt      :     Predicate<"Subtarget->hasSlt()">;
 
+
+def RelocPIC    :     Predicate<"TM.getRelocationModel() == Reloc::PIC_">;
 
 class SDICInstAlias<string Asm, dag Result, bit Emit = 0b1> :
       InstAlias<Asm, Result, Emit>;
@@ -792,7 +805,6 @@ def : Pat<(i32 immSExt8:$in),
 
 
 
-
 let Predicates = [Ch3_3] in {
    def : Pat<(i32 immZExt16:$in),
              (ORi R0, imm:$in)>;
@@ -803,6 +815,39 @@ let Predicates = [Ch3_3] in {
 def : Pat<(i32 imm:$imm),
                 (ORi (LUi (HI16 imm:$imm)), (LO16 imm:$imm))>;
     } // let Predicates = [Ch3_4]
+
+
+// hi/lo relocs
+let Predicates = [Ch6_1] in {
+def : Pat<(SDICHi tglobaladdr:$in), (LUi tglobaladdr:$in)>;
+}
+
+let Predicates = [Ch6_1] in {
+def : Pat<(SDICLo tglobaladdr:$in), (ORi R0, tglobaladdr:$in)>;
+}
+
+let Predicates = [Ch6_1] in {
+def : Pat<(add CPURegs:$hi, (SDICLo tglobaladdr:$lo)),
+          (ORi CPURegs:$hi, tglobaladdr:$lo)>;
+}
+// gp_rel relocs
+let Predicates = [Ch6_1] in {
+def : Pat<(add CPURegs:$gp, (SDICGPRel tglobaladdr:$in)),
+          (ORi CPURegs:$gp, tglobaladdr:$in)>;
+}
+
+//@ wrapper_pic
+let Predicates = [Ch6_1] in {
+class WrapperPat<SDNode node, Instruction ORiOp, RegisterClass RC>:
+      Pat<(SDICWrapper RC:$gp, node:$in),
+              (ORiOp RC:$gp, node:$in)>;
+
+def : WrapperPat<tglobaladdr, ORi, GPROut>;
+}
+
+
+
+
 
 multiclass SLOperator<RegisterClass RC>{
 

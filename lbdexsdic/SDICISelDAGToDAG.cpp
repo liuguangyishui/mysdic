@@ -55,6 +55,16 @@ bool SDICDAGToDAGISel::runOnMachineFunction(MachineFunction &MF) {
   return Ret;
 }
 
+/// getGlobalBaseReg - Output the instructions required to put the
+/// GOT address into a register.
+SDNode *SDICDAGToDAGISel::getGlobalBaseReg() {
+  unsigned GlobalBaseReg = MF->getInfo<SDICFunctionInfo>()->getGlobalBaseReg();
+  return CurDAG->getRegister(GlobalBaseReg, getTargetLowering()->getPointerTy(
+                                                CurDAG->getDataLayout()))
+      .getNode();
+}
+
+
 //@SelectAddr {
 /// ComplexPattern used on SDICInstrInfo
 /// Used on SDIC Load/Store instructions
@@ -77,7 +87,7 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
         return false;
     }
   }
-  printf("\nthe SDValue Addr is %u", Addr);
+  
   
 
   // if Address is FI, get the TargetFrameIndex.
@@ -93,10 +103,24 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
     
     return true;
   }
+
+
+  // on PIC code Load GA
+  if (Addr.getOpcode() == SDICISD::Wrapper) {
+    Base   = Addr.getOperand(0);
+    Offset = Addr.getOperand(1);
+    return true;
+  }
+
+  //@static
+  if (TM.getRelocationModel() != Reloc::PIC_) {
+    if ((Addr.getOpcode() == ISD::TargetExternalSymbol ||
+        Addr.getOpcode() == ISD::TargetGlobalAddress))
+      return false;
+  }
   
   Base   = Addr;
   Offset = CurDAG->getTargetConstant(0, DL, ValTy);
-
 
   return true;
 }
@@ -128,6 +152,12 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
   case ISD::ADD:
     printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
     //HYL   ReplaceNode(Node, CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32));
+     // Get target GOT address.
+  case ISD::GLOBAL_OFFSET_TABLE:
+    ReplaceNode(Node, getGlobalBaseReg());
+    return;
+
+    
   }
 
   // Select the default instruction

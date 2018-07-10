@@ -28,6 +28,9 @@
 #define GET_SUBTARGETINFO_HEADER
 #include "SDICGenSubtargetInfo.inc"
 
+extern bool SDICReserveGP;
+extern bool SDICNoCpload;
+
 //@1
 namespace llvm {
 class StringRef;
@@ -140,6 +143,9 @@ protected:
 
   InstrItineraryData InstrItins;
 
+   // UseSmallSection - Small section is used.
+  bool UseSmallSection;
+
   const SDICTargetMachine &TM;
 
   Triple TargetTriple;
@@ -175,6 +181,8 @@ public:
   bool disableOverflow() const { return !EnableOverflow; }
   bool hasCmp()   const { return HasCmp; }
   bool hasSlt()   const { return HasSlt; }
+
+  bool useSmallSection() const { return UseSmallSection; }
 
   bool abiUsesSoftFloat() const;
 

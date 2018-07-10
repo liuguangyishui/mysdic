@@ -66,6 +66,15 @@ getReservedRegs(const MachineFunction &MF) const {
   for (unsigned I = 0; I < array_lengthof(ReservedCPURegs); ++I)
     Reserved.set(ReservedCPURegs[I]);
 
+#ifdef ENABLE_GPRESTORE //1
+  const SDICFunctionInfo *SDICFI = MF.getInfo<SDICFunctionInfo>();
+  // Reserve GP if globalBaseRegFixed()
+  if (SDICFI->globalBaseRegFixed())
+#endif
+
+  
+   Reserved.set(SDIC::R10);
+  
   return Reserved;
 }
 

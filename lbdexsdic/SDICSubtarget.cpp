@@ -37,6 +37,22 @@ using namespace llvm;
                  cl::desc("Use trigger overflow instructions add and sub \
                  instead of non-overflow instructions addu and subu"));*/
 
+static cl::opt<bool> UseSmallSectionOpt
+                ("cpu0-use-small-section", cl::Hidden, cl::init(false),
+                 cl::desc("Use small section. Only work when -relocation-model="
+                 "static. pic always not use small section."));
+
+static cl::opt<bool> ReserveGPOpt
+                ("cpu0-reserve-gp", cl::Hidden, cl::init(false),
+                 cl::desc("Never allocate $gp to variable"));
+
+static cl::opt<bool> NoCploadOpt
+                ("cpu0-no-cpload", cl::Hidden, cl::init(false),
+                 cl::desc("No issue .cpload"));
+
+bool SDICReserveGP;
+bool SDICNoCpload;
+
 extern bool FixGlobalBaseReg;
 
 void SDICSubtarget::anchor() { }
@@ -55,6 +71,17 @@ SDICSubtarget::SDICSubtarget(const Triple &TT, const std::string &CPU,
       TLInfo(SDICTargetLowering::create(TM, *this)) {
 
   // EnableOverflow = EnableOverflowOpt;
+   // Set UseSmallSection.
+  UseSmallSection = UseSmallSectionOpt;
+  SDICReserveGP = ReserveGPOpt;
+  SDICNoCpload = NoCploadOpt;
+
+#ifdef ENABLE_GPRESTORE
+  if (!TM.isPositionIndependent() && !UseSmallSection && !SDICReserveGP)
+    FixGlobalBaseReg = false;
+  else
+#endif
+    FixGlobalBaseReg = true;
 
 }
 

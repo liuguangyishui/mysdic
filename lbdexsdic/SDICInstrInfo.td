@@ -67,7 +67,7 @@ def SDICAddwfrr : SDNode<"SDICISD::Addwf", SDT_SDICAddwf , [SDNPInGlue, SDNPOutG
 def SDICSubwf : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
 def SDICAddtest : SDNode<"SDICISD::Addtest", SDTIntBinOp>;
-def SDICGPRel   : SDNode<"SDICISD::GPReltest", SDTIntUnaryOp>;
+
 
 
 // Hi and Lo nodes are used to handle global addresses. Used on

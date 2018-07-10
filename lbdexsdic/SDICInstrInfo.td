@@ -827,13 +827,13 @@ def : Pat<(SDICLo tglobaladdr:$in), (ORi R0, tglobaladdr:$in)>;
 }
 
 let Predicates = [Ch6_1] in {
-def : Pat<(add CPURegs:$hi, (SDICLo tglobaladdr:$lo)),
-          (ORi CPURegs:$hi, tglobaladdr:$lo)>;
+def : Pat<(add SDICRegs:$hi, (SDICLo tglobaladdr:$lo)),
+          (ORi SDICRegs:$hi, tglobaladdr:$lo)>;
 }
 // gp_rel relocs
 let Predicates = [Ch6_1] in {
-def : Pat<(add CPURegs:$gp, (SDICGPRel tglobaladdr:$in)),
-          (ORi CPURegs:$gp, tglobaladdr:$in)>;
+def : Pat<(add SDICRegs:$gp, (SDICGPRel tglobaladdr:$in)),
+          (ORi SDICRegs:$gp, tglobaladdr:$in)>;
 }
 
 //@ wrapper_pic

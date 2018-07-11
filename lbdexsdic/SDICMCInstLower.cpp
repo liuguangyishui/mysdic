@@ -152,13 +152,13 @@ MCOperand SDICMCInstLower::LowerOperand(const MachineOperand& MO,
   case MachineOperand::MO_JumpTableIndex:
   case MachineOperand::MO_BlockAddress:
   case MachineOperand::MO_GlobalAddress:
+ //@1
     return LowerSymbolOperand(MO, MOTy, offset);
 
-  case MachineOperand::MO_FrameIndex:
-    printf("this is MO_FrameIndex");
-    break;
+    //case MachineOperand::MO_FrameIndex:
+    //break;
     
-    //@1
+   
   case MachineOperand::MO_RegisterMask:
     break;
  }

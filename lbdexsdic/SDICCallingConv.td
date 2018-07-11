@@ -15,7 +15,8 @@ class CCIfSubtarget<string F, CCAction A>:
 
 def RetCC_SDICEABI : CallingConv<[
     // i32 are returned in registers R8
-    CCIfType<[i32], CCAssignToReg<[R8,R11,R12]>>]>;
+    //CCIfType<[i32], CCAssignToReg<[R8,R11,R12]>>]>;
+    CCIfType<[i32], CCAssignToReg<[R0, R1]>>]>;
 
 def RetCC_SDIC      :   CallingConv<[
     CCDelegateTo<RetCC_SDICEABI>]>;

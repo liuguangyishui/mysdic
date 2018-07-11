@@ -719,6 +719,12 @@ let Predicates = [Ch9_1] in {
 def JALR        :  JumpLinkReg<0x08, "jalr", GPROut>;
 }
 
+//@ long branch support //1
+let isBranch = 1, isTerminator = 1, isBarrier = 1,
+    hasDelaySlot = 0, Defs = [R9] in
+def BAL: FJ<0x3a, (outs), (ins jmptarget:$addr), "bal\t$addr", [], IIBranch>, 
+             Requires<[HasSlt]>;
+
 def JR      : JumpFR<0x3c, "jr", GPROut>;
 
 let Predicates = [Ch9_1] in {

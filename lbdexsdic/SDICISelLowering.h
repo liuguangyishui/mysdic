@@ -351,7 +351,12 @@ public:
 
 
     // Lower Operand specifics
+    SDValue lowerBR_JT(SDValue Op, SelectionDAG &DAG) const;
+    SDValue lowerBRCOND(SDValue Op, SelectionDAG &DAG) const;
+    SDValue lowerBlockAddress(SDValue Op, SelectionDAG &DAG) const;
+    SDValue lowerJumpTable(SDValue Op, SelectionDAG &DAG) const;
     SDValue lowerGlobalAddress(SDValue Op, SelectionDAG &DAG) const;
+    SDValue lowerSELECT(SDValue Op, SelectionDAG &DAG) const;
     
     /// isEligibleForTailCallOptimization - Check whether the call is eligible
     /// for tail call optimization.

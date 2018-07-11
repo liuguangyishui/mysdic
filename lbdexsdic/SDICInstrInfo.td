@@ -844,7 +844,9 @@ class WrapperPat<SDNode node, Instruction ORiOp, RegisterClass RC>:
 
 def : WrapperPat<tglobaladdr, ORi, GPROut>;
 }
-
+let Predicates = [Ch8_1] in {
+def : WrapperPat<tjumptable, ORi, GPROut>;
+}
 
 
 

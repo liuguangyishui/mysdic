@@ -38,16 +38,16 @@ using namespace llvm;
                  instead of non-overflow instructions addu and subu"));*/
 
 static cl::opt<bool> UseSmallSectionOpt
-                ("cpu0-use-small-section", cl::Hidden, cl::init(false),
+                ("sdic-use-small-section", cl::Hidden, cl::init(false),
                  cl::desc("Use small section. Only work when -relocation-model="
                  "static. pic always not use small section."));
 
 static cl::opt<bool> ReserveGPOpt
-                ("cpu0-reserve-gp", cl::Hidden, cl::init(false),
+                ("sdic-reserve-gp", cl::Hidden, cl::init(false),
                  cl::desc("Never allocate $gp to variable"));
 
 static cl::opt<bool> NoCploadOpt
-                ("cpu0-no-cpload", cl::Hidden, cl::init(false),
+                ("sdic-no-cpload", cl::Hidden, cl::init(false),
                  cl::desc("No issue .cpload"));
 
 bool SDICReserveGP;

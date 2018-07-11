@@ -34,6 +34,12 @@ class raw_pwrite_stream;
 extern Target TheSDICTarget;
 extern Target TheSDICelTarget;
 
+
+
+MCObjectWriter *createSDICELFObjectWriter(raw_pwrite_stream &OS,
+                                          uint8_t OSABI,
+                                          bool IsLittleEndian);
+  
 } // End llvm namespace
 
 // Defines symbolic names for SDIC registers.  This defines a mapping from

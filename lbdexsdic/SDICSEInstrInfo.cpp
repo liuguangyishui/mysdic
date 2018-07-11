@@ -33,6 +33,44 @@ const SDICRegisterInfo &SDICSEInstrInfo::getRegisterInfo() const {
   return RI;
 }
 
+void SDICSEInstrInfo::copyPhysReg(MachineBasicBlock &MBB,
+                                  MachineBasicBlock::iterator I,
+                                  const DebugLoc &DL, unsigned DestReg,
+                                  unsigned SrcReg, bool KillSrc) const {
+  /*unsigned Opc = 0, ZeroReg = 0;
+
+  if (SDIC::CPURegsRegClass.contains(DestReg)) { // Copy to CPU Reg.
+    if (SDIC::CPURegsRegClass.contains(SrcReg))
+      Opc = SDIC::ADDu, ZeroReg = SDIC::ZERO;
+    else if (SrcReg == SDIC::HI)
+      Opc = SDIC::MFHI, SrcReg = 0;
+    else if (SrcReg == SDIC::LO)
+      Opc = SDIC::MFLO, SrcReg = 0;
+  }
+  else if (SDIC::CPURegsRegClass.contains(SrcReg)) { // Copy from CPU Reg.
+    if (DestReg == SDIC::HI)
+      Opc = SDIC::MTHI, DestReg = 0;
+    else if (DestReg == SDIC::LO)
+      Opc = SDIC::MTLO, DestReg = 0;
+  }
+
+  assert(Opc && "Cannot copy registers");
+
+  MachineInstrBuilder MIB = BuildMI(MBB, I, DL, get(Opc));
+
+  if (DestReg)
+    MIB.addReg(DestReg, RegState::Define);
+
+  if (ZeroReg)
+    MIB.addReg(ZeroReg);
+
+  if (SrcReg)
+  MIB.addReg(SrcReg, getKillRegState(KillSrc));*/
+}
+
+
+
+
 void SDICSEInstrInfo::
 storeRegToStack(MachineBasicBlock &MBB, MachineBasicBlock::iterator I,
                 unsigned SrcReg, bool isKill, int FI,
@@ -43,7 +81,7 @@ storeRegToStack(MachineBasicBlock &MBB, MachineBasicBlock::iterator I,
 
   unsigned Opc = 0;
 
-  Opc = SDIC::SS;
+  Opc = SDIC::ST;
   assert(Opc && "Register class not handled!");
   BuildMI(MBB, I, DL, get(Opc)).addReg(SrcReg, getKillRegState(isKill))
     .addFrameIndex(FI).addImm(Offset).addMemOperand(MMO);
@@ -58,7 +96,7 @@ loadRegFromStack(MachineBasicBlock &MBB, MachineBasicBlock::iterator I,
   MachineMemOperand *MMO = GetMemOperand(MBB, FI, MachineMemOperand::MOLoad);
   unsigned Opc = 0;
 
-  Opc = SDIC::R10;
+  Opc = SDIC::LD;
   assert(Opc && "Register class not handled!");
   BuildMI(MBB, I, DL, get(Opc), DestReg).addFrameIndex(FI).addImm(Offset)
     .addMemOperand(MMO);

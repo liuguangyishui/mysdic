@@ -32,7 +32,10 @@ public:
 
   const SDICRegisterInfo &getRegisterInfo() const override;
 
-
+  void copyPhysReg(MachineBasicBlock &MBB, MachineBasicBlock::iterator MI,
+		   const DebugLoc &DL, unsigned DestReg, unsigned SrcReg,
+                   bool KillSrc) const override;
+  
   void storeRegToStack(MachineBasicBlock &MBB,
                        MachineBasicBlock::iterator MI,
                        unsigned SrcReg, bool isKill, int FrameIndex,

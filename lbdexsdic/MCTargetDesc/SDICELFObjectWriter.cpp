@@ -1,4 +1,4 @@
-//===-- Cpu0ELFObjectWriter.cpp - Cpu0 ELF Writer -------------------------===//
+//===-- SDICELFObjectWriter.cpp - SDIC ELF Writer -------------------------===//
 //
 //                     The LLVM Compiler Infrastructure
 //
@@ -7,11 +7,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "Cpu0Config.h"
+#include "SDICConfig.h"
 
-#include "MCTargetDesc/Cpu0BaseInfo.h"
-#include "MCTargetDesc/Cpu0FixupKinds.h"
-#include "MCTargetDesc/Cpu0MCTargetDesc.h"
+#include "MCTargetDesc/SDICBaseInfo.h"
+#include "MCTargetDesc/SDICFixupKinds.h"
+#include "MCTargetDesc/SDICMCTargetDesc.h"
 #include "llvm/MC/MCAssembler.h"
 #include "llvm/MC/MCELFObjectWriter.h"
 #include "llvm/MC/MCExpr.h"
@@ -23,11 +23,11 @@
 using namespace llvm;
 
 namespace {
-  class Cpu0ELFObjectWriter : public MCELFObjectTargetWriter {
+  class SDICELFObjectWriter : public MCELFObjectTargetWriter {
   public:
-    Cpu0ELFObjectWriter(uint8_t OSABI);
+    SDICELFObjectWriter(uint8_t OSABI);
 
-    ~Cpu0ELFObjectWriter() override;
+    ~SDICELFObjectWriter() override;
 
     unsigned getRelocType(MCContext &Ctx, const MCValue &Target,
                         const MCFixup &Fixup, bool IsPCRel) const override;
@@ -36,14 +36,14 @@ namespace {
   };
 }
 
-Cpu0ELFObjectWriter::Cpu0ELFObjectWriter(uint8_t OSABI)
+SDICELFObjectWriter::SDICELFObjectWriter(uint8_t OSABI)
   : MCELFObjectTargetWriter(/*_is64Bit=false*/ false, OSABI, ELF::EM_CPU0,
                             /*HasRelocationAddend*/ false) {}
 
-Cpu0ELFObjectWriter::~Cpu0ELFObjectWriter() {}
+SDICELFObjectWriter::~SDICELFObjectWriter() {}
 
 //@GetRelocType {
-unsigned Cpu0ELFObjectWriter::getRelocType(MCContext &Ctx,
+unsigned SDICELFObjectWriter::getRelocType(MCContext &Ctx,
                                            const MCValue &Target,
                                            const MCFixup &Fixup,
                                            bool IsPCRel) const {
@@ -55,7 +55,7 @@ unsigned Cpu0ELFObjectWriter::getRelocType(MCContext &Ctx,
   default:
     llvm_unreachable("invalid fixup kind!");
 
-  case Cpu0::fixup_Cpu0_CALL16:
+  case SDIC::fixup_SDIC_CALL16:
     Type = ELF::R_CPU0_CALL16;
     break;
   }
@@ -64,9 +64,9 @@ unsigned Cpu0ELFObjectWriter::getRelocType(MCContext &Ctx,
 //@GetRelocType }
 
 
-MCObjectWriter *llvm::createCpu0ELFObjectWriter(raw_pwrite_stream &OS,
+MCObjectWriter *llvm::createSDICELFObjectWriter(raw_pwrite_stream &OS,
                                                 uint8_t OSABI,
                                                 bool IsLittleEndian) {
-  MCELFObjectTargetWriter *MOTW = new Cpu0ELFObjectWriter(OSABI);
+  MCELFObjectTargetWriter *MOTW = new SDICELFObjectWriter(OSABI);
   return createELFObjectWriter(MOTW, OS, IsLittleEndian);
 }

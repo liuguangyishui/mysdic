@@ -4,6 +4,8 @@ add_llvm_library(LLVMSDICDesc
   SDICMCAsmInfo.cpp
   SDICMCTargetDesc.cpp
   SDICMCExpr.cpp
-  SDICAsmBackend.cpp	
+  SDICAsmBackend.cpp
+  SDICMCCodeEmitter.cpp
+  SDICELFObjectWriter.cpp	
   )
 

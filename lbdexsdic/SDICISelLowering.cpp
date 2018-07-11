@@ -108,8 +108,13 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
                                        const SDICSubtarget &STI)
     : TargetLowering(TM), Subtarget(STI), ABI(TM.getABI()) {
 
-  // SDIC Custom Operations
-  setOperationAction(ISD::GlobalAddress,      MVT::i32,   Custom);
+   // Cpu0 does not have i1 type, so use i32 for
+  // setcc operations results (slt, sgt, ...).
+  setBooleanContents(ZeroOrOneBooleanContent);
+  setBooleanVectorContents(ZeroOrNegativeOneBooleanContent);
+
+
+
   
   setOperationAction(ISD::ADD, MVT::i32, Custom);
   setOperationAction(ISD::MUL, MVT::i32, Custom);
@@ -125,7 +130,21 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
    
   //setOperationAction(ISD::LOAD, MVT::i32, Custom);
 
+ // Load extented operations for i1 types must be promoted
+  for (MVT VT : MVT::integer_valuetypes()) {
+    setLoadExtAction(ISD::EXTLOAD,  VT, MVT::i1,  Promote);
+    setLoadExtAction(ISD::ZEXTLOAD, VT, MVT::i1,  Promote);
+    setLoadExtAction(ISD::SEXTLOAD, VT, MVT::i1,  Promote);
+  }
 
+
+  // Used by legalize types to correctly generate the setcc result.
+  // Without this, every float setcc comes with a AND/OR with the result,
+  // we don't want this, since the fpcmp result goes to a flag register,
+  // which is used implicitly by brcond and select operations.
+  AddPromotedToType(ISD::SETCC, MVT::i1, MVT::i32);
+
+  
    // Cpu0 Custom Operations
   setOperationAction(ISD::GlobalAddress,      MVT::i32,   Custom);
   setOperationAction(ISD::BlockAddress,       MVT::i32,   Custom);
@@ -140,7 +159,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
    // Operations not directly supported by Cpu0.
   setOperationAction(ISD::BR_JT,             MVT::Other, Expand);
-       setOperationAction(ISD::BR_CC,             MVT::i32, Expand);
+  setOperationAction(ISD::BR_CC,             MVT::i32, Expand);
   setOperationAction(ISD::SELECT_CC,         MVT::i32, Expand);
   setOperationAction(ISD::SELECT_CC,         MVT::Other, Expand);
   setOperationAction(ISD::CTPOP,             MVT::i32,   Expand);
@@ -167,6 +186,13 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
 }
 
+EVT SDICTargetLowering::getSetCCResultType(const DataLayout &, LLVMContext &,
+                                           EVT VT) const {
+  if (!VT.isVector())
+    return MVT::i32;
+  return VT.changeVectorElementTypeToInteger();
+}
+
 const SDICTargetLowering *SDICTargetLowering::create(const SDICTargetMachine &TM,
                                                      const SDICSubtarget &STI) {
   return llvm::createSDICSETargetLowering(TM, STI);
@@ -190,8 +216,14 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
 
       
       //  case ISD::STORE: return LowerSTORE(Op, DAG);
-    
+
+
+    case ISD::BRCOND:             return lowerBRCOND(Op, DAG);
     case ISD::GlobalAddress:      return lowerGlobalAddress(Op, DAG);
+    case ISD::BlockAddress:       return lowerBlockAddress(Op, DAG);
+    case ISD::JumpTable:          return lowerJumpTable(Op, DAG);
+    case ISD::SELECT:             return lowerSELECT(Op, DAG);
+  
     default:
        llvm_unreachable("unimplemented operation");
     }
@@ -208,6 +240,17 @@ SDValue SDICTargetLowering::LowerOperation(SDValue Op, SelectionDAG &DAG) const
 //===----------------------------------------------------------------------===//
 //  Misc Lower Operation implementation
 //===----------------------------------------------------------------------===//
+SDValue SDICTargetLowering::
+lowerBRCOND(SDValue Op, SelectionDAG &DAG) const
+{
+  return Op;
+}
+
+SDValue SDICTargetLowering::
+lowerSELECT(SDValue Op, SelectionDAG &DAG) const
+{
+  return Op;
+}
 
 SDValue SDICTargetLowering::lowerGlobalAddress(SDValue Op,
                                                SelectionDAG &DAG) const {
@@ -251,9 +294,28 @@ SDValue SDICTargetLowering::lowerGlobalAddress(SDValue Op,
       MachinePointerInfo::getGOT(DAG.getMachineFunction()));
 }
 
+SDValue SDICTargetLowering::lowerBlockAddress(SDValue Op,
+                                              SelectionDAG &DAG) const {
+  BlockAddressSDNode *N = cast<BlockAddressSDNode>(Op);
+  EVT Ty = Op.getValueType();
 
+  if (!isPositionIndependent())
+    return getAddrNonPIC(N, Ty, DAG);
 
+  return getAddrLocal(N, Ty, DAG);
+}
 
+SDValue SDICTargetLowering::
+lowerJumpTable(SDValue Op, SelectionDAG &DAG) const
+{
+  JumpTableSDNode *N = cast<JumpTableSDNode>(Op);
+  EVT Ty = Op.getValueType();
+
+  if (!isPositionIndependent())
+    return getAddrNonPIC(N, Ty, DAG);
+
+  return getAddrLocal(N, Ty, DAG);
+}
 
 
 

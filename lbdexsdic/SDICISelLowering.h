@@ -116,6 +116,10 @@ namespace llvm {
     //  DAG node.
     const char *getTargetNodeName(unsigned Opcode) const override;
 
+     /// getSetCCResultType - get the ISD::SETCC result ValueType
+    EVT getSetCCResultType(const DataLayout &DL, LLVMContext &Context,
+                           EVT VT) const override;
+
     //LowerOperation -Provide custom lowering hooks for some operations.
     virtual SDValue LowerOperation(SDValue Op, SelectionDAG &DAG) const;
 
@@ -345,6 +349,9 @@ public:
                             SmallVectorImpl<SDValue> &InVals,
                             const SDNode *CallNode, const Type *RetTy) const;
 
+
+    // Lower Operand specifics
+    SDValue lowerGlobalAddress(SDValue Op, SelectionDAG &DAG) const;
     
     /// isEligibleForTailCallOptimization - Check whether the call is eligible
     /// for tail call optimization.
@@ -372,17 +379,10 @@ public:
                       const SDICCC &CC, const ByValArgInfo &ByVal,
                       const ISD::ArgFlagsTy &Flags, bool isLittle) const;
 
-    SDValue passArgOnStack(SDValue StackPtr, unsigned Offset, SDValue Chain,
-                           SDValue Arg, const SDLoc &DL, bool IsTailCall,
-                           SelectionDAG &DAG) const;
-
-    bool CanLowerReturn(CallingConv::ID CallConv, MachineFunction &MF,
-                        bool isVarArg,
-                        const SmallVectorImpl<ISD::OutputArg> &Outs,
-			  LLVMContext &Context) const override;
+   
+  
     
-    // Lower Operand specifics
-    SDValue lowerGlobalAddress(SDValue Op, SelectionDAG &DAG) const;
+    
 
 	//- must be exist even without function all
     SDValue
@@ -392,9 +392,17 @@ public:
                            const SDLoc &dl, SelectionDAG &DAG,
                            SmallVectorImpl<SDValue> &InVals) const override;
 
+    SDValue passArgOnStack(SDValue StackPtr, unsigned Offset, SDValue Chain,
+                           SDValue Arg, const SDLoc &DL, bool IsTailCall,
+                           SelectionDAG &DAG) const;
 
     SDValue LowerCall(TargetLowering::CallLoweringInfo &CLI,
                       SmallVectorImpl<SDValue> &InVals) const override;
+
+    bool CanLowerReturn(CallingConv::ID CallConv, MachineFunction &MF,
+                        bool isVarArg,
+                        const SmallVectorImpl<ISD::OutputArg> &Outs,
+			  LLVMContext &Context) const override;
     
     SDValue LowerReturn(SDValue Chain,
                         CallingConv::ID CallConv, bool IsVarArg,

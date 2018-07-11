@@ -43,3 +43,9 @@ static unsigned adjustFixupValue(const MCFixup &Fixup, uint64_t Value,
   return Value;
 }
 //@adjustFixupValue }
+
+MCObjectWriter *
+SDICAsmBackend::createObjectWriter(raw_pwrite_stream &OS) const {
+  return createSDICELFObjectWriter(OS,
+    MCELFObjectTargetWriter::getOSABI(OSType), IsLittle);
+}

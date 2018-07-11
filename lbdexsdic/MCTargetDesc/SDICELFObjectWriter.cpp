@@ -37,7 +37,7 @@ namespace {
 }
 
 SDICELFObjectWriter::SDICELFObjectWriter(uint8_t OSABI)
-  : MCELFObjectTargetWriter(/*_is64Bit=false*/ false, OSABI, ELF::EM_CPU0,
+  : MCELFObjectTargetWriter(/*_is64Bit=false*/ false, OSABI, ELF::EM_SDIC,
                             /*HasRelocationAddend*/ false) {}
 
 SDICELFObjectWriter::~SDICELFObjectWriter() {}
@@ -48,7 +48,7 @@ unsigned SDICELFObjectWriter::getRelocType(MCContext &Ctx,
                                            const MCFixup &Fixup,
                                            bool IsPCRel) const {
   // determine the type of the relocation
-  unsigned Type = (unsigned)ELF::R_CPU0_NONE;
+  unsigned Type = (unsigned)ELF::R_SDIC_NONE;
   unsigned Kind = (unsigned)Fixup.getKind();
 
   switch (Kind) {
@@ -56,7 +56,7 @@ unsigned SDICELFObjectWriter::getRelocType(MCContext &Ctx,
     llvm_unreachable("invalid fixup kind!");
 
   case SDIC::fixup_SDIC_CALL16:
-    Type = ELF::R_CPU0_CALL16;
+    Type = ELF::R_SDIC_CALL16;
     break;
   }
   return Type;

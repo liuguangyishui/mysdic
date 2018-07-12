@@ -98,9 +98,6 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
     printf("\nthe SDValue Base is %u",&Base);
     printf("\nthe SDValue Offser is %u", &Offset);
 
-   
- 
-    
     return true;
   }
 

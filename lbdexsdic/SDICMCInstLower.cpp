@@ -152,7 +152,7 @@ void SDICMCInstLower::LowerCPLOAD(SmallVector<MCInst, 4>& MCInsts) {
 
   CreateMCInst(MCInsts[0], SDIC::LUi, GPReg, SymHi);
   CreateMCInst(MCInsts[1], SDIC::ORi, GPReg, GPReg, SymLo);
-  CreateMCInst(MCInsts[2], SDIC::ADD, GPReg, GPReg, T9Reg);
+  CreateMCInst(MCInsts[2], ISD::ADD, GPReg, GPReg, T9Reg);
 }
 
 

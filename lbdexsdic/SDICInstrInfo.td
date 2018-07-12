@@ -516,13 +516,6 @@ let isCall = 1, isTerminator = 1, isReturn = 1, isBarrier = 1, hasDelaySlot = 1,
 
 }
 
-let Predicates = [Ch7_1] in {
-//@EffectiveAddress
-class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem> :
-      FMem<0x09, (outs RC:$ra), (ins Mem:$addr),
-      instr_asm, [(set RC:$ra, addr:$addr)], IIAlu>;
-      }
-
 
 
 // ===-----------------------------------------------------------------===//
@@ -628,6 +621,15 @@ class JumpFR<bits<6> op, string instr_asm, RegisterClass RC>:
  // let imm8 = 0;
 }
 //@JumpFR }
+
+
+let Predicates = [Ch7_1] in {
+//@EffectiveAddress
+class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem> :
+      FMem<0x09, (outs RC:$ra), (ins Mem:$addr),
+      instr_asm, [(set RC:$ra, addr:$addr)], IIAlu>;
+      }
+
 
 //hyl
 let isBranch=1, isTerminator=1, isBarrier=1, ra=0, //rb=0, rc=0,

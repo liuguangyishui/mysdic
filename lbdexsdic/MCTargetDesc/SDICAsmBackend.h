@@ -39,7 +39,7 @@ public:
     MCObjectWriter *createObjectWriter(raw_pwrite_stream &OS) const override;
 
 
-  }
+  };
 }
 
 #endif

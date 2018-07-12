@@ -66,11 +66,11 @@ SDICABIInfo SDICABIInfo::computeTargetABI() {
 }
 
 unsigned SDICABIInfo::GetStackPtr() const {
-  return SDIC::TOSL;
+  return SDIC::R10;
 }
 
 unsigned SDICABIInfo::GetFramePtr() const {
-  return SDIC::STKPTR;
+  return SDIC::R12;
 }
 
 unsigned SDICABIInfo::GetNullPtr() const {
@@ -79,7 +79,7 @@ unsigned SDICABIInfo::GetNullPtr() const {
 
 unsigned SDICABIInfo::GetEhDataReg(unsigned I) const {
   static const unsigned EhDataReg[] = {
-    SDIC::R1, SDIC::R2
+    SDIC::R0, SDIC::R1
   };
 
   return EhDataReg[I];

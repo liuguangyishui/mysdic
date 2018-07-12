@@ -721,7 +721,7 @@ def JALR        :  JumpLinkReg<0x08, "jalr", GPROut>;
 
 //@ long branch support //1
 let isBranch = 1, isTerminator = 1, isBarrier = 1,
-    hasDelaySlot = 0, Defs = [R9] in
+    hasDelaySlot = 0, Defs = [R11] in
 def BAL: FJ<0x3a, (outs), (ins jmptarget:$addr), "bal\t$addr", [], IIBranch>, 
              Requires<[HasSlt]>;
 

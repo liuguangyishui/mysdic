@@ -49,7 +49,7 @@ void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
   MachineBasicBlock::iterator MBBI = MBB.begin();
   DebugLoc dl = MBBI != MBB.end() ? MBBI->getDebugLoc() : DebugLoc();
   SDICABIInfo ABI = STI.getABI();
-  unsigned SP = SDIC::STKPTR;
+  unsigned SP = SDIC::R10;//STKPTR;
   const TargetRegisterClass *RC = &SDIC::GPROutRegClass;
 
   // First, compute final stack size.
@@ -115,7 +115,7 @@ void SDICSEFrameLowering::emitEpilogue(MachineFunction &MF,
     *static_cast<const SDICRegisterInfo *>(STI.getRegisterInfo());
   DebugLoc dl = MBBI->getDebugLoc();
   SDICABIInfo ABI = STI.getABI();
-  unsigned SP = SDIC::STKPTR;
+  unsigned SP = SDIC::R10;//STKPTR;
   // Get the number of bytes from FrameInfo
   uint64_t StackSize = MFI->getStackSize();
   if (!StackSize)
@@ -141,7 +141,7 @@ spillCalleeSavedRegisters(MachineBasicBlock &MBB,
     // It's killed at the spill, unless the register is LR and return address
     // is taken.
     unsigned Reg = CSI[i].getReg();
-    bool IsRAAndRetAddrIsTaken = (Reg == SDIC::R9)
+    bool IsRAAndRetAddrIsTaken = (Reg == SDIC::R11)
         && MF->getFrameInfo()->isReturnAddressTaken();
     if (!IsRAAndRetAddrIsTaken)
       EntryBlock->addLiveIn(Reg);
@@ -187,7 +187,7 @@ void SDICSEFrameLowering::determineCalleeSaves(MachineFunction &MF,
   MachineRegisterInfo& MRI = MF.getRegInfo();
 
   if (MF.getFrameInfo()->hasCalls())
-    setAliasRegs(MF, SavedRegs, SDIC::R10);
+    setAliasRegs(MF, SavedRegs, SDIC::R11);
   
   return;
 }

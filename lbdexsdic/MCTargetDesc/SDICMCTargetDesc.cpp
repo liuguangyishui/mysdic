@@ -88,7 +88,7 @@ static MCAsmInfo *createSDICMCAsmInfo(const MCRegisterInfo &MRI,
                                       const Triple &TT) {
   MCAsmInfo *MAI = new SDICMCAsmInfo(TT);
 
-  unsigned SP = MRI.getDwarfRegNum(SDIC::TOSL, true);
+  unsigned SP = MRI.getDwarfRegNum(SDIC::R10, true);
   MCCFIInstruction Inst = MCCFIInstruction::createDefCfa(nullptr, SDIC::TOSL, 0);
   MAI->addInitialFrameState(Inst);
 

@@ -672,7 +672,7 @@ getOpndList(SmallVectorImpl<SDValue> &Ops,
   // in PIC mode) allow symbols to be resolved via lazy binding.
   // The lazy binding stub requires GP to point to the GOT.
   if (IsPICCall && !InternalLinkage) {
-    unsigned GPReg = SDIC::R10;
+    unsigned GPReg = SDIC::R3;
     EVT Ty = MVT::i32;
     RegsToPass.push_back(std::make_pair(GPReg, getGlobalReg(CLI.DAG, Ty)));
   }

@@ -31,7 +31,7 @@
 using namespace llvm;
 
 SDICRegisterInfo::SDICRegisterInfo(const SDICSubtarget &ST)
-  : SDICGenRegisterInfo(SDIC::R9), Subtarget(ST) {}
+  : SDICGenRegisterInfo(SDIC::R11), Subtarget(ST) {}
 
 //===----------------------------------------------------------------------===//
 // Callee Saved Registers methods
@@ -59,7 +59,7 @@ getReservedRegs(const MachineFunction &MF) const {
 //@getReservedRegs body {
   static const uint16_t ReservedCPURegs[] = {
     SDIC::R0, SDIC::TOSL, SDIC::STATUS, SDIC::STKPTR,
-    SDIC::R10,SDIC::FSR0L, SDIC::FSR2L, SDIC::PCL
+    SDIC::R10,SDIC::FSR0L, SDIC::FSR2L, SDIC::PCL, SDIC::R11
   };
   BitVector Reserved(getNumRegs());
 
@@ -73,7 +73,7 @@ getReservedRegs(const MachineFunction &MF) const {
 #endif
 
   
-   Reserved.set(SDIC::R10);
+   Reserved.set(SDIC::R3);
   
   return Reserved;
 }
@@ -130,7 +130,7 @@ eliminateFrameIndex(MachineBasicBlock::iterator II, int SPAdj,
   // Everything else is referenced relative to whatever register
   // getFrameRegister() returns.
   unsigned FrameReg;
-  FrameReg = SDIC::TOSL;
+  FrameReg = SDIC::R10;
 
   // Calculate final offset.
   // - There is no need to change the offset if the frame object is one of the
@@ -173,7 +173,7 @@ SDICRegisterInfo::trackLivenessAfterRegAlloc(const MachineFunction &MF) const {
 unsigned SDICRegisterInfo::
 getFrameRegister(const MachineFunction &MF) const {
   const TargetFrameLowering *TFI = MF.getSubtarget().getFrameLowering();
-  return TFI->hasFP(MF) ? (SDIC::TOSL) :
-                          (SDIC::TOSL);
+  return TFI->hasFP(MF) ? (SDIC::R12) :
+                          (SDIC::R10);
 }
 

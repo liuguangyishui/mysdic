@@ -23,7 +23,7 @@ def RetCC_SDIC      :   CallingConv<[
 
 
 
-def CSR_O32 : CalleeSavedRegs<(add R9, TOSL, TOSH)>;
+def CSR_O32 : CalleeSavedRegs<(add R11, R9, TOSL, TOSH)>;
                                   // (sequence "S%u", 1, 0))>;
 
 

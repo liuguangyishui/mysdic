@@ -179,7 +179,7 @@ def mem : Operand<iPTR> {
 }
 
 def mem_ea : Operand<iPTR> {
-    let PrintMethon = "printMemOperandEA";
+    let PrintMethod = "printMemOperandEA";
     let MIOperandInfo = (ops SDICRegs, simm8);
     let EncoderMethod = "getMemEncoding";
     }

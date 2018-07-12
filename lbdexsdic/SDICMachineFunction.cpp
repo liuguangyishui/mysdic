@@ -37,7 +37,7 @@ unsigned SDICFunctionInfo::getGlobalBaseReg() {
 
 void SDICFunctionInfo::createEhDataRegsFI() {
   for (int I = 0; I < 2; ++I) {
-    const TargetRegisterClass *RC = &SDIC::CPURegsRegClass;
+    const TargetRegisterClass *RC = &SDIC::SDICRegsRegClass;
 
     EhDataRegFI[I] = MF.getFrameInfo()->CreateStackObject(RC->getSize(),
         RC->getAlignment(), false);

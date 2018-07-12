@@ -178,6 +178,13 @@ def mem : Operand<iPTR> {
   let EncoderMethod = "getMemEncoding";
 }
 
+def mem_ea : Operand(iPTR> {
+    let PrintMethon = "printMemOperandEA";
+    let MIOperandInfo = (ops SDICRegs, simm8);
+    let EncoderMethod = "getMemEncoding";
+    }
+
+
 // Transformation Function - get the lower 16 bits.
 def LO16 : SDNodeXForm<imm, [{
     return getImm(N, N->getZExtValue() & 0xffff);
@@ -509,7 +516,12 @@ let isCall = 1, isTerminator = 1, isReturn = 1, isBarrier = 1, hasDelaySlot = 1,
 
 }
 
-
+let Predicates = [Ch7_1] in {
+//@EffectiveAddress
+class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem> :
+      FMem<0x09, (outs RC:$ra), (ins Mem:$addr),
+      instr_asm, [(set RC:$ra, addr:$addr)], IIAlu>;
+      }
 
 
 
@@ -688,6 +700,18 @@ def IORLW       : ArithLogicI<0x2a, "iorlw", or, simm8, immSExt8, SDICRegs>;
 //XOR
 def XORWF       :  ArithLogicR<0x17, "xorwf", xor, IIAlu, SDICRegs, 1>;
 def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
+
+//@def LEA_ADDiu {
+// FrameIndexes are legalized when they are operands from load/store
+// instructions. The same not happens for stack address copies, so an
+// add op with mem ComplexPattern is used and the stack address copy
+// can be matched. It's similar to Sparc LEA_ADDRi
+def LEA_ADDiu : EffectiveAddress<"addiu\t$ra, $addr", SDICRegs, mem_ea> {
+  let isCodeGenOnly = 1;
+}
+//@def LEA_ADDiu }
+}
+
 
 let Predicates = [HasCmp] in {
 def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;

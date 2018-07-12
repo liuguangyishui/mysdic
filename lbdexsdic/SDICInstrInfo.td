@@ -712,7 +712,7 @@ def LEA_ADDiu : EffectiveAddress<"addiu\t$ra, $addr", SDICRegs, mem_ea> {
   let isCodeGenOnly = 1;
 }
 //@def LEA_ADDiu }
-}
+
 
 
 let Predicates = [HasCmp] in {

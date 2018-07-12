@@ -1186,6 +1186,14 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   return DAG.getNode(SDICISD::Ret, DL, MVT::Other,RetOps);
 }
 
+
+
+bool
+SDICTargetLowering::isOffsetFoldingLegal(const GlobalAddressSDNode *GA) const {
+  // The SDIC target isn't yet aware of offsets.
+  return false;
+}
+
 SDICTargetLowering::SDICCC::SpecialCallingConvType
   SDICTargetLowering::getSpecialCallingConv(SDValue Callee) const {
   SDICCC::SpecialCallingConvType SpecialCallingConv =

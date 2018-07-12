@@ -31,7 +31,17 @@ bool SDICFunctionInfo::globalBaseRegSet() const {
 }
 
 unsigned SDICFunctionInfo::getGlobalBaseReg() {
-  return GlobalBaseReg = SDIC::R10;
+  return GlobalBaseReg = SDIC::R3;
+}
+
+
+void SDICFunctionInfo::createEhDataRegsFI() {
+  for (int I = 0; I < 2; ++I) {
+    const TargetRegisterClass *RC = &SDIC::CPURegsRegClass;
+
+    EhDataRegFI[I] = MF.getFrameInfo()->CreateStackObject(RC->getSize(),
+        RC->getAlignment(), false);
+  }
 }
 
 MachinePointerInfo SDICFunctionInfo::callPtrInfo(const char *ES) {

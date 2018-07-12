@@ -415,7 +415,7 @@ public:
                         const SmallVectorImpl<SDValue> &OutVals,
                         const SDLoc &dl, SelectionDAG &DAG) const override;
 
-    
+    bool isOffsetFoldingLegal(const GlobalAddressSDNode *GA) const override;
   };
   const SDICTargetLowering *
   createSDICSETargetLowering(const SDICTargetMachine &TM, const SDICSubtarget &STI);

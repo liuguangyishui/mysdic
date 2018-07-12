@@ -22,7 +22,7 @@
 #include "llvm/MC/MCAsmBackend.h"
 
 namespace llvm {
-  /*
+  
   class MCAssembler;
   struct MCFixupKindInfo;
   class Target;
@@ -35,8 +35,11 @@ namespace llvm {
 public:
      SDICAsmBackend(const Target &T, Triple::OSType _OSType, bool IsLittle)
       : MCAsmBackend(), OSType(_OSType), IsLittle(IsLittle) {}
+  
+    MCObjectWriter *createObjectWriter(raw_pwrite_stream &OS) const override;
+
+
   }
-  */
 }
 
 #endif

@@ -161,7 +161,9 @@ def simm8      : Operand<i32> {
   let DecoderMethod= "DecodeSimm8";
 }
 
-
+def simm16       : Operand<i32> {
+    let DecoderMethod = "DecodeSimm16";
+    }
 
 
 def shamt      :  Operand<i32>;

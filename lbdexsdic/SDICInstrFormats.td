@@ -187,10 +187,10 @@ class FE<bits<6> op, dag outs, dag ins, string asmstr,
                  list<dag> pattern, InstrItinClass itin>:
                  SDICInst<outs, ins, asmstr, pattern, itin, FrmE>
               {
-                 bits<10> rn;
+                 bits<4> rn;
 
                  let Opcode=op;
-                 let Inst{9-0} =rn;
+                 let Inst{9-6} =rn;
                }
 
 

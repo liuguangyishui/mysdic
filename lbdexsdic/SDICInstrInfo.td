@@ -578,8 +578,8 @@ class LoadUpper<bits<6> op, string instr_asm, RegisterClass RC, Operand Imm>:
 class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
           InstrItinClass itin>: FE<op, outs, ins, asmstr, pattern, itin> {
   //bits<10> addr;
-  bits<8> addr;
-  let Inst{7-0} = addr{7-0};
+  bits<6> addr;
+  let Inst{5-0} = addr{5-0};
   //let Inst{9-0}  = addr{9-0};
   let DecoderMethod = "DecodeMem";
 
@@ -630,8 +630,8 @@ class JumpFR<bits<6> op, string instr_asm, RegisterClass RC>:
 let Predicates = [Ch7_1] in {
 //@EffectiveAddress
 class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem> :
-      FMem<0x10, (outs RC:$ra), (ins Mem:$addr),
-      instr_asm, [(set RC:$ra, addr:$addr)], IIAlu>;
+      FMem<0x10, (outs RC:$rn), (ins Mem:$addr),
+      instr_asm, [(set RC:$rn, addr:$addr)], IIAlu>;
       }
 
 
@@ -675,7 +675,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 // ========== Load and Store Instructions and MOVF Instruction ==========
 defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
 defm ST      : StoreM32<0x3e, "movf(ls)",  store_a>;  //st
-def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt16>;
+def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
 def Movf     : FDA_NoLink<SDICMovf, 0x0d, "movf", SDICRegs>;
 def Movwf    : FDA_NoLink<SDICMovf, 0x0e, "movwf", SDICRegs>;
 //def Movlwk    : ArithLogicFK<SDICMovlw, 0x0d, "movlwk", simm8, immSExt8>;

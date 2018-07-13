@@ -199,6 +199,8 @@ def HI16 : SDNodeXForm<imm, [{
 // e.g. addi, andi
 def immSExt8  : PatLeaf<(imm), [{ return isInt<8>(N->getSExtValue()); }]>;
 
+def immSExt16 : PatLeaf<(imm), [{ return isInt<16>(N->getSExtValue()); }]>;
+
 def immSExt9  : PatLeaf<(imm), [{ return isInt<32>(N->getSExtValue()); }]>;
 // Node immediate fits as 16-bit zero extended on target immediate.
 // The LO16 param means that only the lower 16 bits of the node
@@ -830,6 +832,8 @@ def : SDICInstAlias<"move $dst, $src",
 //def : Pat<(i32 immSExt8:$in),
   //            (Movlwk imm:$in)>;
 
+def : Pat<(i32 immSEt16:$in)>,
+         (Movlw imm:$in)>;
 
 def : Pat<(i32 immSExt8:$in),
          //(ADDiu R0, imm:$in)>;

@@ -23,6 +23,7 @@ def IILoad             : InstrItinClass;
 def IIStore            : InstrItinClass;
 def IIBranch           : InstrItinClass;
 
+def IIHiLo             : InstrItinClass;
 def IIPseudo           : InstrItinClass;
 
 def IIAddluwf          : InstrItinClass;
@@ -41,6 +42,8 @@ def SDICGenericItineraries : ProcessorItineraries<[ALU, IMULDIV], [], [
   InstrItinData<II_CLZ             , [InstrStage<1,  [ALU]>]>,
   InstrItinData<IILoad             , [InstrStage<3,  [ALU]>]>,
   InstrItinData<IIStore            , [InstrStage<1,  [ALU]>]>,
-  InstrItinData<IIBranch           , [InstrStage<1,  [ALU]>]>
+  InstrItinData<IIBranch           , [InstrStage<1,  [ALU]>]>,
+
+  InstrItinData<IIHiLo             , [InstrStage<1,  [IMULDIV]>]>
 ]>;
 

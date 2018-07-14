@@ -784,6 +784,13 @@ def BAL: FJ<0x3a, (outs), (ins jmptarget:$addr), "bal\t$addr", [], IIBranch>,
 
 def JR      : JumpFR<0x3c, "jr", GPROut>;
 
+
+def MFHI    : MoveFromLOHI<0x20, "mfhi", SDICRegs, [HI]>;
+def MFLO    : MoveFromLOHI<0x21, "mflo", SDICegs, [LO]>;
+def MTHI    : MoveToLOHI<0x22, "mthi", SDICRegs, [HI]>;
+def MTLO    : MoveToLOHI<0x23, "mtlo", SDICRegs, [LO]>;
+
+
 let Predicates = [Ch9_1] in {
 def TAILCALL : TailCall<BRA>;
 def TAILCALL_R : TailCallReg<GPROut, JR>;

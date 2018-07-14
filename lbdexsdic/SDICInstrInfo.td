@@ -32,6 +32,7 @@ def SDT_SDICPESUO_None   : SDTypeProfile<0, 1, [SDTCisInt<0>]>;
 def SDT_SDICCallSeqStart : SDCallSeqStart<[SDTCisVT<0, i32>]>;
 def SDT_SDICCallSeqEnd   : SDCallSeqEnd<[SDTCisVT<0, i32>, SDTCisVT<1, i32>]>;
 
+// =====SDNode====================================================
 // These are target-independent nodes, but have target-specific formats.
 def callseq_start        : SDNode<"ISD::CALLSEQ_START", SDT_SDICCallSeqStart,
                            [SDNPHasChain, SDNPOutGlue]>;
@@ -39,44 +40,43 @@ def callseq_end          : SDNode<"ISD::CALLSEQ_END", SDT_SDICCallSeqEnd,
                            [SDNPHasChain, SDNPOptInGlue, SDNPOutGlue]>;
 
 //Call
-def SDICJmpLink  : SDNode<"SDICISD::JmpLink", SDT_SDICJmpLink,
+def SDICJmpLink          : SDNode<"SDICISD::JmpLink", SDT_SDICJmpLink,
                            [SDNPHasChain, SDNPOutGlue, SDNPOptInGlue, SDNPVariadic]>;
 
 //Tail Call
-def SDICTailCall : SDNode<"SDICISD::TailCall", SDT_SDICJmpLink,
+def SDICTailCall         : SDNode<"SDICISD::TailCall", SDT_SDICJmpLink,
                                                [SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
-def SDICMUL_CALL : SDNode<"SDICISD::Mul_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
-def SDICDIV_CALL : SDNode<"SDICISD::Div_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
+def SDICMUL_CALL         : SDNode<"SDICISD::Mul_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
+def SDICDIV_CALL         : SDNode<"SDICISD::Div_Call", SDT_SDICCALL, [SDNPOutGlue, SDNPInGlue]>;
 // Return
-def SDICRet : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
-                     [ SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
+def SDICRet              : SDNode<"SDICISD::Ret", SDTNone, //SDT_SDICRet,//
+                                              [ SDNPHasChain, SDNPOptInGlue, SDNPVariadic]>;
 
-def SDICPesuo : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
-def SDICPesuo_NoRet : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>;
-def SDICPesuo_None : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None, [SDNPInGlue, SDNPOutGlue]>;
+def SDICPesuo            : SDNode<"SDICISD::Pesuo", SDT_SDICPESUO, [SDNPOutGlue]>;
+def SDICPesuo_NoRet      : SDNode<"SDICISD::Pesuo_NoRet", SDT_SDICRet, [SDNPOutGlue]>;
+def SDICPesuo_None       : SDNode<"SDICISD::Pesuo_None", SDT_SDICPESUO_None,
+                                                         [SDNPInGlue, SDNPOutGlue]>;
 //MOVLW
-def SDICMovf : SDNode<"SDICISD::Movf", SDT_SDICMOVLW, [SDNPOutGlue]>;
-def SDICMovlw  : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
+def SDICMovf             : SDNode<"SDICISD::Movf", SDT_SDICMOVLW, [SDNPOutGlue]>;
+def SDICMovlw            : SDNode<"SDICISD::Movlw", SDT_SDICMOVLW, [SDNPOutGlue]>;
 
 //ADD
-def SDICAddwf : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
+def SDICAddwf            : SDNode<"SDICISD::Addwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 //R + R
-def SDICAddwfrr : SDNode<"SDICISD::Addwf", SDT_SDICAddwf , [SDNPInGlue, SDNPOutGlue]>;
+def SDICAddwfrr          : SDNode<"SDICISD::Addwf", SDT_SDICAddwf , [SDNPInGlue, SDNPOutGlue]>;
 //SUB
-def SDICSubwf : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
+def SDICSubwf            : SDNode<"SDICISD::Subwf", SDT_SDICAddwf, [SDNPInGlue, SDNPOutGlue]>;
 
-def SDICAddtest : SDNode<"SDICISD::Addtest", SDTIntBinOp>;
-
-
+def SDICAddtest          : SDNode<"SDICISD::Addtest", SDTIntBinOp>;
 
 // Hi and Lo nodes are used to handle global addresses. Used on
 // SDICISelLowering to lower stuff like GlobalAddress, ExternalSymbol
 // static model. (nothing to do with SDIC Registers Hi and Lo)
-def SDICHi    : SDNode<"SDICISD::Hi", SDTIntUnaryOp>;
-def SDICLo    : SDNode<"SDICISD::Lo", SDTIntUnaryOp>;
-def SDICGPRel : SDNode<"SDICISD::GPRel", SDTIntUnaryOp>;
-def SDICWrapper    : SDNode<"SDICISD::Wrapper", SDTIntBinOp>;
+def SDICHi               : SDNode<"SDICISD::Hi", SDTIntUnaryOp>;
+def SDICLo               : SDNode<"SDICISD::Lo", SDTIntUnaryOp>;
+def SDICGPRel            : SDNode<"SDICISD::GPRel", SDTIntUnaryOp>;
+def SDICWrapper          : SDNode<"SDICISD::Wrapper", SDTIntBinOp>;
 
 
 //===----------------------------------------------------------------------===//
@@ -408,6 +408,31 @@ class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
                              //let rb = 0;
                             
                              }
+
+
+//Move from Lo/Hi
+class MoveFromLOHI<bits<6> op, string instr_asm, InstrItinClass RC,
+                           list<Register> UseRegs>:
+                   FA<op, (outs RC:$ra),(ins),
+                   !strconcat(instr_asm, "\t$ra"), [], IIHiLo> {
+                   
+                   let rb = 0;
+                   let rc = 0;
+                   let Uses = UseRegs;
+                   let hasSideEffects = 0;
+
+}
+
+// Move to Lo/Hi
+class MoveToLOHI<bits<6> op, string instr_asm, RegisterClass RC,
+                 list<Register> DefRegs>:
+                 FA<op, (outs), (ins RC:$ra),
+                 !strconcat(instr_asm, "\t$ra"), [], IIHiLo> {
+                   let rb = 0;
+                   let rc = 0;
+                   let Defs = DefRegs;
+                   let hasSideEffects = 0;
+}
 
 class CmpInstr<bits<6> op, string instr_asm,
                        InstrItinClass itin, RegisterClass RC, RegisterClass RD,

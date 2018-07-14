@@ -892,20 +892,20 @@ def : Pat<(SDICLo tglobaladdr:$in), (ORi R0, tglobaladdr:$in)>;
 }
 
 let Predicates = [Ch6_1] in {
-def : Pat<(add SDICRegs:$hi, (SDICLo tglobaladdr:$lo)),
-          (ORi SDICRegs:$hi, tglobaladdr:$lo)>;
+def : Pat<(add SDICRegs:$r5, (SDICLo tglobaladdr:$r6)),
+          (ORi SDICRegs:$r5, tglobaladdr:$r6)>;
 }
 // gp_rel relocs
 let Predicates = [Ch6_1] in {
-def : Pat<(add SDICRegs:$gp, (SDICGPRel tglobaladdr:$in)),
-          (ORi SDICRegs:$gp, tglobaladdr:$in)>;
+def : Pat<(add SDICRegs:$r3, (SDICGPRel tglobaladdr:$in)),
+          (ORi SDICRegs:$r3, tglobaladdr:$in)>;
 }
 
 //@ wrapper_pic
 let Predicates = [Ch6_1] in {
 class WrapperPat<SDNode node, Instruction ORiOp, RegisterClass RC>:
-      Pat<(SDICWrapper RC:$gp, node:$in),
-              (ORiOp RC:$gp, node:$in)>;
+      Pat<(SDICWrapper RC:$r3, node:$in),
+              (ORiOp RC:$r3, node:$in)>;
 
 def : WrapperPat<tglobaladdr, ORi, GPROut>;
 }

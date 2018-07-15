@@ -786,7 +786,7 @@ def JR      : JumpFR<0x3c, "jr", GPROut>;
 
 
 def MFHI    : MoveFromLOHI<0x20, "mfhi", SDICRegs, [R5]>;
-def MFLO    : MoveFromLOHI<0x21, "mflo", SDIRCegs, [R6]>;
+def MFLO    : MoveFromLOHI<0x21, "mflo", SDICRegs, [R6]>;
 def MTHI    : MoveToLOHI<0x22, "mthi", SDICRegs, [R5]>;
 def MTLO    : MoveToLOHI<0x23, "mtlo", SDICRegs, [R6]>;
 

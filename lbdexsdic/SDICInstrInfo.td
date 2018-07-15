@@ -411,7 +411,7 @@ class AriSDICPseudo_None<SDNode OpNode, string instr_asm, RegisterClass RC>:
 
 
 //Move from Lo/Hi
-class MoveFromLOHI<bits<6> op, string instr_asm, InstrItinClass RC,
+class MoveFromLOHI<bits<6> op, string instr_asm, RegisterClass RC,
                            list<Register> UseRegs>:
                    FA<op, (outs RC:$ra),(ins),
                    !strconcat(instr_asm, "\t$ra"), [], IIHiLo> {

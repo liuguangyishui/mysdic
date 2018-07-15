@@ -116,7 +116,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
 
   
-  setOperationAction(ISD::ADD, MVT::i32, Custom);
+  //setOperationAction(ISD::ADD, MVT::i32, Custom);
   setOperationAction(ISD::MUL, MVT::i32, Custom);
   setOperationAction(ISD::SDIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);

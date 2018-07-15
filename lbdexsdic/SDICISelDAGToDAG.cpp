@@ -88,8 +88,6 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
     }
   }
   
-  
-
   // if Address is FI, get the TargetFrameIndex.
   if (FrameIndexSDNode *FIN = dyn_cast<FrameIndexSDNode>(Addr)) {
     Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), ValTy);
@@ -115,10 +113,28 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
         Addr.getOpcode() == ISD::TargetGlobalAddress))
       return false;
   }
+
+   // Addresses of the form FI+const or FI|const
+  if (CurDAG->isBaseWithConstantOffset(Addr)) {
+    ConstantSDNode *CN = dyn_cast<ConstantSDNode>(Addr.getOperand(1));
+    if (isInt<16>(CN->getSExtValue())) {
+
+      // If the first operand is a FI, get the TargetFI Node
+      if (FrameIndexSDNode *FIN = dyn_cast<FrameIndexSDNode>
+                                  (Addr.getOperand(0)))
+        Base = CurDAG->getTargetFrameIndex(FIN->getIndex(), ValTy);
+      else
+        Base = Addr.getOperand(0);
+
+      Offset = CurDAG->getTargetConstant(CN->getZExtValue(), DL, ValTy);
+      return true;
+    }
+  }
+  
+
   
   Base   = Addr;
   Offset = CurDAG->getTargetConstant(0, DL, ValTy);
-
   return true;
 }
 
@@ -146,10 +162,11 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
   switch(Opcode) {
   default: break;
 
-  case ISD::ADD:
-    printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
+    // case ISD::ADD:
+    // printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
     //HYL   ReplaceNode(Node, CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32));
      // Get target GOT address.
+    //return;
   case ISD::GLOBAL_OFFSET_TABLE:
     ReplaceNode(Node, getGlobalBaseReg());
     return;

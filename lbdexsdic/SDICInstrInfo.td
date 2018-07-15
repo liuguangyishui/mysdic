@@ -130,7 +130,6 @@ def DisableOverflow : Predicate<"Subtarget->disableOverflow()">;
 def HasCmp      :     Predicate<"Subtarget->hasCmp()">;
 def HasSlt      :     Predicate<"Subtarget->hasSlt()">;
 
-
 def RelocPIC    :     Predicate<"TM.getRelocationModel() == Reloc::PIC_">;
 
 class SDICInstAlias<string Asm, dag Result, bit Emit = 0b1> :
@@ -148,9 +147,7 @@ class IsTailCall {
 //===----------------------------------------------------------------------===//
 // Instruction format superclass
 //===----------------------------------------------------------------------===//
-
 include "SDICInstrFormats.td"
-
 //===----------------------------------------------------------------------===//
 // SDIC Operand, Complex Patterns and Transformations Definitions.
 //===----------------------------------------------------------------------===//
@@ -158,13 +155,12 @@ include "SDICInstrFormats.td"
 
 // Signed Operand
 def simm8      : Operand<i32> {
-  let DecoderMethod= "DecodeSimm8";
+    let DecoderMethod= "DecodeSimm8";
 }
 
-def simm16       : Operand<i32> {
+def simm16     : Operand<i32> {
     let DecoderMethod = "DecodeSimm16";
-    }
-
+}
 
 def shamt      :  Operand<i32>;
 
@@ -175,17 +171,16 @@ def uimm16 : Operand<i32> {
 
 // Address operand
 def mem : Operand<iPTR> {
-  let PrintMethod = "printMemOperand";
-  let MIOperandInfo = (ops SDICRegs, simm8);
-  let EncoderMethod = "getMemEncoding";
+    let PrintMethod = "printMemOperand";
+    let MIOperandInfo = (ops SDICRegs, simm8);
+    let EncoderMethod = "getMemEncoding";
 }
 
 def mem_ea : Operand<iPTR> {
     let PrintMethod = "printMemOperandEA";
     let MIOperandInfo = (ops SDICRegs, simm16);
     let EncoderMethod = "getMemEncoding";
-    }
-
+}
 
 // Transformation Function - get the lower 16 bits.
 def LO16 : SDNodeXForm<imm, [{
@@ -195,7 +190,6 @@ def LO16 : SDNodeXForm<imm, [{
 def HI16 : SDNodeXForm<imm, [{
     return getImm(N, (N->getZExtValue() >> 16) & 0xffff);
     }]>;
-
 
 // Node immediate fits as 16-bit sign extended on target immediate.
 // e.g. addi, andi
@@ -215,24 +209,18 @@ def immZExt16 : PatLeaf<(imm), [{
     return (uint64_t)N->getZExtValue() == (unsigned short)N->getZExtValue();
     }], LO16>;
 
-
 // Immediate can be loaded with LUi (32-bit int with lower 16-bit cleared).
 def immLow16Zero : PatLeaf<(imm), [{
     int64_t Val = N->getSExtValue();
     return isInt<32>(Val) && !(Val & 0xffff);
     }]>;
 
-
 // shamt field must fit in 5 bits.
 def immZExt5 : ImmLeaf<i32, [{return Imm == (Imm & 0x1f);}]>;
 
-
 // SDIC Address Mode! SDNode frameindex could possibily be a match
 // since load and store instructions from stack used it.
-def addr : 
-  ComplexPattern<iPTR, 2, "SelectAddr", [frameindex], [SDNPWantParent]>;
-
-
+def addr : ComplexPattern<iPTR, 2, "SelectAddr", [frameindex], [SDNPWantParent]>;
 
 def brtarget24     :  Operand<OtherVT> {
     let EncoderMethod = "getBranch24TargetOpValue";

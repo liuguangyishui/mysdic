@@ -263,8 +263,6 @@ def store_a         : AlignedStore<store>;
 //===----------------------------------------------------------------------===//
 // Instructions specific format
 //===----------------------------------------------------------------------===//
-
-
 let Predicates = [Ch3_3] in {
 // Arithmetic and logical instructions with 3 register operands.
 class ArithLogicR<bits<6> op, string instr_asm, SDNode OpNode,
@@ -278,7 +276,6 @@ class ArithLogicR<bits<6> op, string instr_asm, SDNode OpNode,
            let isReMaterializable = 1;
      }
 }
-
 
 // Arithmetic and logical instructions with 2 register operands.
 class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,

@@ -880,12 +880,12 @@ def : Pat<(SDICHi tglobaladdr:$in), (LUi tglobaladdr:$in)>;
 }
 
 let Predicates = [Ch6_1] in {
-def : Pat<(SDICLo tglobaladdr:$in), (ORi R0, tglobaladdr:$in)>;
+def : Pat<(SDICLo tglobaladdr:$in), (ORi R2, tglobaladdr:$in)>;
 }
 
 let Predicates = [Ch6_1] in {
-def : Pat<(add SDICRegs:$r5, (SDICLo tglobaladdr:$r6)),
-          (ORi SDICRegs:$r5, tglobaladdr:$r6)>;
+def : Pat<(add SDICRegs:$hi, (SDICLo tglobaladdr:$lo)),
+          (ORi SDICRegs:$hi, tglobaladdr:$lo)>;
 }
 // gp_rel relocs
 let Predicates = [Ch6_1] in {

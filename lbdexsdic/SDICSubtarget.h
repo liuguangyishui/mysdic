@@ -58,27 +58,33 @@ public:
   }
 
   bool hasChapter3_4() const {
-    return false;
+    return true;
+    //return false;
   }
 
   bool hasChapter3_5() const {
-    return false;
+    return true;
+    //return false;
   }
 
   bool hasChapter4_1() const {
-    return false;
+    return true;
+    //    return false;
   }
 
   bool hasChapter4_2() const {
-    return false;
+    return true;
+    //    return false;
   }
 
   bool hasChapter5_1() const {
-    return false;
+     return true;
+     // return false;
   }
 
   bool hasChapter6_1() const {
-    return false;
+     return true;
+     //return false;
   }
 
   bool hasChapter7_1() const {

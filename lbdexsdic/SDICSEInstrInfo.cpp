@@ -151,7 +151,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSH);
 
     
-    //BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
+    BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
      // BuildMI(MBB, I, DL, get(ADDiua), SP).addReg(SP).addImm(1).addImm(1);
 
     uint64_t i=4;//both call fun and return fun should operate the PC register
@@ -166,7 +166,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     BuildMI(MBB, I, DL, get(SUBLW), -1);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::STKPTR);
     
-    //BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
+    BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
     //  BuildMI(MBB, I, DL, get(ADDiua), SDIC::PCL).addReg(SDIC::PCL).addImm(1).addImm(1);
     //  BuildMI(MBB,I,DL,get(SDIC::MOVF),SDIC::WREG).addReg(SDIC::PCL).addImm(i);
 

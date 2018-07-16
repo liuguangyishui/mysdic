@@ -889,8 +889,8 @@ def : Pat<(add SDICRegs:$hi, (SDICLo tglobaladdr:$lo)),
 }
 // gp_rel relocs
 let Predicates = [Ch6_1] in {
-def : Pat<(add SDICRegs:$r3, (SDICGPRel tglobaladdr:$in)),
-          (ORi SDICRegs:$r3, tglobaladdr:$in)>;
+def : Pat<(add SDICRegs:$r10, (SDICGPRel tglobaladdr:$in)),
+          (ORi SDICRegs:$r10, tglobaladdr:$in)>;
 }
 
 //@ wrapper_pic

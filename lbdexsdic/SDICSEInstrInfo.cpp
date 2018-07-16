@@ -142,14 +142,14 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
   if (isInt<16>(Amount)) {
     // addiu sp, sp, amount
     //My modify
-    BuildMI(MBB, I, DL, get(Movf),   SDIC::STKPTR);
+    /*BuildMI(MBB, I, DL, get(Movf),   SDIC::STKPTR);
     BuildMI(MBB, I, DL, get(ADDLW), 1);
     BuildMI(MBB, I, DL, get(Movwf), SDIC::STKPTR);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::PCL);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSL);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::PCH);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSH);
-
+    */
     
     BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
      // BuildMI(MBB, I, DL, get(ADDiua), SP).addReg(SP).addImm(1).addImm(1);
@@ -158,14 +158,14 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     if(Amount<0)
       i=-i;
     //MY modify
-    BuildMI(MBB, I, DL, get(Movf),   SDIC::TOSH);
+    /*BuildMI(MBB, I, DL, get(Movf),   SDIC::TOSH);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::PCH);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::TOSL);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::PCL);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::STKPTR);
     BuildMI(MBB, I, DL, get(SUBLW), -1);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::STKPTR);
-    
+    */
     BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
     //  BuildMI(MBB, I, DL, get(ADDiua), SDIC::PCL).addReg(SDIC::PCL).addImm(1).addImm(1);
     //  BuildMI(MBB,I,DL,get(SDIC::MOVF),SDIC::WREG).addReg(SDIC::PCL).addImm(i);

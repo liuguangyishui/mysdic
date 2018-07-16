@@ -144,7 +144,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     //My modify
     BuildMI(MBB, I, DL, get(Movf),   SDIC::STKPTR);
     BuildMI(MBB, I, DL, get(ADDLW), 1);
-    BuildMI(MBB, I, DL, get(Movfwf), SDIC::STKPTR);
+    BuildMI(MBB, I, DL, get(Movwf), SDIC::STKPTR);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::PCL);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSL);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::PCH);

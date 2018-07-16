@@ -702,7 +702,7 @@ def ADDLW    : K_Link<SDICAddwfrr, 0x28, "addlw", simm8, immSExt8, SDICRegs>;
 def SUBwf    : FDA_Link<SDICSubwf, 0x14, "subwf",  SDICRegs>;
 //SUBWFB 带借位的减法
 def SUBwfb   : FDA_Link<SDICSubwf, 0x15, "subwfb", SDICRegs>;
-
+def SUBLW    : K_Link<SDICSubwf, 0x2e, "sublw", simm8, immSExt8, SDICRegs>;
 // uncomplish
 def MUL_CALL : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;
 def DIV_CALL : CALL_NoLink<SDICDIV_CALL, 0x1c, "call\tDIV",  SDICRegs>;

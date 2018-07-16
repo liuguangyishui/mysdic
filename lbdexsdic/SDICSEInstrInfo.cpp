@@ -132,27 +132,46 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
 				     MachineBasicBlock &MBB,
 				     MachineBasicBlock::iterator I) const {
   DebugLoc DL = I != MBB.end() ? I->getDebugLoc() : DebugLoc();
-  // unsigned ADDiua = SDIC::ADDiua;
+  //unsigned ADDiua = SDIC::ADDiua;
   unsigned ADDu = SDIC::ADDu;
   unsigned ADDiu = SDIC::ADDiu;
+  unsigned Movf = SDIC::Movf;
+  unsigned Movwf = SDIC::Movwf;
+  unsigned ADDLW = SDIC::ADDLW;
+  unsigned SUBLW = SDIC::SUBLW;
   if (isInt<16>(Amount)) {
-    printf("\nHYLHYL: isInt<16>(Amount)hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
     // addiu sp, sp, amount
     //My modify
-     BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
+    BuildMI(MBB, I, DL, get(Movf),   SDIC::STKPTR);
+    BuildMI(MBB, I, DL, get(ADDLW), 1);
+    BuildMI(MBB, I, DL, get(Movfwf), SDIC::STKPTR);
+    BuildMI(MBB, I, DL, get(Movf),   SDIC::PCL);
+    BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSL);
+    BuildMI(MBB, I, DL, get(Movf),   SDIC::PCH);
+    BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSH);
+
+    
+    //BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
      // BuildMI(MBB, I, DL, get(ADDiua), SP).addReg(SP).addImm(1).addImm(1);
 
     uint64_t i=4;//both call fun and return fun should operate the PC register
     if(Amount<0)
       i=-i;
     //MY modify
-    BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
+    BuildMI(MBB, I, DL, get(Movf),   SDIC::TOSH);
+    BuildMI(MBB, I, DL, get(Movwf),  SDIC::PCH);
+    BuildMI(MBB, I, DL, get(Movf),   SDIC::TOSL);
+    BuildMI(MBB, I, DL, get(Movwf),  SDIC::PCL);
+    BuildMI(MBB, I, DL, get(Movf),   SDIC::STKPTR);
+    BuildMI(MBB, I, DL, get(SUBLW), -1);
+    BuildMI(MBB, I, DL, get(Movwf),  SDIC::STKPTR);
+    
+    //BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
     //  BuildMI(MBB, I, DL, get(ADDiua), SDIC::PCL).addReg(SDIC::PCL).addImm(1).addImm(1);
     //  BuildMI(MBB,I,DL,get(SDIC::MOVF),SDIC::WREG).addReg(SDIC::PCL).addImm(i);
 
   }
   else {
-    printf("\nHYLHYL: NOisInt<16>(Amount)hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\n");
     // Expand immediate that doesn't fit in 16-bit.
     unsigned Reg = loadImmediate(Amount, MBB, I, DL, nullptr);
     BuildMI(MBB, I, DL, get(ADDu), SP).addReg(SP).addReg(Reg, RegState::Kill);

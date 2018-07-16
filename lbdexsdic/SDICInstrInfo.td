@@ -889,7 +889,7 @@ def : Pat<(add SDICRegs:$hi, (SDICLo tglobaladdr:$lo)),
 }
 // gp_rel relocs
 let Predicates = [Ch6_1] in {
-def : Pat<(add SDICRegs:$r10, (SDICGPRel tglobaladdr:$in)),
+def : Pat<(SDICISD::ADDWF SDICRegs:$r10, (SDICGPRel tglobaladdr:$in)),
           (ORi SDICRegs:$r10, tglobaladdr:$in)>;
 }
 

@@ -143,7 +143,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
   if (isInt<16>(Amount)) {
     // addiu sp, sp, amount
     //My modify
-    BuildMI(MBB, I, DL, get(Movf),   SDIC::STKPTR);
+    BuildMI(MBB, I, DL, get(Movf), STKPTR);
     BuildMI(MBB, I, DL, get(ADDLW), 1);/*
     BuildMI(MBB, I, DL, get(Movwf), SDIC::STKPTR);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::PCL);

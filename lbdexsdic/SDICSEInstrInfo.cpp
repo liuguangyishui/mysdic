@@ -139,6 +139,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
   unsigned Movwf = SDIC::Movwf;
   unsigned ADDLW = SDIC::ADDLW;
   unsigned SUBLW = SDIC::SUBLW;
+  unsigned STKPTR = SDIC::STKPTR;
   if (isInt<16>(Amount)) {
     // addiu sp, sp, amount
     //My modify

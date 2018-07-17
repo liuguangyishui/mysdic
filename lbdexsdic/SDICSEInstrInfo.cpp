@@ -142,6 +142,8 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
   unsigned STKPTR = SDIC::STKPTR;
   unsigned PCL = SDIC::PCL;
   unsigned PCH = SDIC::PCH;
+  unsigned TOSH = SDIC::TOSH;
+  unsigned TOSL = SDIC::TOSL;
   if (isInt<16>(Amount)) {
     // addiu sp, sp, amount
     //My modify

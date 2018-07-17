@@ -144,9 +144,9 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     // addiu sp, sp, amount
     //My modify
     // BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
-    BuildMI(MBB, I, DL, get(Movf)).addReg(STKPTR).addImm(Amount);
-    /* BuildMI(MBB, I, DL, get(ADDLW), 1).addImm(Amount);
-     BuildMI(MBB, I, DL, get(Movwf), SDIC::STKPTR);
+    BuildMI(MBB, I, DL, get(Movf)).addReg(STKPTR);
+    BuildMI(MBB, I, DL, get(ADDLW)).addImm(1);
+    /* BuildMI(MBB, I, DL, get(Movwf), SDIC::STKPTR);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::PCL);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSL);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::PCH);

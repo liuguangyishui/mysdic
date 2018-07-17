@@ -173,7 +173,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     BuildMI(MBB, I, DL, get(Movf)).addImm(1).addReg(STKPTR);
     //BuildMI(MBB, I, DL, get(SUBLW)).addImm(-1);
     BuildMI(MBB, I, DL, get(Movwf)).addImm(1).addReg(STKPTR);
-    */
+    
     BuildMI(MBB,I,DL,get(ADDiu),SDIC::PCL).addReg(SDIC::PCL).addImm(i);
     //  BuildMI(MBB, I, DL, get(ADDiua), SDIC::PCL).addReg(SDIC::PCL).addImm(1).addImm(1);
     //  BuildMI(MBB,I,DL,get(SDIC::MOVF),SDIC::WREG).addReg(SDIC::PCL).addImm(i);

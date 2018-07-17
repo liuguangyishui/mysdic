@@ -145,10 +145,10 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     //My modify
     // BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
     BuildMI(MBB, I, DL, get(Movf)).addReg(STKPTR).addImm(1);
-    BuildMI(MBB, I, DL, get(ADDLW)).addImm(1);
-    /* BuildMI(MBB, I, DL, get(Movwf), SDIC::STKPTR);
-    BuildMI(MBB, I, DL, get(Movf),   SDIC::PCL);
-    BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSL);
+    //BuildMI(MBB, I, DL, get(ADDLW)).addImm(1);
+    //    BuildMI(MBB, I, DL, get(Movwf).addReg(STKPTR).addImm(1);
+    BuildMI(MBB, I, DL, get(Movf)).addReg(PCL).addImm(1);
+    /*BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSL);
     BuildMI(MBB, I, DL, get(Movf),   SDIC::PCH);
     BuildMI(MBB, I, DL, get(Movwf),  SDIC::TOSH);
     */

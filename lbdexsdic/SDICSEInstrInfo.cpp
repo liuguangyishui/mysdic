@@ -140,11 +140,13 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
   unsigned ADDLW = SDIC::ADDLW;
   unsigned SUBLW = SDIC::SUBLW;
   unsigned STKPTR = SDIC::STKPTR;
+  unsigned PCL = SDIC::PCL;
+  unsigned PCH = SDIC::PCH;
   if (isInt<16>(Amount)) {
     // addiu sp, sp, amount
     //My modify
     // BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
-    BuildMI(MBB, I, DL, get(Movf)).addReg(STKPTR).addImm(1);
+    BuildMI(MBB, I, DL, get(Movf)).addImm(1).addReg(STKPTR);
     //BuildMI(MBB, I, DL, get(ADDLW)).addImm(1);
     //    BuildMI(MBB, I, DL, get(Movwf).addReg(STKPTR).addImm(1);
     BuildMI(MBB, I, DL, get(Movf)).addReg(PCL).addImm(1);

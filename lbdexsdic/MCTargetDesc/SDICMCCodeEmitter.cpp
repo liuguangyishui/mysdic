@@ -51,7 +51,7 @@ getJumpTargetOpValue(const MCInst &MI, unsigned OpNo,
   assert(MO.isExpr() && "getJumpTargetOpValue expects only expressions");
 
   const MCExpr *Expr = MO.getExpr();
-  if (Opcode == SDIC::JSUB || Opcode == SDIC::BRA || Opcode == SDIC::BAL)
+  if (Opcode == SDIC::CALL || Opcode == SDIC::BRA || Opcode == SDIC::BAL)
     Fixups.push_back(MCFixup::create(0, Expr,
                                      MCFixupKind(SDIC::fixup_SDIC_PC24)));
   else

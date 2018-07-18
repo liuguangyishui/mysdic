@@ -142,6 +142,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
   unsigned STKPTR = SDIC::STKPTR;
   unsigned PCL = SDIC::PCL;
   unsigned PCH = SDIC::PCH;
+  unsigned PCK = SDIC::PCK;
   unsigned TOSH = SDIC::TOSH;
   unsigned TOSL = SDIC::TOSL;
   if (isInt<16>(Amount)) {
@@ -155,7 +156,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
     BuildMI(MBB, I, DL, get(Movwf)).addImm(1).addReg(STKPTR);
     BuildMI(MBB, I, DL, get(Movf)).addImm(1).addReg(PCL);
     BuildMI(MBB, I, DL, get(Movwf)).addImm(1).addReg(TOSL);
-    BuildMI(MBB, I, DL, get(Movf)).addImm(1).addReg(PCL); //PCH
+    BuildMI(MBB, I, DL, get(Movf)).addImm(1).addReg(PCK); //PCH
     BuildMI(MBB, I, DL, get(Movwf)).addImm(1).addReg(TOSH);
     
     
@@ -167,7 +168,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
       i=-i;
     //MY modify
     BuildMI(MBB, I, DL, get(Movf)).addImm(1).addReg(TOSH);
-    BuildMI(MBB, I, DL, get(Movwf)).addImm(1).addReg(STKPTR); //PCH
+    BuildMI(MBB, I, DL, get(Movwf)).addImm(1).addReg(PCK); //PCH
     BuildMI(MBB, I, DL, get(Movf)).addImm(1).addReg(TOSL);
     BuildMI(MBB, I, DL, get(Movwf)).addImm(1).addReg(PCL);
     BuildMI(MBB, I, DL, get(Movf)).addImm(1).addReg(STKPTR);

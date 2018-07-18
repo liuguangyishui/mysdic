@@ -685,8 +685,8 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 //===----------------------------------------------------------------------===//
 
 // ========== Load and Store Instructions and MOVF Instruction ==========
-defm LD      : LoadM32<0x3d,  "movf(ld)",  load_a>;  //ld
-defm ST      : StoreM32<0x3e, "movf(st)",  store_a>;  //st
+defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
+defm ST      : StoreM32<0x3e, "movf(s)",  store_a>;  //st
 def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;
 def Movf     : FDA_NoLink<SDICMovf, 0x0d, "movf", SDICRegs>;
 def Movwf    : FDA_NoLink<SDICMovf, 0x0e, "movwf", SDICRegs>;

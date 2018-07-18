@@ -89,14 +89,14 @@ let Namespace = "SDIC" in {
 //===----------------------------------------------------------------===//
 def SDICRegs : RegisterClass<"SDIC", [i32], 32, (add
     R0,  R1,  R2,  R3,
-    R4,  R5,  R6,  SW, 
+    R4,  R5,  R6,  
     R8,  R9,  R10, R11,
    // R12, R13, R14, R15,
    
     SS, STKPTR, FSR0L, FSR2L, TOSL, TOSH, PCL, PCH, PCK )>;
 
 //@Status Register Class
-def SR : RegisterClass<"SDIC", [i32], 32, (add SS, SW)>;//, R6,R7, R10, R11, R12)>;
+def SR : RegisterClass<"SDIC", [i32], 32, (add SS)>;//, R6,R7, R10, R11, R12)>;
 
 //@Co-processor 0 Registers Class
 def C0Regs : RegisterClass<"SDIC", [i32], 32, (add PCL)>;

@@ -78,6 +78,8 @@ let Namespace = "SDIC" in {
                 //PC¼Ä´æÆ÷
                 def PCL : SDICPTReg<2, "pcl">, DwarfRegNum<[270]>;
                 def PCH : SDICPTReg<3, "pch">, DwarfRegNum<[271]>;
+                def PCK : SDICPTReg<4, "pck">, DwarfRegNum<[272]>;
+                
                  //¶ÑÕ»Ö¸Ê¾¼Ä´æÆ÷
                 def STKPTR : SDICReg<2, "stkptr">, DwarfRegNum<[262]>;
 }
@@ -90,7 +92,7 @@ def SDICRegs : RegisterClass<"SDIC", [i32], 32, (add
     R8,  R9,  R10, R11,
    // R12, R13, R14, R15,
    
-    SS, STKPTR, FSR0L, FSR2L, TOSL, TOSH, PCL, PCH )>;
+    SS, STKPTR, FSR0L, FSR2L, TOSL, TOSH, PCL, PCH, PCK )>;
 
 //@Status Register Class
 def SR : RegisterClass<"SDIC", [i32], 32, (add SS, SW)>;//, R6,R7, R10, R11, R12)>;

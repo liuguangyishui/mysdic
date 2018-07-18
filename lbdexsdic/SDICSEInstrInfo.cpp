@@ -147,7 +147,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
   unsigned TOSL = SDIC::TOSL;
   if (isInt<16>(Amount)) {
 
-    if(Amount < 0) {
+    if(Amount > 0) {
     // addiu sp, sp, amount
     //My modify
     // BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addImm(Amount);
@@ -164,7 +164,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
      // BuildMI(MBB, I, DL, get(ADDiua), SP).addReg(SP).addImm(1).addImm(1);
     }
     uint64_t i=4;//both call fun and return fun should operate the PC register
-    if(Amount > 0) {
+    if(Amount < 0) {
       i=-i;
     //MY modify
     /*

@@ -59,7 +59,7 @@ getReservedRegs(const MachineFunction &MF) const {
 //@getReservedRegs body {
   static const uint16_t ReservedCPURegs[] = {
     SDIC::R0, SDIC::TOSL, SDIC::STATUS, SDIC::STKPTR,
-    SDIC::R10,SDIC::FSR0L, SDIC::FSR2L, SDIC::PCL, SDIC::R11
+    SDIC::R10,SDIC::FSR0L, SDIC::FSR2L, SDIC::PCL, SDIC::R11,SDIC::PCH
   };
   BitVector Reserved(getNumRegs());
 

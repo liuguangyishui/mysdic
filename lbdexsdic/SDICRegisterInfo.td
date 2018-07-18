@@ -77,8 +77,8 @@ let Namespace = "SDIC" in {
                 def TOSH : SDICPTReg<1, "tosh">,DwarfRegNum<[269]>;
                 //PC¼Ä´æÆ÷
                 def PCL : SDICPTReg<2, "pcl">, DwarfRegNum<[270]>;
-                def PCH : SDICPTReg<3, "pch">, DwarfRegNum<[271]>;
-                def PCK : SDICPTReg<4, "pck">, DwarfRegNum<[272]>;
+                def PCH : SDICPTReg<3, "pch">, DwarfRegNum<[267]>;
+                def PCK : SDICPTReg<4, "pck">, DwarfRegNum<[266]>;
                 
                  //¶ÑÕ»Ö¸Ê¾¼Ä´æÆ÷
                 def STKPTR : SDICReg<2, "stkptr">, DwarfRegNum<[262]>;

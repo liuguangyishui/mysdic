@@ -73,10 +73,10 @@ let Namespace = "SDIC" in {
 
                 //¶ÑÕ»Õ»¶¥¼Ä´æÆ÷
                 def TOSL :  SDICPTReg<0, "tosl">, DwarfRegNum<[268]>;
-                def TOSH : SDICPTReg<1, "tosh">,DwarfRegNum<[269]>;
+                def TOSH :  SDICPTReg<1, "tosh">, DwarfRegNum<[269]>;
                 //PC¼Ä´æÆ÷
-                def PCL : SDICPTReg<2, "pcl">, DwarfRegNum<[270]>;
-                def PCH : SDICPTReg<3, "pch">, DwarfRegNum<[267]>;
+                def PCL  :  SDICPTReg<2, "pcl">,  DwarfRegNum<[270]>;
+                def PCH  :  SDICPTReg<3, "pch">,  DwarfRegNum<[267]>;
              
                 
                  //¶ÑÕ»Ö¸Ê¾¼Ä´æÆ÷
@@ -91,7 +91,7 @@ def SDICRegs : RegisterClass<"SDIC", [i32], 32, (add
     R8,  R9,  R10, R11,
     R12, R13, R14, R15,
     STKPTR, FSR0L, FSR0H,
-    FSR2L,  FSR2H,
+    FSR2L,  FSR2H
    // TOSL, TOSH, PCL, PCH
    )>;
 

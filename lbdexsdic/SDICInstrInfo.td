@@ -852,7 +852,7 @@ def : Pat<(add RC:$re, Od:$in),
 
 }
 
-defm : addOperator<SDICRegs, simm8>;
+defm : addOperator<SDICRegs, immSExt16>;
 
 
 // Small immediates

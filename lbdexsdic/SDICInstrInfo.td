@@ -602,7 +602,7 @@ let canFoldAsLoad = 1 in
 class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
             Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs RC:$ra), (ins MemOpnd:$addr),
-     !strconcat(instr_asm, "\t\t$addr \n\t\tmovwf \t$ra"), //(instr_asm, "\t$ra, $addr"),
+     !strconcat(instr_asm, "\t\t$addr \n\tmovwf \t\t$ra"), //(instr_asm, "\t$ra, $addr"),
      [(set RC:$ra, (OpNode addr:$addr))], IILoad> {
   let isPseudo = Pseudo;
 }
@@ -610,7 +610,7 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs), (ins RC:$ra,MemOpnd:$addr),
-     !strconcat(instr_asm, "\t\t$ra \n\t\tmovwf \t$addr"), //(instr_asm, "\t$ra, $addr"), 
+     !strconcat(instr_asm, "\t\t$ra \n\tmovwf \t\t$addr"), //(instr_asm, "\t$ra, $addr"), 
      [(OpNode RC:$ra, addr:$addr)], IIStore> {   
   let isPseudo = Pseudo;
 }
@@ -851,7 +851,7 @@ def : SDICInstAlias<"move $dst, $src",
 
 //def : Pat<(i32 immSExt8:$in),
   //            (Movlwk imm:$in)>;
-
+/*
 def : Pat<(i32 immSExt16:$in),
          (Movlw imm:$in)>;
 
@@ -859,7 +859,7 @@ def : Pat<(i32 immSExt8:$in),
          //(ADDiu R0, imm:$in)>;
          (Movlw imm:$in)>;
 
-
+*/
 
 
 

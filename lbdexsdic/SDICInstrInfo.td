@@ -832,12 +832,12 @@ let Predicates = [Ch3_3] in {
 let rn=0 in
   def NOP   : FE<0, (outs), (ins), "nop", [], IIAlu>;
 
-
+/*
 let Predicates = [Ch3_3] in {
 //===----------------------------------------------------------------------===//
 // Instruction aliases
 //===----------------------------------------------------------------------===//
-/*
+
 def : SDICInstAlias<"move $dst, $src",
                     (ADDu GPROut:$dst, GPROut:$src,R0), 1>;
 }

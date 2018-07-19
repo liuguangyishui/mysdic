@@ -843,7 +843,7 @@ def : SDICInstAlias<"move $dst, $src",
 //===----------------------------------------------------------------------===//
 //  Arbitrary patterns that map to one or more instructions
 //===----------------------------------------------------------------------===//
-multiclass addOperator<RegisterClass RC, Operand Od> {
+multiclass addOperator<RegisterClass RC, PatLeaf Od> {
 
 def : Pat<(add RC:$rl, RC:$rr),
                (ADDWF RC:$rl, RC:$rr)>;

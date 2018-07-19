@@ -290,7 +290,7 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA<op,(outs GPROut:$ra), (ins RC:$rb, RC:$rc),
-                           !strconcat(instr_asm, "\t$rb  $rc\n\tmovwf \t$ra"), //$ra $rb $rc
+                           !strconcat(instr_asm, "\t\t$rc"), //$ra $rb $rc  //\n\tmovwf \t$ra
                            [(set GPROut:$ra,(OpNode  RC:$rb, RC:$rc))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
@@ -300,7 +300,7 @@ class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
 class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                          RegisterClass RC> :
                       F_K<op, (outs GPROut:$shamt), (ins RC:$rk),
-                              !strconcat(instr_asm, "\t$rk \t$shamt"), //留$rk
+                              !strconcat(instr_asm, "\t\t$rk \t$shamt"), //留$rk
                              [(set GPROut:$shamt, (OpNode RC:$rk))], IIAlu> {
 
                            let isReMaterializable =1;
@@ -602,7 +602,7 @@ let canFoldAsLoad = 1 in
 class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
             Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs RC:$ra), (ins MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$addr \n\tmovwf \t$ra"), //(instr_asm, "\t$ra, $addr"),
+     !strconcat(instr_asm, "\t\t$addr \n\t\tmovwf \t$ra"), //(instr_asm, "\t$ra, $addr"),
      [(set RC:$ra, (OpNode addr:$addr))], IILoad> {
   let isPseudo = Pseudo;
 }
@@ -610,7 +610,7 @@ class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
              Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs), (ins RC:$ra,MemOpnd:$addr),
-     !strconcat(instr_asm, "\t$ra \n\tmovwf \t$addr"), //(instr_asm, "\t$ra, $addr"), 
+     !strconcat(instr_asm, "\t\t$ra \n\t\tmovwf \t$addr"), //(instr_asm, "\t$ra, $addr"), 
      [(OpNode RC:$ra, addr:$addr)], IIStore> {   
   let isPseudo = Pseudo;
 }

@@ -33,7 +33,7 @@ void SDICInstPrinter::printRegName(raw_ostream &OS, unsigned RegNo) const {
 //- getRegisterName(RegNo) defined in SDICGenAsmWriter.inc which indicate in 
 //   SDIC.td.'$'
   //OS << '$' << StringRef(getRegisterName(RegNo)).lower();
-  OS << StringRef(getRegisterName(RegNo));
+  OS << StringRef(getRegisterName(RegNo)).lower();
 }
 
 //@1 {

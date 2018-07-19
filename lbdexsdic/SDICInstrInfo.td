@@ -700,6 +700,7 @@ def ADDWF    : FDA_Link<SDICAddwf, 0x00, "addwf",  SDICRegs>;
 def ADDLW    : K_Link<SDICAddwfrr, 0x28, "addlw", simm8, immSExt8, SDICRegs>;
 //SUB
 def SUBwf    : FDA_Link<SDICSubwf, 0x14, "subwf",  SDICRegs>;
+
 //SUBWFB 带借位的减法
 def SUBwfb   : FDA_Link<SDICSubwf, 0x15, "subwfb", SDICRegs>;
 def SUBLW    : K_Link<SDICSubwf, 0x2e, "sublw", simm8, immSExt8, SDICRegs>;

@@ -133,7 +133,7 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
 				     MachineBasicBlock::iterator I) const {
   DebugLoc DL = I != MBB.end() ? I->getDebugLoc() : DebugLoc();
   //unsigned ADDiua = SDIC::ADDiua;
-  unsigned ADDu = SDIC::ADDu;
+  //  unsigned ADDu = SDIC::ADDu;
   unsigned ADDiu = SDIC::ADDiu;
   unsigned Movf = SDIC::Movf;
   unsigned Movwf = SDIC::Movwf;
@@ -184,7 +184,8 @@ void SDICSEInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
   else {
     // Expand immediate that doesn't fit in 16-bit.
     unsigned Reg = loadImmediate(Amount, MBB, I, DL, nullptr);
-    BuildMI(MBB, I, DL, get(ADDu), SP).addReg(SP).addReg(Reg, RegState::Kill);
+    // BuildMI(MBB, I, DL, get(ADDu), SP).addReg(SP).addReg(Reg, RegState::Kill);
+     BuildMI(MBB, I, DL, get(ADDiu), SP).addReg(SP).addReg(Reg, RegState::Kill);
   }
 
  

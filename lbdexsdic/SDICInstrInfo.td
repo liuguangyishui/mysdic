@@ -311,7 +311,7 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
                       FA<op,(outs GPROut:$ra), (ins Od:$rb, RC:$rc),
-                           !strconcat(instr_asm, "\t\t$rb"),//\t$ra  $rb  $rc
+                           !strconcat(instr_asm, "\t\t$rb $rc"),//\t$ra  $rb  $rc
                [(set GPROut:$ra,(OpNode  imm_type:$rb, RC:$rc))], IIAddluwf> {
                //GPROut:$imma
 }
@@ -799,14 +799,14 @@ let Predicates = [Ch3_3] in {
 let Predicates = [Ch3_3] in {
     def LUi     : LoadUpper<0x0f, "lui", GPROut, uimm16>;
 }
-
+/*
 /// Arithmetic Instructions (3-Operand, R-Type)
 let Predicates = [Ch3_3] in {
 let Predicates = [DisableOverflow] in {
 def ADDu    : ArithLogicR<0x11, "addu", add, IIAlu, SDICRegs, 1>;
 }
 }
-
+*/
 
 /// Shift Instructions
 let Predicates = [Ch3_3] in {

@@ -798,14 +798,14 @@ let Predicates = [Ch3_3] in {
 let Predicates = [Ch3_3] in {
     def LUi     : LoadUpper<0x0f, "lui", GPROut, uimm16>;
 }
-/*
+
 /// Arithmetic Instructions (3-Operand, R-Type)
 let Predicates = [Ch3_3] in {
 let Predicates = [DisableOverflow] in {
 def ADDu    : ArithLogicR<0x11, "addu", add, IIAlu, SDICRegs, 1>;
 }
 }
-*/
+
 
 /// Shift Instructions
 let Predicates = [Ch3_3] in {
@@ -836,10 +836,11 @@ let Predicates = [Ch3_3] in {
 //===----------------------------------------------------------------------===//
 // Instruction aliases
 //===----------------------------------------------------------------------===//
+/*
 def : SDICInstAlias<"move $dst, $src",
                     (ADDu GPROut:$dst, GPROut:$src,R0), 1>;
 }
-
+*/
 
 //===----------------------------------------------------------------------===//
 //  Arbitrary patterns that map to one or more instructions

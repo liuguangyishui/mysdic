@@ -290,7 +290,7 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA<op,(outs GPROut:$ra), (ins RC:$rb, RC:$rc),
-                           !strconcat(instr_asm, "\t$rb  $rc"), //$ra $rb $rc
+                           !strconcat(instr_asm, "\t$rb  $rc\n\tmovwf \t$ra"), //$ra $rb $rc
                            [(set GPROut:$ra,(OpNode  RC:$rb, RC:$rc))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
@@ -319,7 +319,7 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
                            FA<op, (outs GPROut:$ra), (ins Od:$rb),
-                                  !strconcat(instr_asm, "\t$rb \n\tmovwf \t$ra"),
+                                  !strconcat(instr_asm, "\t\t$rb \n\tmovwf \t\t$ra"),
                          [(set GPROut:$ra, (OpNode imm_type:$rb))], IIAlu>{
                                let rc = 0;
                          }

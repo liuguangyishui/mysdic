@@ -70,13 +70,13 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
       if(Op.isReg())
 	{
 	printRegName(O, Op.getReg());
-	O << "\t1111"<< Op.getReg();
+	O << "\tRegName"<< Op.getReg();
 	//      O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
       }
       if(Op.isImm()){
 	O << Op.getImm();
-	O << "\t1";
+	O << "\tImm";
 	return;
     }
     }

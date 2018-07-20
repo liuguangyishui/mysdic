@@ -33,14 +33,14 @@ using namespace llvm;
 
 //covert the decimal number to hex
 
-string covert(int64_t Imm) {
+std::string covert(int64_t Imm) {
 
-  string signal[16] = {"0", "1", "2", "3",
+  std::string signal[16] = {"0", "1", "2", "3",
 		       "4", "5", "6", "7",
 		       "8", "9", "A", "B",
 		       "C", "D", "E", "F"};
   int64_t value = Imm;
-  string res;
+  std::string res;
   if(0 <= value && value < 16) {
     res = signal[value];
     return res;
@@ -60,7 +60,6 @@ string covert(int64_t Imm) {
 	res = signal[sh] + signal[yu] + res;
 	index = false;
       }
-      
     }
   }
   return res; 
@@ -112,11 +111,11 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
 	return;
       }
       if(Op.isImm()){
-	string Imm = covert(Op.getImm());
+	std::string Imm = covert(Op.getImm());
 	
 	//O << Op.getImm();
 	
-	O << Imm <<　"H" << endl;
+	O << Imm <<　"H";
 	return;
     }
     }

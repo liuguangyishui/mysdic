@@ -100,50 +100,25 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                    raw_ostream &O) {
   const MCOperand &Op = MI->getOperand(OpNo);
 
-  
-  if(getOpcodeName(MI->getOpcode())=="LD")//comfirm the InstName
-    {
-      if(Op.isReg())
-	{
-	printRegName(O, Op.getReg());
-	O << "\tRegName"<< Op.getReg();
+  //comfirm the InstName
+  if(getOpcodeName(MI->getOpcode())=="LD"||getOpcodeName(MI ->getOpcode()) == "ST") {
+      if(Op.isReg()) {
+	  if(Op.getReg() == 20) {
+	      return;
+	    }
+	  printRegName(O, Op.getReg());
 	//      O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
       }
-      if(Op.isImm()){
+      if(Op.isImm()) {
 	std::string Imm = covert(Op.getImm());
-	
-	//O << Op.getImm();
-	
 	O << Imm <<　"H";
 	return;
-    }
-    }
-  //add for the load node
-  /*
-  if(getOpcodeName(MI->getOpcode())== "load")
-    {
-      if(Op.isReg())
-	{
-	  printf("\nthis is the Reg");
-	  printRegName(O, Op.getReg());
-	  O << "\t"<< Op.getReg();
-	  return;
-	}
-      
-      if(Op.isImm()){
-	printf("\nthis is the Imm");
-	O << Op.getImm();
-	O << "\t";
-	return;
       }
-    }*/
-
-
-      
+  }     
   if (Op.isReg()) {
     printRegName(O, Op.getReg());
-    O << "("<< Op.getReg()<<")"; //my add
+    // O << "("<< Op.getReg()<<")"; //my add
     return;
   }
   if (Op.isImm()) {

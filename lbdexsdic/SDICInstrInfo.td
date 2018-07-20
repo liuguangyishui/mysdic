@@ -312,7 +312,7 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
                       FA<op,(outs GPROut:$ra), (ins  RC:$rb, Od:$rc),
                            !strconcat(instr_asm, "\t\t$rc \n\tmovwf\t\t$ra"),//\t$ra  $rb  $rc
-               [(set GPROut:$ra,(OpNode , RC:$rb, imm_type:$rc))], IIAddluwf> {
+               [(set GPROut:$ra,(OpNode  RC:$rb, imm_type:$rc))], IIAddluwf> {
                //GPROut:$imma
 }
 // only a immediate num K and a link for outs

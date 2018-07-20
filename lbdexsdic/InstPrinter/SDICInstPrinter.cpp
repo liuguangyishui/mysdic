@@ -39,7 +39,8 @@ std::string covert(int64_t Imm) {
 		       "4", "5", "6", "7",
 		       "8", "9", "A", "B",
 		       "C", "D", "E", "F"};
-  int64_t value = Imm;
+  //加64是代表前64位已经用作通用寄存器了
+  int64_t value = Imm + 64;
   std::string res;
   if(0 <= value && value < 16) {
     res = signal[value];

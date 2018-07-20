@@ -23,14 +23,48 @@
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/raw_ostream.h"
 
-#include <cstdlib>
-#include <cstdio>
+
 using namespace llvm;
 
 #define DEBUG_TYPE "asm-printer"
 
 #define PRINT_ALIAS_INSTR
 #include "SDICGenAsmWriter.inc"
+
+//covert the decimal number to hex
+
+string covert(int64_t Imm) {
+
+  string signal[16] = {"0", "1", "2", "3",
+		       "4", "5", "6", "7",
+		       "8", "9", "A", "B",
+		       "C", "D", "E", "F"};
+  int64_t value = Imm;
+  string res;
+  if(0 <= value && value < 16) {
+    res = signal[value];
+    return res;
+  }
+  else {
+    
+    int sh = value, yu;
+    bool index = true;
+    while(index) {
+
+      yu = sh % 16;
+      sh = sh / 16; 
+      if(sh >= 16) {
+	res =  signal[yu] + res;
+      }
+      else {
+	res = signal[sh] + signal[yu] + res;
+	index = false;
+      }
+      
+    }
+  }
+  return res; 
+}
 
 void SDICInstPrinter::printRegName(raw_ostream &OS, unsigned RegNo) const {
 //- getRegisterName(RegNo) defined in SDICGenAsmWriter.inc which indicate in 
@@ -78,10 +112,11 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
 	return;
       }
       if(Op.isImm()){
-	O << Op.getImm();
-	char str[100];
-	itoa(Op.getImm(),str, 16);
-	O << "\t" << str ;
+	string Imm = covert(Op.getImm());
+	
+	//O << Op.getImm();
+	
+	O << Imm <<　"H" << endl;
 	return;
     }
     }

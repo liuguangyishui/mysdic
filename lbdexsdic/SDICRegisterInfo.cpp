@@ -151,9 +151,9 @@ eliminateFrameIndex(MachineBasicBlock::iterator II, int SPAdj,
     assert("(!MI.isDebugValue() && !isInt<16>(Offset))");
   }
   
-  // MI.getOperand(i).ChangeToRegister(FrameReg, false);
-  //MI.getOperand(i+1).ChangeToImmediate(Offset);
-  MI.getOperand(i).ChangeToImmediate(Offset);
+   MI.getOperand(i).ChangeToRegister(FrameReg, false);
+  MI.getOperand(i+1).ChangeToImmediate(Offset);
+  //MI.getOperand(i).ChangeToImmediate(Offset);
  
 }
 

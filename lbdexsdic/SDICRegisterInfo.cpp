@@ -142,7 +142,7 @@ eliminateFrameIndex(MachineBasicBlock::iterator II, int SPAdj,
   Offset  += MI.getOperand(i+1).getImm();
 
   //HYL
-  Offset = FrameIndex+ 0X01H;
+  Offset = FrameIndex+ 0X01;
   
   DEBUG(errs() << "Offset: " << Offset << "\n" << "<--------->\n");
   // If MI is not a debug value, make sure Offset fits in the 16-bit immediate

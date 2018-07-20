@@ -104,11 +104,11 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
   //comfirm the InstName
   if(getOpcodeName(MI->getOpcode())=="LD"||getOpcodeName(MI ->getOpcode()) == "ST") {
       if(Op.isReg()) {
-	  if(Op.getReg() == 20) {
+	/* if(Op.getReg() == 20) {
 	      return;
-	    }
+	      }*/
 	  printRegName(O, Op.getReg());
-	//      O << StringRef(getOpcodeName(MI->getOpcode()));
+	//O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
       }
       if(Op.isImm()) {
@@ -146,9 +146,12 @@ printMemOperand(const MCInst *MI, int opNum, raw_ostream &O) {
   // If PIC target the target is loaded as the
   // pattern ld $t9,%call16($gp)
   printOperand(MI, opNum+1, O);
+  //HYL 删除了打印栈指针的内容
+  /*
   O << "(";
   printOperand(MI, opNum, O);
   O << ")";
+  */
 }
 
 //#if CH >= CH7_1

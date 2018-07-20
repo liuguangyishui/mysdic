@@ -22,6 +22,9 @@
 #include "llvm/MC/MCSymbol.h"
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/raw_ostream.h"
+
+#include <cstdlib>
+#include <cstdio>
 using namespace llvm;
 
 #define DEBUG_TYPE "asm-printer"

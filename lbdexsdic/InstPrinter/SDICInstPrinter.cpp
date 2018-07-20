@@ -76,7 +76,9 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
       }
       if(Op.isImm()){
 	O << Op.getImm();
-	O << "\tImm";
+	char str[100];
+	itoa(Op.getImm(),str, 16);
+	O << "\t" << str ;
 	return;
     }
     }

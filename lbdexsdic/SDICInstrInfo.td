@@ -1010,4 +1010,5 @@ def  : Pat<(SDICTailCall (iPTR tglobaladdr:$dst)),
 
 def  : Pat<(SDICTailCall (iPTR texternalsym:$dst)),
                          (TAILCALL texternalsym:$dst)>;
+                         
 }

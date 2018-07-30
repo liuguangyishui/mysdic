@@ -115,7 +115,7 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
       }
       if(Op.isImm()) {
 	std::string Imm = covert(Op.getImm());
-	O << Imm <<　"H";
+	O << Imm <<　"H" << "\t" << 1 << "\t" << 1;
 	return;
       }
   }     

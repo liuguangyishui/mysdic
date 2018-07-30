@@ -108,7 +108,7 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
 	      return;
 	      }*/
 	  printRegName(O, Op.getReg());
-	  if(Op.getReg > 15) O << "\t" << 1;
+	  if(Op.getReg() > 15) O << "\t" << 1;
 	  else               O << "\t" << 0;
 	//O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
@@ -122,7 +122,7 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
   if (Op.isReg()) {
     printRegName(O, Op.getReg());
     //跟据寄存器的类型决定A的值，A代表操作区
-    if(Op.getReg > 15)  O << "\t" << 1; 
+    if(Op.getReg() > 15)  O << "\t" << 1; 
     else                O << "\t" << 0;
     
     return;

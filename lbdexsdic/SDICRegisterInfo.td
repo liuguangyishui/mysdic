@@ -42,22 +42,22 @@ let Namespace = "SDIC" in {
                 }*/
                 // 16¸öÐéÄâ¼Ä´æÆ÷
               
-                def R0   : SDICGPRReg<0,  "VR0">, DwarfRegNum<[0]>;
-                def R1   : SDICGPRReg<1,  "VR1">, DwarfRegNum<[1]>;
-                def R2   : SDICGPRReg<2,  "VR2">, DwarfRegNum<[2]>;
-                def R3   : SDICGPRReg<3,  "VR3">, DwarfRegNum<[3]>;
-                def R4   : SDICGPRReg<4,  "VR4">, DwarfRegNum<[4]>;
-                def R5   : SDICGPRReg<5,  "VR5">, DwarfRegNum<[5]>;
-                def R6   : SDICGPRReg<6,  "VR6">, DwarfRegNum<[6]>;
-                def R7   : SDICGPRReg<7,  "VR7">, DwarfRegNum<[7]>;
-                def R8   : SDICGPRReg<8,  "VR8">, DwarfRegNum<[8]>;
-                def R9   : SDICGPRReg<9,  "VR9">, DwarfRegNum<[9]>;
-                def R10  : SDICGPRReg<10, "VR10">, DwarfRegNum<[10]>;
-                def R11  : SDICGPRReg<11, "VR11">, DwarfRegNum<[11]>;
-                def R12  : SDICGPRReg<12, "VR12">, DwarfRegNum<[12]>;
-                def R13  : SDICGPRReg<13, "VR13">, DwarfRegNum<[13]>;
-                def R14  : SDICGPRReg<14, "VR14">, DwarfRegNum<[14]>;
-                def R15  : SDICGPRReg<15, "VR15">, DwarfRegNum<[15]>;
+                def R0   : SDICGPRReg<0,  "100H">, DwarfRegNum<[0]>;
+                def R1   : SDICGPRReg<1,  "101H">, DwarfRegNum<[1]>;
+                def R2   : SDICGPRReg<2,  "102H">, DwarfRegNum<[2]>;
+                def R3   : SDICGPRReg<3,  "103H">, DwarfRegNum<[3]>;
+                def R4   : SDICGPRReg<4,  "104H">, DwarfRegNum<[4]>;
+                def R5   : SDICGPRReg<5,  "105H">, DwarfRegNum<[5]>;
+                def R6   : SDICGPRReg<6,  "106H">, DwarfRegNum<[6]>;
+                def R7   : SDICGPRReg<7,  "107H">, DwarfRegNum<[7]>;
+                def R8   : SDICGPRReg<8,  "108H">, DwarfRegNum<[8]>;
+                def R9   : SDICGPRReg<9,  "109H">, DwarfRegNum<[9]>;
+                def R10  : SDICGPRReg<10, "10AH">, DwarfRegNum<[10]>;
+                def R11  : SDICGPRReg<11, "10BH">, DwarfRegNum<[11]>;
+                def R12  : SDICGPRReg<12, "10CH">, DwarfRegNum<[12]>;
+                def R13  : SDICGPRReg<13, "10DH">, DwarfRegNum<[13]>;
+                def R14  : SDICGPRReg<14, "10EH">, DwarfRegNum<[14]>;
+                def R15  : SDICGPRReg<15, "10FH">, DwarfRegNum<[15]>;
                 //ÁÙÊ±¼Ä´æÆ÷
                 def Temp_Reg :SDICGPRReg<16, "temp_reg">, DwarfRegNum<[16]>;
                 //¹¤×÷¼Ä´æÆ÷

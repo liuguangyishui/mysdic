@@ -116,15 +116,16 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
       }
       if(Op.isImm()) {
 	std::string Imm = covert(Op.getImm());
-	O << Imm <<　"H" << "\t" << 1 << "\t" << 1;
+	O << Imm <<　"H" << "--Offset--" << Op.getImm() << "\t" << 1 << "\t" << 1;
 	return;
       }
-  }     
+  }
+  
   if (Op.isReg()) {
     printRegName(O, Op.getReg());
     //跟据寄存器的类型决定A的值，A代表操作区
-    if(Op.getReg() > 15)  O << "\t" << 1; 
-    else                O << "\t" << 0;
+    if(Op.getReg() > 15)  O << "\t" << 0 << "\t" << 1 << "Op.getReg" << Op.getReg(); 
+    else                  O << "\t" << 0 << "\t" << 0 << "Op.getReg" << Op.getReg();
     
     return;
   }

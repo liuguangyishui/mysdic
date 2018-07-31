@@ -143,6 +143,7 @@ eliminateFrameIndex(MachineBasicBlock::iterator II, int SPAdj,
 
   //HYL
   Offset = FrameIndex+ 0X01;
+  Offset = Offset >> 2;
   
   DEBUG(errs() << "Offset: " << Offset << "\n" << "<--------->\n");
   // If MI is not a debug value, make sure Offset fits in the 16-bit immediate

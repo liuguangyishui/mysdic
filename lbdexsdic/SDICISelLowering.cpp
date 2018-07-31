@@ -491,7 +491,7 @@ static SDValue perDealwithADD(SDNode *N, SelectionDAG& DAG,
 			      TargetLowering::DAGCombinerInfo &DCI,
 			      const SDICSubtarget &Subtarget) {
 
-  printf("\n123456hhhhhhhhhhhhhhhhhhhhhhhhhh");
+ 
 
   unsigned Opc = ISD::ADD;
 
@@ -509,7 +509,7 @@ SDValue SDICTargetLowering::PerformDAGCombine(SDNode *N, DAGCombinerInfo &DCI) c
 {
   SelectionDAG &DAG = DCI.DAG;
   unsigned Opc = N->getOpcode();
-  printf("\n this is my test for add\n");
+ 
   /*  switch(Opc) {
     default: break;
       case ISD::ADD:
@@ -1131,15 +1131,14 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
   SDICCC SDICCCInfo(CallConv, ABI.IsO32(),CCInfo);
 
 
-  printf("this is for the test of GLUE");
-  printf("''''''''''''''''''''''''''''''''''0000000000000");
+ 
   // Analyze return values.
   SDICCCInfo.analyzeReturn(Outs, Subtarget.abiUsesSoftFloat(),
 			   MF.getFunction()->getReturnType());
 
   SDValue Flag;
   SmallVector<SDValue, 4> RetOps(1, Chain);
- printf("''''''''''''''''''''''''''''''''''1111111111");
+
   // Copy the result values into the output registers.
   for (unsigned i = 0; i != RVLocs.size(); ++i) {
     SDValue Val = OutVals[i];
@@ -1177,7 +1176,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
    
 
   //@Ordinary struct type: 2 }
- printf("\n'''''''''''''''''''''''''''''''''33333333333");
+
   RetOps[0] = Chain;
   // Update chain.
   // Add the flag if we have it.

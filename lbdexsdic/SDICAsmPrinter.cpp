@@ -187,7 +187,7 @@ const char *SDICAsmPrinter::getCurrentABIString() const {
 //->		.ent	main                    # @main
 //	main:
 void SDICAsmPrinter::EmitFunctionEntryLabel() {
-  if (OutStreamer->hasRawTextSupport())
+  // HYL if (OutStreamer->hasRawTextSupport())
     //HYL    OutStreamer->EmitRawText("\t.ent\t" + Twine(CurrentFnSym->getName()));
     //HYL    OutStreamer->EmitLabel(CurrentFnSym);
 }
@@ -256,12 +256,12 @@ void SDICAsmPrinter::EmitStartOfAsmFile(Module &M) {
   // FIXME: Use SwitchSection.
 
   // Tell the assembler which ABI we are using
-  if (OutStreamer->hasRawTextSupport())
+  //HYL if (OutStreamer->hasRawTextSupport())
     //HYL  OutStreamer->EmitRawText("\t.section .mdebug." +
     //HYL                        Twine(getCurrentABIString()));
 
   // return to previous section
-  if (OutStreamer->hasRawTextSupport())
+    //HYL  if (OutStreamer->hasRawTextSupport())
     //HYL   OutStreamer->EmitRawText(StringRef("\t.previous"));
 }
 

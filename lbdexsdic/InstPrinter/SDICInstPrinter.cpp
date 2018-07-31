@@ -120,7 +120,7 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
     if(Op.isImm()) {
       std::string Imm = covert(Op.getImm());
       if(InstName == "LD"){
-	O << Imm <<　"H" <<  "\t" << 1 << "\t" << 1 << "--Offset--" << Op.getImm();
+	O << Imm << "H" << "\t" << 1 << "\t" << 1 << "--Offset--" << Op.getImm();
       }
       else if(InstName == "ST") {
 	O << Imm << "H" << "\t" << 1 << "--Offset--" << Op.getImm();

@@ -39,8 +39,10 @@ std::string covert(int64_t Imm) {
 		       "4", "5", "6", "7",
 		       "8", "9", "A", "B",
 		       "C", "D", "E", "F"};
-  //加64是代表前64位已经用作通用寄存器了
-  int64_t value = Imm + 64;
+  //320是由256 + 64 而得到的
+  //256是第一个Bank区，
+  //64则是代表第二个Bank的前64个已经用作通用寄存器了
+  int64_t value = Imm + 320;
   std::string res;
   if(0 <= value && value < 16) {
     res = signal[value];
@@ -97,6 +99,7 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
    printAnnotation(O, Annot);
 }
 
+// 打印操作数的同时还要根据其地址决定是否是Bank1还是Bank2的地址
 void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                    raw_ostream &O) {
   const MCOperand &Op = MI->getOperand(OpNo);

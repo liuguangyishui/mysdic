@@ -244,8 +244,8 @@ void SDICAsmPrinter::EmitFunctionBodyEnd() {
   if (OutStreamer->hasRawTextSupport()) {
     if (SDICFI->getEmitNOAT())
       OutStreamer->EmitRawText(StringRef("\t.set\tat"));
-    OutStreamer->EmitRawText(StringRef("\t.set\tmacro"));
-    OutStreamer->EmitRawText(StringRef("\t.set\treorder"));
+    //OutStreamer->EmitRawText(StringRef("\t.set\tmacro"));
+    //OutStreamer->EmitRawText(StringRef("\t.set\treorder"));
     OutStreamer->EmitRawText("\t.end\t" + Twine(CurrentFnSym->getName()));
   }
 }

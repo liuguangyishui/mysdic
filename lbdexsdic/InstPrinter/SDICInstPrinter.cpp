@@ -83,8 +83,8 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
 //@1 }
     //- printInstruction(MI, O) defined in SDICGenAsmWriter.inc which came from 
     //   SDIC.td indicate.
-    printf("there is a tag");
-    printf("the MI->getOpcode() is %u", MI->getOpcode());
+  
+ 
   //   unsigned Opcode_var =  MI->getOpcode();
     
   //   StringRef OpcodeName = getOpcodeName(Opcode_var);
@@ -103,7 +103,7 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
 void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                    raw_ostream &O) {
   const MCOperand &Op = MI->getOperand(OpNo);
-
+  uint64_t InstName = MI->getOpcode();
   //对于Load和Store指令操作数的处理
   if(getOpcodeName(MI->getOpcode())=="LD"||getOpcodeName(MI ->getOpcode()) == "ST") {
     //操作数为寄存器
@@ -111,14 +111,19 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
 	printRegName(O, Op.getReg());
 	  // O << "\t" << (Op.getReg() >15)? 1: 0);
 	if(Op.getReg() > 15) O << "\t" << 1;
-	else               O << "\t" << 0;
+	else                 O << "\t" << 0;
 	//O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
       }
     //操作数为绝对地址
     if(Op.isImm()) {
       std::string Imm = covert(Op.getImm());
-      O << Imm <<　"H" <<  "\t" << 1 << "\t" << 1 << "--Offset--" << Op.getImm();
+      if(MI -> getOpcode() == "LD"){
+	O << Imm <<　"H" <<  "\t" << 1 << "\t" << 1 << "--Offset--" << Op.getImm();
+      }
+      else if(MI -> getOpcode() == "ST") {
+	O << Imm << "H" << "\t" << 1 << "--Offset--" << Op.getImm();
+      }
       return;
     }
   }
@@ -126,11 +131,19 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
   if (Op.isReg()) {
     printRegName(O, Op.getReg());
     //跟据寄存器的类型决定A的值，A代表操作区
-    // [10, 25]是通用寄存器的范围 
-    if(Op.getReg()>10 && Op.getReg() < 26 )
-      O << "\t" << 0 << "\t" << 1; 
-    else
-      O << "\t" << 0 << "\t" << 0;
+    // [10, 25]是通用寄存器的范围
+    if(MI -> getOpcode() == "CPFSEQ" || InstName == "Movwf") {
+      if(Op.getReg() >= 10 && Op.getReg() < 26)
+	O << "\t" << 1;
+      else
+	O << "\t" << 0;
+    }
+    else {
+      if(Op.getReg()>= 10 && Op.getReg() < 26 )
+	O << "\t" << 0 << "\t" << 1; 
+      else
+	O << "\t" << 0 << "\t" << 0;
+    }
     
     return;
   }

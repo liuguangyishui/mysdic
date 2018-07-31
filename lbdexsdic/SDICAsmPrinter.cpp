@@ -218,7 +218,7 @@ void SDICAsmPrinter::EmitFunctionBodyStart() {
     // Emit .cpload directive if needed.
     if (EmitCPLoad)
       OutStreamer->EmitRawText(StringRef("\t.cpload\t$t9"));
-    OutStreamer->EmitRawText(StringRef("\t.set\tnomacro"));
+    // OutStreamer->EmitRawText(StringRef("\t.set\tnomacro"));
    
     if (SDICFI->getEmitNOAT())
       OutStreamer->EmitRawText(StringRef("\t.set\tnoat"));
@@ -244,9 +244,9 @@ void SDICAsmPrinter::EmitFunctionBodyEnd() {
   if (OutStreamer->hasRawTextSupport()) {
     if (SDICFI->getEmitNOAT())
       OutStreamer->EmitRawText(StringRef("\t.set\tat"));
-    //OutStreamer->EmitRawText(StringRef("\t.set\tmacro"));
-    //OutStreamer->EmitRawText(StringRef("\t.set\treorder"));
-    OutStreamer->EmitRawText("\t.end\t" + Twine(CurrentFnSym->getName()));
+    //HYL  OutStreamer->EmitRawText(StringRef("\t.set\tmacro"));
+    //HYL  OutStreamer->EmitRawText(StringRef("\t.set\treorder"));
+    //HYL  OutStreamer->EmitRawText("\t.end\t" + Twine(CurrentFnSym->getName()));
   }
 }
 
@@ -257,12 +257,12 @@ void SDICAsmPrinter::EmitStartOfAsmFile(Module &M) {
 
   // Tell the assembler which ABI we are using
   if (OutStreamer->hasRawTextSupport())
-    OutStreamer->EmitRawText("\t.section .mdebug." +
-                            Twine(getCurrentABIString()));
+    //HYL  OutStreamer->EmitRawText("\t.section .mdebug." +
+    //HYL                        Twine(getCurrentABIString()));
 
   // return to previous section
   if (OutStreamer->hasRawTextSupport())
-    OutStreamer->EmitRawText(StringRef("\t.previous"));
+    //HYL   OutStreamer->EmitRawText(StringRef("\t.previous"));
 }
 
 void SDICAsmPrinter::PrintDebugValueComment(const MachineInstr *MI,

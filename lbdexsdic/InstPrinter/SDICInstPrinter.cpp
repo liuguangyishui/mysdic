@@ -103,7 +103,7 @@ void SDICInstPrinter::printInst(const MCInst *MI, raw_ostream &O,
 void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                    raw_ostream &O) {
   const MCOperand &Op = MI->getOperand(OpNo);
-  const char InstName = getOpcodeName(MI->getOpcode());
+  const char* InstName = getOpcodeName(MI->getOpcode());
   //对于Load和Store指令操作数的处理
   if(InstName =="LD"||  InstName == "ST") {
     //操作数为寄存器

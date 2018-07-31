@@ -39,10 +39,10 @@ std::string covert(int64_t Imm) {
 		       "4", "5", "6", "7",
 		       "8", "9", "A", "B",
 		       "C", "D", "E", "F"};
-  //320是由256 + 64 而得到的
+  //272是由256 + 16 而得到的
   //256是第一个Bank区，
   //64则是代表第二个Bank的前64个已经用作通用寄存器了
-  int64_t value = Imm + 320;
+  int64_t value = Imm + 272;
   std::string res;
   if(0 <= value && value < 16) {
     res = signal[value];
@@ -104,28 +104,33 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                    raw_ostream &O) {
   const MCOperand &Op = MI->getOperand(OpNo);
 
-  //comfirm the InstName
+  //对于Load和Store指令操作数的处理
   if(getOpcodeName(MI->getOpcode())=="LD"||getOpcodeName(MI ->getOpcode()) == "ST") {
-      if(Op.isReg()) {
-	  printRegName(O, Op.getReg());
+    //操作数为寄存器
+    if(Op.isReg()) {
+	printRegName(O, Op.getReg());
 	  // O << "\t" << (Op.getReg() >15)? 1: 0);
-       if(Op.getReg() > 15) O << "\t" << 1;
-	 else               O << "\t" << 0;
+	if(Op.getReg() > 15) O << "\t" << 1;
+	else               O << "\t" << 0;
 	//O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
       }
-      if(Op.isImm()) {
-	std::string Imm = covert(Op.getImm());
-	O << Imm <<　"H" << "--Offset--" << Op.getImm() << "\t" << 1 << "\t" << 1;
-	return;
-      }
+    //操作数为绝对地址
+    if(Op.isImm()) {
+      std::string Imm = covert(Op.getImm());
+      O << Imm <<　"H" <<  "\t" << 1 << "\t" << 1 << "--Offset--" << Op.getImm();
+      return;
+    }
   }
   
   if (Op.isReg()) {
     printRegName(O, Op.getReg());
     //跟据寄存器的类型决定A的值，A代表操作区
-    if(Op.getReg() > 15)  O << "\t" << 0 << "\t" << 1 << "Op.getReg" << Op.getReg(); 
-    else                  O << "\t" << 0 << "\t" << 0 << "Op.getReg" << Op.getReg();
+    // [10, 25]是通用寄存器的范围 
+    if(Op.getReg()>10 && Op.getReg() < 26 )
+      O << "\t" << 0 << "\t" << 1; 
+    else
+      O << "\t" << 0 << "\t" << 0;
     
     return;
   }

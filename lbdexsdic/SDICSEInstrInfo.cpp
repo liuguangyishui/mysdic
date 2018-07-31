@@ -112,9 +112,8 @@ bool SDICSEInstrInfo::expandPostRAPseudo(MachineInstr &MI) const {
   default:
     return false;
   case SDIC::RetLR:
-    { printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
-      printf("The Opcode is %u\n", MI.getDesc().getOpcode());
-      printf("The number of the Operand is %u",MI.getNumOperands());
+    {
+    
       // cout<<MI.getDesc();
      
       //cout<<MI.getOperand(i);

@@ -93,8 +93,8 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
     Base   = CurDAG->getTargetFrameIndex(FIN->getIndex(), ValTy);
     Offset = CurDAG->getTargetConstant(0, DL, ValTy);
 
-    printf("\nthe SDValue Base is %u",&Base);
-    printf("\nthe SDValue Offser is %u", &Offset);
+    //printf("\nthe SDValue Base is %u",&Base);
+    //printf("\nthe SDValue Offser is %u", &Offset);
 
     return true;
   }

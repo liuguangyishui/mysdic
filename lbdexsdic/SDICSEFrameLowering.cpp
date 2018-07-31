@@ -70,14 +70,14 @@ void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
   unsigned CFIIndex = MMI.addFrameInst(
        MCCFIInstruction::createDefCfaOffset(nullptr, -StackSize));
   
-  printf("\nHYLHYL: whether the stacksize hasChanges %lu\n",StackSize);
+  // printf("\nHYLHYL: whether the stacksize hasChanges %lu\n",StackSize);
   
   BuildMI(MBB, MBBI, dl, TII.get(TargetOpcode::CFI_INSTRUCTION))
     .addCFIIndex(CFIIndex);
   
   const std::vector<CalleeSavedInfo> &CSI = MFI->getCalleeSavedInfo();
 
-  printf("\nHYLHYL: THE CSI.size is %zu\n",CSI.size());
+  // printf("\nHYLHYL: THE CSI.size is %zu\n",CSI.size());
   
   if (CSI.size()) {
     // Find the instruction past the last instruction that saves a callee-saved

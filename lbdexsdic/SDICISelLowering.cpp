@@ -1151,8 +1151,7 @@ SDICTargetLowering::LowerReturn(SDValue Chain,
     Flag = Chain.getValue(1);
     RetOps.push_back(DAG.getRegister(VA.getLocReg(), VA.getLocVT()));
   }
-  printf("\n'''''''''''''''''''''''''''''''''2222222222");
-
+ 
   //@Ordinary struct type: 2 {
   // The SDIC ABIs for returning structs by value requires that we copy
   // the sret argument into $v0 for the return. We saved the argument into

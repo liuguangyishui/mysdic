@@ -188,8 +188,8 @@ const char *SDICAsmPrinter::getCurrentABIString() const {
 //	main:
 void SDICAsmPrinter::EmitFunctionEntryLabel() {
   if (OutStreamer->hasRawTextSupport())
-    OutStreamer->EmitRawText("\t.ent\t" + Twine(CurrentFnSym->getName()));
-  OutStreamer->EmitLabel(CurrentFnSym);
+    //HYL    OutStreamer->EmitRawText("\t.ent\t" + Twine(CurrentFnSym->getName()));
+    //HYL    OutStreamer->EmitLabel(CurrentFnSym);
 }
 
 //  .frame  $sp,8,$pc
@@ -213,8 +213,8 @@ void SDICAsmPrinter::EmitFunctionBodyStart() {
     SmallString<128> Str;
     raw_svector_ostream OS(Str);
     printSavedRegsBitmask(OS);
-    OutStreamer->EmitRawText(OS.str());
-    OutStreamer->EmitRawText(StringRef("\t.set\tnoreorder"));
+    //HYL  OutStreamer->EmitRawText(OS.str());
+    //HYL  OutStreamer->EmitRawText(StringRef("\t.set\tnoreorder"));
     // Emit .cpload directive if needed.
     if (EmitCPLoad)
       OutStreamer->EmitRawText(StringRef("\t.cpload\t$t9"));

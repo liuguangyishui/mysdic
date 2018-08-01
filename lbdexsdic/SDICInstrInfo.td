@@ -439,13 +439,13 @@ class CtrInstr2<bits<6> op, string instr_asm, InstrItinClass itin,
 class CtrInstr<bits<6> op, string instr_asm, InstrItinClass itin,
               RegisterClass RC, RegisterClass RD, Operand Od, PatLeaf imm_type>:
                   FA<op, (outs RD:$ra), (ins RC:$rb, Od:$rc),
-                  !strconcat(instr_asm, "\t$ra, $rc"), [], itin> {//\t$ra, $rb, $rc
+                  !strconcat(instr_asm, "\t\t$ra, \t$rc"), [], itin> {//\t$ra, $rb, $rc
 
                   }
 class CtrInstr_BTFSC<bits<6> op, string instr_asm, InstrItinClass itin,
                      RegisterClass RC, Operand Od, PatLeaf imm_type>:
                         FA<op, (outs RC:$ra), (ins Od:$rc),
-                        !strconcat(instr_asm, "\t$rb, $rc"), [], itin> {
+                        !strconcat(instr_asm, "\t\t$rb, $rc"), [], itin> {
                         let ra = 0;
                         }
 
@@ -471,7 +471,7 @@ class SetCC_I<bits<6> op, string instr_asm, PatFrag cond_op, Operand Od,
 //Unconditional branch , such as JMP
 class UncondBranch<bits<6> op, string instr_asm>:
                            FJ<op, (outs), (ins jmptarget:$addr),
-                                  !strconcat(instr_asm, "\t$addr"),
+                                  !strconcat(instr_asm, "\t\t$addr"),
                                   [(br bb:$addr)], IIBranch> {
                            let isBranch = 1;
                            let isTerminator = 1;
@@ -482,7 +482,7 @@ class UncondBranch<bits<6> op, string instr_asm>:
 class CBranch24<bits<6> op, string instr_asm, RegisterClass RC,
                         list<Register> UseRegs>:
                     FJ<op, (outs), (ins RC:$ra, brtarget24:$addr),
-                       !strconcat(instr_asm, "\t$addr"),//\t$ra, $addr
+                       !strconcat(instr_asm, "\t\t$addr"),//\t$ra, $addr
                         [], IIBranch>, Requires<[HasCmp]> {
                         let isBranch = 1;
                         let isTerminator = 1;
@@ -507,7 +507,7 @@ class JumpLink<bits<6> op, string instr_asm>:
 class JumpLinkReg<bits<6> op, string instr_asm,
                           RegisterClass RC>:
       FA<op, (outs), (ins RC:$rb, variable_ops),
-      !strconcat(instr_asm, "\t$rb"), [(SDICJmpLink RC:$rb)], IIBranch> {
+      !strconcat(instr_asm, "\t\t$rb"), [(SDICJmpLink RC:$rb)], IIBranch> {
       let rc = 0;
       let ra = 14;
     //  let shamt = 0;
@@ -965,7 +965,7 @@ def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
                   
 //A < B 先借位减，C状态位为0，之后进行BTFSS测试，为1则跳过下条指令
 def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, (Movwf RC:$rhs)), 0), bb:$dst)>;
+                  (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs)), 0), bb:$dst)>;
 def : Pat<(brcond (i32 (setlt RC:$lhs, immSExt8:$rhs)), bb:$dst),
    (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, (Movwf (Movlw immSExt8:$rhs))), 0), bb:$dst)>;
 //A > B

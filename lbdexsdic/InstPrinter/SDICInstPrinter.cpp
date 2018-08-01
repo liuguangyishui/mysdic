@@ -105,18 +105,18 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
   const MCOperand &Op = MI->getOperand(OpNo);
   llvm::StringRef InstName = getOpcodeName(MI->getOpcode());
 
-  //对于Load和Store指令操作数的处理
+  //* 对于Load和Store指令操作数的处理
   if(InstName =="LD"||  InstName == "ST") {
-    //操作数为寄存器
+    //** 操作数为寄存器
     if(Op.isReg()) {
 	printRegName(O, Op.getReg());
 	  // O << "\t" << (Op.getReg() >15)? 1: 0);
-	if(Op.getReg() > 15) O << "\t" << 1;
-	else                 O << "\t" << 0;
+	if(Op.getReg() > 15) O << "，\t" << 1;
+	else                 O << "，\t" << 0;
 	//O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
       }
-    //操作数为绝对地址
+    //** 操作数为绝对地址
     if(Op.isImm()) {
       std::string Imm = covert(Op.getImm());
       if(InstName == "LD"){
@@ -130,23 +130,27 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
       return;
     }
   }
-  
+  //* 对其他的指令进行操作数的处理
   if (Op.isReg()) {
+    //** 打印了指令中的寄存器，这个寄存器是对A参数进行判断的依据; 跟据寄存器的类型决定A的值，A代表操作区
+    //** [10, 25]是通用寄存器的范围,如果寄存器在这个范围内则是Bank2,则A为1
     printRegName(O, Op.getReg());
-    //跟据寄存器的类型决定A的值，A代表操作区
-    // [10, 25]是通用寄存器的范围
+    //** 指令类型有多种，如F,D,A; F,A; F,B,A
+    //** 因为F,B,A类型中的B在别处处理，所以这里可以把后两种指令合并处理
     if(InstName == "CPFSEQ" || InstName == "Movlw" ||    //Movlw是对于内部的Movwf而定义的
-       InstName == "Movwf")   {
+       InstName == "Movwf"  || InstName == "BTFSS" ||
+       InstName == "BTFSC"  || InstName == "BCF" )   {
       if(Op.getReg() >= 10 && Op.getReg() < 26)
-	O << "\t" << 1;
+	O << ",\t" << 1;
       else
-	O << "\t" << 0;
+	O << ",\t" << 0;
     }
+    //** 这里主要解决F,D,A指令，两个参数，D默认为0
     else {
       if(Op.getReg()>= 10 && Op.getReg() < 26 )
-	O << "\t" << 0 << ",\t" << 1; 
+	O << ",\t" << 0 << ",\t" << 1; 
       else
-	O << "\t" << 0 << ",\t" << 0;
+	O << ",\t" << 0 << ",\t" << 0;
     }
     
     return;

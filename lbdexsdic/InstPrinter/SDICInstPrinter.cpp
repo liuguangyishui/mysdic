@@ -121,11 +121,11 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
       std::string Imm = covert(Op.getImm());
       if(InstName == "LD"){
 	//	O << Imm << "H" << "\t" << 1 << "\t" << 1;
-	O << Op.getImm() << "\t" << 1 << "\t" << 1;
+	O << Op.getImm() << "H," << "\t" << 1 << "," << "\t" << 1;
       }
       else if(InstName == "ST") {
 	//	O << Imm << "H" << "\t" << 1;
-	O << Op.getImm() << "\t" << 1;
+	O << Op.getImm() << "H," << "\t" << 1;
       }
       return;
     }
@@ -143,9 +143,9 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
     }
     else {
       if(Op.getReg()>= 10 && Op.getReg() < 26 )
-	O << "\t" << 0 << "\t" << 1; 
+	O << "\t" << 0 << ",\t" << 1; 
       else
-	O << "\t" << 0 << "\t" << 0;
+	O << "\t" << 0 << ",\t" << 0;
     }
     
     return;

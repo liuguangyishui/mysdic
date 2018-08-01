@@ -135,7 +135,8 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
     printRegName(O, Op.getReg());
     //跟据寄存器的类型决定A的值，A代表操作区
     // [10, 25]是通用寄存器的范围
-    if(InstName == "CPFSEQ" || InstName == "Movwf") {
+    if(InstName == "CPFSEQ" || InstName == "Movlw" ||    //Movlw是对于内部的Movwf而定义的
+       InstName == "Movwf")   {
       if(Op.getReg() >= 10 && Op.getReg() < 26)
 	O << "\t" << 1;
       else

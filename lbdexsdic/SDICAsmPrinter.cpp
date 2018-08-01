@@ -167,8 +167,8 @@ void SDICAsmPrinter::emitFrameDirective() {
   unsigned returnReg = RI.getRARegister();
   unsigned stackSize = MF->getFrameInfo()->getStackSize();
 
-  if (OutStreamer->hasRawTextSupport())
-    /*HYL  OutStreamer->EmitRawText("\t.frame\t$" +
+     /*HYL   if (OutStreamer->hasRawTextSupport())
+    OutStreamer->EmitRawText("\t.frame\t$" +
            StringRef(SDICInstPrinter::getRegisterName(stackReg)).lower() +
            "," + Twine(stackSize) + ",$" +
            StringRef(SDICInstPrinter::getRegisterName(returnReg)).lower());

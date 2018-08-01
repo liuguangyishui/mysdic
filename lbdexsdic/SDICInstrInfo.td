@@ -934,7 +934,7 @@ defm : SLOperator<SDICRegs>;
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),
-                  (BSF (CPFSEQ RC:$lhs, RC:$rhs))>; //(Movf RC:$rhs)
+                  (BSF (CPFSEQ RC:$lhs, RC:$rhs), 1)>; //(Movf RC:$rhs)
     def :  Pat<(seteq RC:$lhs, immSExt8:$rhs),
                   (BSF (CPFSEQ  RC:$lhs, (Movlw immSExt8:$rhs)), 1)>;
 //A != B

@@ -55,7 +55,7 @@ void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
   // First, compute final stack size.
   uint64_t StackSize = MFI->getStackSize();
 
-  printf("the StackSize is %lu\n",StackSize);//hyl
+  //printf("the StackSize is %lu\n",StackSize);//hyl
   // No need to allocate space on the stack.
   if (StackSize == 0 && !MFI->adjustsStack()) return;
 

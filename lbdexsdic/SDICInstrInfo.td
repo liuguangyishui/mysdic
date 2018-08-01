@@ -423,7 +423,7 @@ class CmpInstr<bits<6> op, string instr_asm,
                        InstrItinClass itin, RegisterClass RC, RegisterClass RD,
                        bit isComm = 0>:
               FA<op, (outs RD:$ra), (ins RC:$rb, RC:$rc),
-              !strconcat(instr_asm, "\t$rb, $rc"), [], itin> {//"\t$ra, $rb, $rc" 留的是$rb
+              !strconcat(instr_asm, "\t\t$rc"), [], itin> {//"\t$ra, $rb, $rc" 留的是$rb
               let isCommutable = isComm;
               let Predicates = [HasCmp];
 
@@ -495,7 +495,7 @@ let isCall = 1, hasDelaySlot = 1 in {
 //@JumpLink {
 class JumpLink<bits<6> op, string instr_asm>:
       FJ<op, (outs), (ins calltarget:$target, variable_ops),
-      !strconcat(instr_asm, "\t$target"), [(SDICJmpLink imm:$target)],
+      !strconcat(instr_asm, "\t\t$target"), [(SDICJmpLink imm:$target)],
       IIBranch> {
       // #if CH >= CH10_1 2
       // let DecoderMethod = "DecodeJumpTarget";
@@ -934,7 +934,7 @@ defm : SLOperator<SDICRegs>;
 multiclass SeteqPatsCmp<RegisterClass RC>{
 //A == B
     def :  Pat<(seteq RC:$lhs, RC:$rhs),
-                  (BSF (CPFSEQ RC:$lhs, (Movf RC:$rhs)), 1)>;
+                  (BSF (CPFSEQ RC:$lhs, RC:$rhs))>; //(Movf RC:$rhs)
     def :  Pat<(seteq RC:$lhs, immSExt8:$rhs),
                   (BSF (CPFSEQ  RC:$lhs, (Movlw immSExt8:$rhs)), 1)>;
 //A != B

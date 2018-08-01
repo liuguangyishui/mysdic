@@ -168,10 +168,11 @@ void SDICAsmPrinter::emitFrameDirective() {
   unsigned stackSize = MF->getFrameInfo()->getStackSize();
 
   if (OutStreamer->hasRawTextSupport())
-    OutStreamer->EmitRawText("\t.frame\t$" +
+    /*HYL  OutStreamer->EmitRawText("\t.frame\t$" +
            StringRef(SDICInstPrinter::getRegisterName(stackReg)).lower() +
            "," + Twine(stackSize) + ",$" +
            StringRef(SDICInstPrinter::getRegisterName(returnReg)).lower());
+    */
 }
 
 /// Emit Set directives.

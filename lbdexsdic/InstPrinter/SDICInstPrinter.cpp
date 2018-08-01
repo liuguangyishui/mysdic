@@ -72,7 +72,7 @@ void SDICInstPrinter::printRegName(raw_ostream &OS, unsigned RegNo) const {
 //- getRegisterName(RegNo) defined in SDICGenAsmWriter.inc which indicate in 
 //   SDIC.td.'$'
   //OS << '$' << StringRef(getRegisterName(RegNo)).lower();
-  OS << StringRef(getRegisterName(RegNo)).lower();
+  OS << StringRef(getRegisterName(RegNo));
 }
 
 //@1 {
@@ -120,10 +120,12 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
     if(Op.isImm()) {
       std::string Imm = covert(Op.getImm());
       if(InstName == "LD"){
-	O << Imm << "H" << "\t" << 1 << "\t" << 1 << "--Offset--" << Op.getImm();
+	//	O << Imm << "H" << "\t" << 1 << "\t" << 1;
+	O << Op.getImm() << "\t" << 1 << "\t" << 1;
       }
       else if(InstName == "ST") {
-	O << Imm << "H" << "\t" << 1 << "--Offset--" << Op.getImm();
+	//	O << Imm << "H" << "\t" << 1;
+	O << Op.getImm() << "\t" << 1;
       }
       return;
     }

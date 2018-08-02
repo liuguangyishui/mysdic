@@ -138,8 +138,9 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
     //** 指令类型有多种，如F,D,A; F,A; F,B,A
     //** 因为F,B,A类型中的B在别处处理，所以这里可以把后两种指令合并处理
     if(InstName == "CPFSEQ" || InstName == "Movlw" ||    //Movlw是对于内部的Movwf而定义的
-       InstName == "Movwf"  || InstName == "BTFSS" ||
-       InstName == "BTFSC"  || InstName == "BCF" )   {
+       InstName == "Movwf"  || InstName == "ADDLW" ||    //ADDLW也是针对于内部的Movwf而定义的
+       InstName == "BTFSS"  || InstName == "BTFSC" ||
+       InstName == "BCF" )   {
       if(Op.getReg() >= 10 && Op.getReg() < 26)
 	O << ",\t" << 1;
       else

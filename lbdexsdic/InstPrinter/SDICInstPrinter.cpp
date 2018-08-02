@@ -111,8 +111,8 @@ void SDICInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
     if(Op.isReg()) {
 	printRegName(O, Op.getReg());
 	  // O << "\t" << (Op.getReg() >15)? 1: 0);
-	if(Op.getReg() > 15) O << "，\t" << 1;
-	else                 O << "，\t" << 0;
+	if(Op.getReg() >= 10 && Op.getReg() < 26)  O << "，\t" << 1;
+	else                                       O << "，\t" << 0;
 	//O << StringRef(getOpcodeName(MI->getOpcode()));
 	return;
       }

@@ -200,6 +200,7 @@ printMemOperandEA(const MCInst *MI, int opNum, raw_ostream &O) {
   //HYL printOperand(MI, opNum, O);
   //HYL O << ", ";
   printOperand(MI, opNum+1, O);
+  O << "H"; //HYL
   return;
 }
 //#endif

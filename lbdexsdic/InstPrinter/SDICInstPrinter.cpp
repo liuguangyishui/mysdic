@@ -196,8 +196,9 @@ void SDICInstPrinter::
 printMemOperandEA(const MCInst *MI, int opNum, raw_ostream &O) {
   // when using stack locations for not load/store instructions
   // print the same way as all normal 3 operand instructions.
-  printOperand(MI, opNum, O);
-  O << ", ";
+
+  //HYL printOperand(MI, opNum, O);
+  //HYL O << ", ";
   printOperand(MI, opNum+1, O);
   return;
 }

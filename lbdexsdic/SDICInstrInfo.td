@@ -967,12 +967,12 @@ def : Pat<(brcond (i32 (seteq RC:$lhs, RC:$rhs)), bb:$dst),// bb:$dst),
 def : Pat<(brcond (i32 (setlt RC:$lhs, RC:$rhs)), bb:$dst),
                   (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 def : Pat<(brcond (i32 (setlt RC:$lhs, immSExt8:$rhs)), bb:$dst),
-   (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, (Movwf (Movlw immSExt8:$rhs))), 0), bb:$dst)>;
-//A > B
+   (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, (Movlw immSExt8:$rhs)), 0), bb:$dst)>;
+//A > B 
 def : Pat<(brcond (i32 (setgt RC:$lhs, RC:$rhs)), bb:$dst),
-                  (BRAOp2 (BTFSCOp (SUBwfb RC:$lhs, (Movwf RC:$rhs)), 0), bb:$dst)>;
+                  (BRAOp2 (BTFSCOp (SUBwfb RC:$lhs, RC:$rhs), 0), bb:$dst)>;
 def : Pat<(brcond (i32 (setgt RC:$lhs, immSExt8:$rhs)),bb:$dst),
-   (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, (Movwf (Movlw immSExt8:$rhs))), 0), bb:$dst)>;
+   (BRAOp2 (BTFSSOp (SUBwfb RC:$lhs, (Movlw immSExt8:$rhs)), 0), bb:$dst)>;
 //A >= B
 def : Pat<(brcond (i32 (setge RC:$lhs, RC:$rhs)), bb:$dst),
     (BRAOp2 (BTFSCOp (CPFSEQOp (SUBwfb RC:$lhs, RC:$rhs), RC:$rhs), 0), bb:$dst)>;

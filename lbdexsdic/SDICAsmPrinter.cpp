@@ -203,11 +203,12 @@ void SDICAsmPrinter::EmitFunctionBodyStart() {
   MCInstLowering.Initialize(&MF->getContext());
 
   //HYL ****************
-  OutStreamer->EmitRawText(StringRef("\t\torg\t0x0000"));
-    OutStreamer->EmitRawText(StringRef("\t\tgoto\tStart"));
-    OutStreamer->EmitRawText(StringRef("\t\torg\t0x0008"));
-    OutStreamer->EmitRawText(StringRef("\t\tgoto\tHint"));
-  
+  OutStreamer->EmitRawText(StringRef(";;;; ******** BEGINNING OF THE PROGRAM ********"));
+  OutStreamer->EmitRawText(StringRef("\torg\t0x0000"));
+  OutStreamer->EmitRawText(StringRef("\tgoto\tStart"));
+  OutStreamer->EmitRawText(StringRef("\torg\t0x0008"));
+  OutStreamer->EmitRawText(StringRef("\tgoto\tHint"));
+  //HYL ****************
   
   emitFrameDirective();
    bool EmitCPLoad = (MF->getTarget().getRelocationModel() == Reloc::PIC_) &&

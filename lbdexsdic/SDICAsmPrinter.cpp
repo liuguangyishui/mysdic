@@ -202,13 +202,6 @@ void SDICAsmPrinter::EmitFunctionEntryLabel() {
 void SDICAsmPrinter::EmitFunctionBodyStart() {
   MCInstLowering.Initialize(&MF->getContext());
 
-  //HYL ****************
-  OutStreamer->EmitRawText(StringRef(";;;; ******** BEGINNING OF THE PROGRAM ********"));
-  OutStreamer->EmitRawText(StringRef("\torg\t0x0000"));
-  OutStreamer->EmitRawText(StringRef("\tgoto\tStart"));
-  OutStreamer->EmitRawText(StringRef("\torg\t0x0008"));
-  OutStreamer->EmitRawText(StringRef("\tgoto\tHint"));
-  //HYL ****************
   
   emitFrameDirective();
    bool EmitCPLoad = (MF->getTarget().getRelocationModel() == Reloc::PIC_) &&
@@ -263,6 +256,15 @@ void SDICAsmPrinter::EmitFunctionBodyEnd() {
 //	.previous
 void SDICAsmPrinter::EmitStartOfAsmFile(Module &M) {
   // FIXME: Use SwitchSection.
+
+  
+  //HYL ****************
+  OutStreamer->EmitRawText(StringRef(";;;; ******** BEGINNING OF THE PROGRAM ********"));
+  OutStreamer->EmitRawText(StringRef("\torg\t\t0x0000"));
+  OutStreamer->EmitRawText(StringRef("\tgoto\t\tStart"));
+  OutStreamer->EmitRawText(StringRef("\torg\t\t0x0008"));
+  OutStreamer->EmitRawText(StringRef("\tgoto\t\tHint"));
+  //HYL ****************
 
   // Tell the assembler which ABI we are using
   //HYL if (OutStreamer->hasRawTextSupport())

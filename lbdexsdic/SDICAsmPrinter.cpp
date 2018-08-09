@@ -259,7 +259,7 @@ void SDICAsmPrinter::EmitStartOfAsmFile(Module &M) {
 
   
   //HYL ****************
-  OutStreamer->EmitRawText(StringRef(";;;; ******** BEGINNING OF THE PROGRAM ********"));
+  // OutStreamer->EmitRawText(StringRef(";;;; ******** BEGINNING OF THE PROGRAM ********"));
   OutStreamer->EmitRawText(StringRef("\torg\t\t0x0000"));
   OutStreamer->EmitRawText(StringRef("\tgoto\t\tStart"));
   OutStreamer->EmitRawText(StringRef("\torg\t\t0x0008"));

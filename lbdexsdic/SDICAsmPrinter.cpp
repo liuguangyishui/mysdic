@@ -190,7 +190,7 @@ const char *SDICAsmPrinter::getCurrentABIString() const {
 void SDICAsmPrinter::EmitFunctionEntryLabel() {
   // HYL if (OutStreamer->hasRawTextSupport())
     //HYL    OutStreamer->EmitRawText("\t.ent\t" + Twine(CurrentFnSym->getName()));
-    //HYL    OutStreamer->EmitLabel(CurrentFnSym);
+        OutStreamer->EmitLabel(CurrentFnSym);
 }
 
 //  .frame  $sp,8,$pc

@@ -121,7 +121,7 @@ void SDICSEFrameLowering::emitEpilogue(MachineFunction &MF,
   if (!StackSize)
     return;
   // Adjust stack.
-  TII.adjustStackPtr(SP,-StackSize, MBB, MBBI);
+  // TII.adjustStackPtr(SP,-StackSize, MBB, MBBI);
 }
 //}
 

@@ -94,8 +94,8 @@ void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
 // Reg is in CPURegs.
 	unsigned CFIIndex = MMI.addFrameInst(MCCFIInstruction::createOffset(
 	        	    nullptr, MRI->getDwarfRegNum(Reg, 1), Offset));
-	//	BuildMI(MBB, MBBI, dl, TII.get(TargetOpcode::CFI_INSTRUCTION))
-	//	  .addCFIIndex(CFIIndex);
+		BuildMI(MBB, MBBI, dl, TII.get(TargetOpcode::CFI_INSTRUCTION))
+		  .addCFIIndex(CFIIndex);
       }
     }
     }

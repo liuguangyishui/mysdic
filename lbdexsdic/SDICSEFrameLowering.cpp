@@ -64,7 +64,7 @@ void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
   MachineLocation DstML, SrcML;
 
   // Adjust stack.
-  // TII.adjustStackPtr(SP, StackSize, MBB, MBBI);
+   TII.adjustStackPtr(SP, StackSize, MBB, MBBI);
 
   // emit ".cfi_def_cfa_offset StackSize"
   unsigned CFIIndex = MMI.addFrameInst(
@@ -72,8 +72,8 @@ void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
   
   // printf("\nHYLHYL: whether the stacksize hasChanges %lu\n",StackSize);
   
-  BuildMI(MBB, MBBI, dl, TII.get(TargetOpcode::CFI_INSTRUCTION))
-    .addCFIIndex(CFIIndex);
+  // BuildMI(MBB, MBBI, dl, TII.get(TargetOpcode::CFI_INSTRUCTION))
+  //   .addCFIIndex(CFIIndex);
   
   const std::vector<CalleeSavedInfo> &CSI = MFI->getCalleeSavedInfo();
 

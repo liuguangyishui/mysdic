@@ -652,7 +652,7 @@ let isBranch=1, isTerminator=1, isBarrier=1, ra=0, //rb=0, rc=0,
     hasDelaySlot=1,isIndirectBranch=1 in
 class JumpFG<bits<6> op, string instr_asm, Operand Od, PatLeaf imm_type>:
       FG<op, (outs), (ins Od:$ra),//Od:$rb,Od:$rc),
-      !strconcat(instr_asm,"\t");// $rb, $rc"),
+      !strconcat(instr_asm,"\t"),// $rb, $rc"),
       [(brind imm_type:$ra)], IIBranch>{
 
       

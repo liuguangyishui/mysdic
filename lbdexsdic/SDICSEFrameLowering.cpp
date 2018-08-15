@@ -36,7 +36,7 @@ SDICSEFrameLowering::SDICSEFrameLowering(const SDICSubtarget &STI)
 //@emitPrologue {
 void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
                                        MachineBasicBlock &MBB) const {
-  
+  /*
   assert(&MF.front() == &MBB && "Shrink-wrapping not yet supported");
   MachineFrameInfo *MFI = MF.getFrameInfo();
   SDICFunctionInfo *SDICFI = MF.getInfo<SDICFunctionInfo>();
@@ -98,7 +98,7 @@ void SDICSEFrameLowering::emitPrologue(MachineFunction &MF,
 		  .addCFIIndex(CFIIndex);
       }
     }
-    }
+    }*/
 }
 //}
 

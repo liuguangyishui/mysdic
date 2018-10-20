@@ -1,0 +1,57 @@
+//===-- SDICMachineFunctionInfo.cpp - Private data used for SDIC ----------===//
+//
+//                     The LLVM Compiler Infrastructure
+//
+// This file is distributed under the University of Illinois Open Source
+// License. See LICENSE.TXT for details.
+//
+//===----------------------------------------------------------------------===//
+
+#include "SDICMachineFunction.h"
+
+#include "MCTargetDesc/SDICBaseInfo.h"
+#include "SDICInstrInfo.h"
+#include "SDICSubtarget.h"
+#include "llvm/IR/Function.h"
+#include "llvm/CodeGen/MachineInstrBuilder.h"
+#include "llvm/CodeGen/MachineRegisterInfo.h"
+
+using namespace llvm;
+
+bool FixGlobalBaseReg;
+
+SDICFunctionInfo::~SDICFunctionInfo() {}
+
+bool SDICFunctionInfo::globalBaseRegFixed() const {
+  return FixGlobalBaseReg;
+}
+
+bool SDICFunctionInfo::globalBaseRegSet() const {
+  return GlobalBaseReg;
+}
+
+unsigned SDICFunctionInfo::getGlobalBaseReg() {
+  return GlobalBaseReg = SDIC::R3;
+}
+
+
+void SDICFunctionInfo::createEhDataRegsFI() {
+  for (int I = 0; I < 2; ++I) {
+    const TargetRegisterClass *RC = &SDIC::SDICRegsRegClass;
+
+    EhDataRegFI[I] = MF.getFrameInfo()->CreateStackObject(RC->getSize(),
+        RC->getAlignment(), false);
+  }
+}
+
+MachinePointerInfo SDICFunctionInfo::callPtrInfo(const char *ES) {
+  return MachinePointerInfo(MF.getPSVManager().getExternalSymbolCallEntry(ES));
+}
+
+MachinePointerInfo SDICFunctionInfo::callPtrInfo(const GlobalValue *GV) {
+  return MachinePointerInfo(MF.getPSVManager().getGlobalValueCallEntry(GV));
+}
+
+void SDICFunctionInfo::anchor() {
+ 
+}

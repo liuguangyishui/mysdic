@@ -101,4 +101,4 @@ def SR : RegisterClass<"SDIC", [i32], 32, (add SS)>;//, R6,R7, R10, R11, R12)>;
 //@Co-processor 0 Registers Class
 def C0Regs : RegisterClass<"SDIC", [i32], 32, (add PCL)>;
 def SDICReservedReg : RegisterClass<"SDIC", [i32], 32, (add R2)>;
-
+def SDICWreg : RegisterClass<"SDIC", [i32], 32, (add WREG)>;

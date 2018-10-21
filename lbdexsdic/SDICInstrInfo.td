@@ -310,17 +310,17 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
-                      FA<op,(outs OutWreg:$ra), (ins  RC:$rb, Od:$rc),
-                           !strconcat(instr_asm, "\t\t$rc"), //\n\tmovwf\t\t$ra"),//\t$ra  $rb  $rc
+                    FA<op,(outs OutWreg:$ra), (ins  RC:$rb, Od:$rc),
+                       !strconcat(instr_asm, "\t\t$rc"), //\n\tmovwf\t\t$ra"),//\t$ra  $rb  $rc
                [(set OutWreg:$ra,(OpNode  RC:$rb, imm_type:$rc))], IIAddluwf> {
                //GPROut:$imma
 }
 // only a immediate num K and a link for outs
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
-                           FA<op, (outs GPROut:$ra), (ins Od:$rb),
+                           FA<op, (outs OutWreg:$ra), (ins Od:$rb),
                                   !strconcat(instr_asm, "\t\t$rb \n\tmovwf \t\t$ra"),
-                         [(set GPROut:$ra, (OpNode imm_type:$rb))], IIAlu>{
+                         [(set OutWreg:$ra, (OpNode imm_type:$rb))], IIAlu>{
                                let rc = 0;
                          }
 
@@ -602,7 +602,7 @@ let canFoldAsLoad = 1 in
 class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
             Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs RC:$ra), (ins MemOpnd:$addr),
-     !strconcat(instr_asm, "\t\t$addr \n\tmovwf \t\t$ra"), //1: (instr_asm, "\t$ra, $addr") 2:\t\t$addr \n\tmovwf \t\t$ra
+     !strconcat(instr_asm, "\t\t$addr"),// \n\tmovwf \t\t$ra"), //1: (instr_asm, "\t$ra, $addr") 2:\t\t$addr \n\tmovwf \t\t$ra
      [(set RC:$ra, (OpNode addr:$addr))], IILoad> {
   let isPseudo = Pseudo;
 }

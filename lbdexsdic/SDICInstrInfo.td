@@ -310,9 +310,9 @@ class FDA_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
 //only one parameter K, but have aother node to link                    
 class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
                   Operand Od, PatLeaf imm_type, RegisterClass RC>:
-                      FA<op,(outs GPROut:$ra), (ins  RC:$rb, Od:$rc),
+                      FA<op,(outs GPROut_test:$ra), (ins  RC:$rb, Od:$rc),
                            !strconcat(instr_asm, "\t\t$rc \n\tmovwf\t\t$ra"),//\t$ra  $rb  $rc
-               [(set GPROut:$ra,(OpNode  RC:$rb, imm_type:$rc))], IIAddluwf> {
+               [(set GPROut_test:$ra,(OpNode  RC:$rb, imm_type:$rc))], IIAddluwf> {
                //GPROut:$imma
 }
 // only a immediate num K and a link for outs
@@ -618,7 +618,7 @@ class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 //@ 32-bit load.
 multiclass LoadM32<bits<6> op, string instr_asm, PatFrag OpNode,
                    bit Pseudo = 0> {
-  def #NAME# : LoadM<op, instr_asm, OpNode, SDICRegs, mem, Pseudo>; //GPROut,
+  def #NAME# : LoadM<op, instr_asm, OpNode, GPROut_test, mem, Pseudo>; //GPROut,
 }
 
 // 32-bit store.

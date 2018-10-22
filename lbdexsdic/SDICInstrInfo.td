@@ -319,7 +319,7 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
                            FA<op, (outs GPROut:$ra), (ins Od:$rb),
-                                  !strconcat(instr_asm, "\t\t$rb"),// \n\tmovwf \t\t$ra"),
+                                  !strconcat(instr_asm, "\t\t$rb \n\tmovwf \t\t$ra"),
                          [(set GPROut:$ra, (OpNode imm_type:$rb))], IIAlu>{
                                let rc = 0;
                          }

@@ -318,9 +318,9 @@ class K_Link<SDNode OpNode, bits<6> op, string instr_asm,
 // only a immediate num K and a link for outs
 class K_NoLink<SDNode OpNode, bits<6> op, string instr_asm,
                    Operand Od, PatLeaf imm_type>:
-                           FA<op, (outs GPROut:$ra), (ins Od:$rb),
+                           FA<op, (outs OutWreg:$ra), (ins Od:$rb),
                                   !strconcat(instr_asm, "\t\t$rb \n\tmovwf \t\t$ra"),
-                         [(set GPROut:$ra, (OpNode imm_type:$rb))], IIAlu>{
+                         [(set OutWreg:$ra, (OpNode imm_type:$rb))], IIAlu>{
                                let rc = 0;
                          }
 
@@ -702,7 +702,7 @@ def ADDLW    : K_Link<SDICAddwfrr, 0x28, "addlw", simm8, immSExt8, SDICRegs>;
 def SUBwf    : FDA_Link<SDICSubwf, 0x14, "subwf",  SDICRegs>;
 
 //SUBWFB 带借位的减法
-def SUBwfb   : FDA_Link<SDICSubwf, 0x15, "subwfb", SDICRegs>;
+def SUBwfb   : FDA_Link<SDICSubwf, 0x15, "subwfb", OutWreg>;//SDICRegs>;
 def SUBLW    : K_Link<SDICSubwf, 0x2e, "sublw", simm8, immSExt8, SDICRegs>;
 // uncomplish
 def MUL_CALL : CALL_NoLink<SDICMUL_CALL, 0x1d, "call\tMutiplication", SDICRegs>;

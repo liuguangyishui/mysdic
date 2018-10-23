@@ -618,7 +618,7 @@ class StoreM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
 //@ 32-bit load.
 multiclass LoadM32<bits<6> op, string instr_asm, PatFrag OpNode,
                    bit Pseudo = 0> {
-  def #NAME# : LoadM<op, instr_asm, OpNode, OutWreg, mem, Pseudo>; //GPROut,
+  def #NAME# : LoadM<op, instr_asm, OpNode, GPROut, mem, Pseudo>; //GPROut, OutWreg
 }
 
 // 32-bit store.

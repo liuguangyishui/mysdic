@@ -289,9 +289,9 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
 //FDA_Link:three parameter and a node to link
 class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
-                      FA<op,(outs GPROut:$ra), (ins RC:$rb, RC:$rc),
+                      FA<op,(outs GPROut:$ra), (ins mem:$rb, RC:$rc),
                            !strconcat(instr_asm, "\t\t$rc"), //$ra $rb $rc  //\n\tmovwf \t$ra
-                           [(set GPROut:$ra,(OpNode  RC:$rb, RC:$rc))], IIAddluwf> {
+                           [(set GPROut:$ra,(OpNode  addr:$rb, RC:$rc))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
                           //let imma = 0;

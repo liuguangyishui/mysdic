@@ -707,7 +707,7 @@ def Movlwr   : ArithLogicFKR<SDICMovlw, 0x13, "movlwr", SDICRegs>;
 
 // ========== Arithmetic Instructions  ==========
 // add defined in include/llvm/Target/TargetSelectionDAG.td, line 315
-(def add).
+//(def add).
 def ADDiu    : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 def ADDWF    : FDA_Link<SDICAddwf, 0x00, "addwf",  SDICRegs>;
 def ADDWF_test : FDA_Link_test<SDICAddwf, 0x00, "addwf_test", SDICRegs>;

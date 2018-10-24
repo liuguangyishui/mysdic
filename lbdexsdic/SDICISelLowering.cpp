@@ -327,7 +327,7 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
     printf("5/18 test for add and mov5");
   unsigned Opc = Op.getOpcode();
   //Op0一直都是寄存器
-  SDValue Op0 = Op.getOperand(0);//This is register number
+  SDValue Op0 = Op.getOperand(0).getOperand(0);//This is register number
   //Op1则是立即数或寄存器
   SDValue Op1 = Op.getOperand(1);//This is a constant
   EVT VT      = Op.getValueType();

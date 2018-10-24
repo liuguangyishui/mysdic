@@ -286,12 +286,24 @@ class ArithLogicI<bits<6> op, string instr_asm, SDNode OpNode,
   let isReMaterializable = 1;
 }
 
+
 //FDA_Link:three parameter and a node to link
-class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
+class FDA_Link_test<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA<op,(outs GPROut:$ra), (ins mem:$rb, RC:$rc),
                            !strconcat(instr_asm, "\t\t$rc"), //$ra $rb $rc  //\n\tmovwf \t$ra
                            [(set GPROut:$ra,(OpNode  addr:$rb, RC:$rc))], IIAddluwf> {
+                          // let isReMaterializable = 1;     GPROut:$imma
+                         // let imm8 = 0;
+                          //let imma = 0;
+                       }
+
+//FDA_Link:three parameter and a node to link
+class FDA_Link<SDNode OpNode, bits<6> op, string instr_asm,
+                           RegisterClass RC>:
+                      FA<op,(outs GPROut:$ra), (ins RC:$rb, RC:$rc),
+                           !strconcat(instr_asm, "\t\t$rc"), //$ra $rb $rc  //\n\tmovwf \t$ra
+                           [(set GPROut:$ra,(OpNode  RC:$rb, RC:$rc))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
                           //let imma = 0;
@@ -694,9 +706,11 @@ def Movwf    : FDA_NoLink<SDICMovf, 0x0e, "movwf", SDICRegs>;
 def Movlwr   : ArithLogicFKR<SDICMovlw, 0x13, "movlwr", SDICRegs>;
 
 // ========== Arithmetic Instructions  ==========
-// add defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
+// add defined in include/llvm/Target/TargetSelectionDAG.td, line 315
+(def add).
 def ADDiu    : ArithLogicI<0x09, "addiu", SDICAddtest, simm8, immSExt8,SDICRegs>;
 def ADDWF    : FDA_Link<SDICAddwf, 0x00, "addwf",  SDICRegs>;
+def ADDWF_test : FDA_Link_test<SDICAddwf, 0x00, "addwf_test", SDICRegs>;
 def ADDLW    : K_Link<SDICAddwfrr, 0x28, "addlw", simm8, immSExt8, SDICRegs>;
 //SUB
 def SUBwf    : FDA_Link<SDICSubwf, 0x14, "subwf",  SDICRegs>;

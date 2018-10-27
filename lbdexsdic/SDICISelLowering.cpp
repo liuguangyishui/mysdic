@@ -116,7 +116,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
 
   
-  //setOperationAction(ISD::ADD, MVT::i32, Custom);
+  setOperationAction(ISD::ADD, MVT::i32, Custom);
   setOperationAction(ISD::MUL, MVT::i32, Custom);
   setOperationAction(ISD::SDIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);
@@ -321,17 +321,21 @@ lowerJumpTable(SDValue Op, SelectionDAG &DAG) const
 
 SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
 {
-   
-  printf("5/18 test for add and mov4");
   SDLoc dl(Op);
-    printf("5/18 test for add and mov5");
   unsigned Opc = Op.getOpcode();
   //Op0一直都是寄存器
-  SDValue Op0 = Op.getOperand(0).getOperand(0);//This is register number
+  SDValue Op0 = Op.getOperand(0);//.getOperand(1);//This is register number
   //Op1则是立即数或寄存器
   SDValue Op1 = Op.getOperand(1);//This is a constant
+
+  LoadSDNode *LD = cast<LoadSDNode>(Op0);
+  SDValue Chain = LD->getChain();
+  SDValue BasePtr = LD->getBasePtr();
+  SDValue Memory = LD->getOffset();
+  printf("\n2018/10/24 is %u\n", BasePtr);
+  printf("\nbaseptr %u\n", BasePtr);
+
   EVT VT      = Op.getValueType();
-  printf("5/18 test for add and mov6");
   SDValue Flag;
   SDValue Flag0;
   SDValue Flag1;
@@ -339,11 +343,13 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   //ADD加法有两种情况，一个是ADDLW：WREG与立即数K相加；  一个是ADDWF与F寄存器相加
   printf("2018/10/23 the first %u\n",Op0);
   printf("2018/10/23 the second %u\n",Op1);
-  
+
+  SDValue Lo = DAG.getLoad(MVT::i8, dl, Chain, BasePtr,
+	    MachinePointerInfo());  
   //Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op0);
  
-  // return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op1, Op0);
-  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op0, Op1);
+  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Lo.getvalue(1), Op1);
+   //  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op0, Op1);
  
  
    // Flag0 = DAG.getConstant(45, dl, MVT::i32);

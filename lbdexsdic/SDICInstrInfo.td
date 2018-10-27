@@ -614,7 +614,7 @@ let canFoldAsLoad = 1 in
 class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
             Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs RC:$ra), (ins MemOpnd:$addr),
-     !strconcat(instr_asm, "\t\t$addr"),     // \n\tmovwf \t\t$ra"), //1: (instr_asm, "\t$ra, $addr") 2:\t\t$addr \n\tmovwf \t\t$ra
+     !strconcat(instr_asm, "\t\t$addr \n\tmovwf \t\t$ra"), //1: (instr_asm, "\t$ra, $addr") 2:\t\t$addr \n\tmovwf \t\t$ra
      [(set RC:$ra, (OpNode addr:$addr))], IILoad> {
   let isPseudo = Pseudo;
 }

@@ -116,7 +116,13 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
 
   
+<<<<<<< HEAD
   setOperationAction(ISD::ADD, MVT::i32, Custom);
+=======
+  
+  setOperationAction(ISD::ADD, MVT::i32, Custom);
+  
+>>>>>>> 7946bd76b75c017c8ad3f476d28de0c6aff1593e
   setOperationAction(ISD::MUL, MVT::i32, Custom);
   setOperationAction(ISD::SDIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);
@@ -339,7 +345,7 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue Flag;
   SDValue Flag0;
   SDValue Flag1;
-  
+ 
   //ADD加法有两种情况，一个是ADDLW：WREG与立即数K相加；  一个是ADDWF与F寄存器相加
   printf("2018/10/23 the first %u\n",Op0);
   printf("2018/10/23 the second %u\n",Op1);

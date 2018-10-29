@@ -332,8 +332,8 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue Chain = LD->getChain();
   SDValue BasePtr = LD->getBasePtr();
   SDValue Memory = LD->getOffset();
-  printf("\n2018/10/24 is %u\n", BasePtr);
-  printf("\nbaseptr %u\n", BasePtr);
+  printf("\n2018/10/24 is %u\n", BasePtr.getValue(0));
+  //printf("\nbaseptr %u\n", BasePtr.getValue(1));
 
   EVT VT      = Op.getValueType();
   SDValue Flag;
@@ -344,11 +344,17 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   printf("2018/10/23 the first %u\n",Op0);
   printf("2018/10/23 the second %u\n",Op1);
 
-  SDValue Lo = DAG.getLoad(MVT::i8, dl, Chain, BasePtr,
+  SDValue Lo = DAG.getLoad(MVT::i32, dl, Chain, BasePtr,
 	    MachinePointerInfo());  
+ 
+  printf("\n2018.10.28 %u\n", Lo.getValue(0));
+  printf("\n2018.10.29 %u\n", Lo.getValue(1));
+  SDValue L = DAG.getIndexedLoad(Op0, dl, BasePtr, Memory, ISD::MemIndexedMode);
+  //  SDValue Con = DAG.getConstant(Lo.getValue(1), dl, MVT::i32);
+  
   //Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op0);
  
-  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Lo.getvalue(1), Op1);
+  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Lo, Op1);
    //  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op0, Op1);
  
  

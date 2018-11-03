@@ -612,11 +612,11 @@ class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
 
 // Memory Load/Store
 let canFoldAsLoad = 1 in
-class LoadM<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
+class LoadM_copy<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
             Operand MemOpnd, bit Pseudo>:
   FMem<op, (outs RC:$ra), (ins MemOpnd:$addr),
-     !strconcat(instr_asm, "\t\t$addr \n\tmovwf \t\t$ra"), //1: (instr_asm, "\t$ra, $addr") 2:\t\t$addr \n\tmovwf \t\t$ra
-     [(set RC:$ra, (OpNode addr:$addr))], IILoad> {
+     !strconcat(instr_asm, "\t\t$addr \n\tmovwf \t\t$ra"), 
+     [(OpNode addr:$addr)], IILoad> {
   let isPseudo = Pseudo;
 }
 
@@ -709,6 +709,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 //===----------------------------------------------------------------------===//
 
 // ========== Load and Store Instructions and MOVF Instruction ==========
+def load_copy: LoadM_copy<0x3f, "wawa", OpNode, GPROut, mem, Pseudo>;
 defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
 defm ST      : StoreM32<0x3e, "movwf(s",  store_a>;  //st  movf(s)
 def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;

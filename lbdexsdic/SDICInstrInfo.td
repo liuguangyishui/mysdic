@@ -614,12 +614,11 @@ class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
 let canFoldAsLoad = 1 in
 class LoadM_copy<bits<6> op, string instr_asm, PatFrag OpNode, RegisterClass RC,
             Operand MemOpnd, bit Pseudo = 0>:
-  FMem<op, (outs RC:$ra), (ins MemOpnd:$addr),
-     !strconcat(instr_asm, "\t\t$addr \n\tmovwf \t\t$ra"), 
+  FMem<op, (outs), (ins MemOpnd:$addr),
+     !strconcat(instr_asm, "\t\t$addr \n\tmovwf "), 
      [(OpNode addr:$addr)], IILoad> {
   let isPseudo = Pseudo;
 }
-
 
 // Memory Load/Store
 let canFoldAsLoad = 1 in

@@ -709,7 +709,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 //===----------------------------------------------------------------------===//
 
 // ========== Load and Store Instructions and MOVF Instruction ==========
-def load_copy: LoadM_copy<0x3f, "wawa", OpNode, GPROut, mem, Pseudo>;
+def load_copy: LoadM_copy<0x3f, "wawa", load_a, GPROut, mem, Pseudo>;
 defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
 defm ST      : StoreM32<0x3e, "movwf(s",  store_a>;  //st  movf(s)
 def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;

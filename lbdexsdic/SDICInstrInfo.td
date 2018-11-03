@@ -243,6 +243,12 @@ def calltarget  : Operand<iPTR> {
 //===----------------------------------------------------------------------===//
 // Pattern fragment for load/store
 //===----------------------------------------------------------------------===//
+class AlignedLoad_copy<PatFrag Node> :
+  PatFrag<(ops), (Node node:$ptr), [{
+  LoadSDNode *LD = cast<LoadSDNode>(N);
+  return LD->getMemoryVT().getSizeInBits()/8 <= LD->getAlignment();
+}]>;
+
 
 class AlignedLoad<PatFrag Node> :
   PatFrag<(ops node:$ptr), (Node node:$ptr), [{
@@ -259,7 +265,7 @@ class AlignedStore<PatFrag Node> :
 // Load/Store PatFrags.
 def load_a          : AlignedLoad<load>;
 def store_a         : AlignedStore<store>;
-
+def load_a_copy     : AlignedLoad<load>;
 //===----------------------------------------------------------------------===//
 // Instructions specific format
 //===----------------------------------------------------------------------===//
@@ -708,7 +714,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 //===----------------------------------------------------------------------===//
 
 // ========== Load and Store Instructions and MOVF Instruction ==========
-def load_copy: LoadM_copy<0x3f, "wawa", load_a, SDICRegs, mem>;
+def load_copy: LoadM_copy<0x3f, "wawa", load_a_copy, SDICRegs, mem>;
 defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
 defm ST      : StoreM32<0x3e, "movwf(s",  store_a>;  //st  movf(s)
 def Movlw    : K_NoLink<SDICMovlw, 0x2c, "movlw", simm8, immSExt8>;

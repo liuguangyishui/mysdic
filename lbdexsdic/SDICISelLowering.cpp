@@ -116,13 +116,7 @@ SDICTargetLowering::SDICTargetLowering(const SDICTargetMachine &TM,
 
 
   
-<<<<<<< HEAD
   setOperationAction(ISD::ADD, MVT::i32, Custom);
-=======
-  
-  setOperationAction(ISD::ADD, MVT::i32, Custom);
-  
->>>>>>> 7946bd76b75c017c8ad3f476d28de0c6aff1593e
   setOperationAction(ISD::MUL, MVT::i32, Custom);
   setOperationAction(ISD::SDIV, MVT::i32, Custom);
   setOperationAction(ISD::SUB, MVT::i32, Custom);
@@ -339,28 +333,60 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   SDValue BasePtr = LD->getBasePtr();
   SDValue Memory = LD->getOffset();
   printf("\n2018/10/24 is %u\n", BasePtr.getValue(0));
-  //printf("\nbaseptr %u\n", BasePtr.getValue(1));
 
   EVT VT      = Op.getValueType();
   SDValue Flag;
   SDValue Flag0;
   SDValue Flag1;
- 
-  //ADD加法有两种情况，一个是ADDLW：WREG与立即数K相加；  一个是ADDWF与F寄存器相加
-  printf("2018/10/23 the first %u\n",Op0);
-  printf("2018/10/23 the second %u\n",Op1);
-
-  SDValue Lo = DAG.getLoad(MVT::i32, dl, Chain, BasePtr,
-	    MachinePointerInfo());  
- 
-  printf("\n2018.10.28 %u\n", Lo.getValue(0));
-  printf("\n2018.10.29 %u\n", Lo.getValue(1));
-  SDValue L = DAG.getIndexedLoad(Op0, dl, BasePtr, Memory, ISD::MemIndexedMode);
-  //  SDValue Con = DAG.getConstant(Lo.getValue(1), dl, MVT::i32);
   
+  //ADD加法有两种情况，一个是ADDLW：WREG与立即数K相加；  一个是ADDWF与F寄存器相加
+  SDNode* BasePtr_S = BasePtr.getNode();
+  SDNode* Memory_S = Memory.getNode();
+
+  //  SDUse* OperandList_S = BasePtr_S->op_begin();
+  //SDValue value_s = OperandList_S->get();
+  Flag0 = DAG.getConstant(45, dl, MVT::i32);
+  //  SDValue Lo = DAG.getLoad(MVT::i32, dl, Flag0, BasePtr,
+  //	    MachinePointerInfo());  
+
+  printf("\n2018.10.27 %u\n", BasePtr.getNumOperands());
+  // printf("\n2018.10.28_1 %u\n", OperandList_S->getResNo());
+  printf("\n2018.10.28_2 %u\n", Memory_S->getNumOperands());
+  printf("\n2018.10.28_3 %u\n", Memory_S->getNumValues());
+
+  printf("\n2018.10.29 %u\n", Memory.getResNo());
+  printf("\n2018.10.30 %u\n", Flag0.getResNo());
+
+ 
+  //  uint64_t  oper1 = BasePtr_S->getConstantOperandVal(0);
+  // SDValue oper2 = Memory_S->getOperand(1);
+  // SDValue oper3 = Memory_S->getOperand(2);
+
+  //printf("\n2018.10.27_oper1 %u\n", oper1);
+  //printf("\n2018.10.28_oper2 %u\n", oper2.getResNo());
+  //printf("\n2018.10.29_oper3 %u\n", oper3.getResNo());
+
+
+  //  SDValue L = DAG.getIndexedLoad(Op0, dl, BasePtr, Memory, ISD::MemIndexedMode);
+    SDValue Con = DAG.getConstant(999, dl, MVT::i32);
+    SDNode* Con_n = Con.getNode();
+    SDUse* Con_SDUse = Con_n->op_begin();
+    SDValue Sub_con = Con.getValue(0);
+    SDVTList sdvtlist_c = Con_n->getVTList();
+    printf("\n2018.11.3 hehe %u\n", sdvtlist_c.NumVTs);
+    printf("\2018.11.1 op1 %u\n", Con.getResNo());
+    printf("\2018.11.1 op2 %u\n", Con.getOpcode());
+    printf("\2018.11.1 op3 %u\n", Con.getNumOperands());
+    printf("\2018.11.1 op4 %u\n", Con_SDUse->getResNo());
+
+    
+    printf("\2018.11.1 op4 %u\n", Con_n->getNumOperands());
+    printf("\2018.11.1 op4 %u\n", Con_n->getNumValues());
+    printf("\2018.11.1 op4 %u\n", Sub_con.getOpcode());
+    //  printf("\2018.11.1 op4 %c\n", Con_n->getOperationName());
   //Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op0);
  
-  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Lo, Op1);
+  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Con, Op1);
    //  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op0, Op1);
  
  

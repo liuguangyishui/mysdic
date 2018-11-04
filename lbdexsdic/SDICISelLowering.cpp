@@ -354,8 +354,8 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
   printf("\n2018.10.28_2 %u\n", Memory_S->getNumOperands());
   printf("\n2018.10.28_3 %u\n", Memory_S->getNumValues());
 
-  printf("\n2018.10.29 %u\n", Memory.getValue(1));
-  printf("\n2018.10.30 %u\n", BasePtr.getValue(1));
+  //  printf("\n2018.10.29 %u\n", Memory.getValue(1));
+  //  printf("\n2018.10.30 %u\n", BasePtr.getValue(1));
 
  
   //  uint64_t  oper1 = BasePtr_S->getConstantOperandVal(0);

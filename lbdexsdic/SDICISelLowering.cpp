@@ -373,7 +373,7 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
     SDUse* Con_SDUse = Con_n->op_begin();
     SDValue Sub_con = Con.getValue(0);
     SDVTList sdvtlist_c = Con_n->getVTList();
-    printf("\n2018.11.3 hehe %u\n", sdvtlist_c.NumVTs);
+    /*    printf("\n2018.11.3 hehe %u\n", sdvtlist_c.NumVTs);
     printf("\2018.11.1 op1 %u\n", Con.getResNo());
     printf("\2018.11.1 op2 %u\n", Con.getOpcode());
     printf("\2018.11.1 op3 %u\n", Con.getNumOperands());
@@ -385,7 +385,7 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
     printf("\2018.11.1 op4 %u\n", Sub_con.getOpcode());
     //  printf("\2018.11.1 op4 %c\n", Con_n->getOperationName());
   //Flag0 = DAG.getNode(SDICISD::Movf, dl, MVT::i32, Op0);
-    
+  */
     //    SDValue load_copy = DAG.getNode(SDICISD::load_copy, dl, MVT::i32, Op0);
   return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Con, Op1);
    //  return DAG.getNode(SDICISD::Addwf, dl,MVT::i32, Op0, Op1);

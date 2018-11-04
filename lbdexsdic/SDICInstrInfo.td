@@ -898,8 +898,8 @@ defm : addOperator<SDICRegs, immSExt16>;
 //def : Pat<(i32 immSExt8:$in),
   //            (Movlwk imm:$in)>;
 
-def : Pat<(i32 immSExt16:$in),
-         (Movlw imm:$in)>;
+//def : Pat<(i32 immSExt16:$in),
+  //       (Movlw imm:$in)>;
 
 def : Pat<(i32 immSExt8:$in),
          //(ADDiu R0, imm:$in)>;

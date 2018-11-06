@@ -368,7 +368,7 @@ SDValue SDICTargetLowering::LowerADD(SDValue Op, SelectionDAG &DAG) const
 
 
   //  SDValue L = DAG.getIndexedLoad(Op0, dl, BasePtr, Memory, ISD::MemIndexedMode);
-    SDValue Con = DAG.getConstant(999, dl, MVT::i32);
+  SDValue Con = DAG.getConstant(999, dl, MVT::i32);
     SDNode* Con_n = Con.getNode();
     SDUse* Con_SDUse = Con_n->op_begin();
     SDValue Sub_con = Con.getValue(0);
@@ -528,7 +528,7 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
   // return DAG.getNode(ISD::LOAD, dl, MVT::Other, Op0, Op1, Op2, Op3);
   //return DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
   // return DAG.getNode(ISD::TokenFactor, dl, MVT::Other, Lo.getValue(1), Hi.getValue(1));
-   return DAG.getNode(ISD::TokenFactor, dl, MVT::Other, Op0, Op1);
+   return DAG.getNode(SDICISD::LD, dl, MVT::Other, Op0, Op1);
 
   }
 

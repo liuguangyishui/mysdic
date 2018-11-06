@@ -298,7 +298,7 @@ class FDA_Link_test<SDNode OpNode, bits<6> op, string instr_asm,
                            RegisterClass RC>:
                       FA<op,(outs GPROut:$ra), (ins mem:$rb, RC:$rc),
                            !strconcat(instr_asm, "\t\t$rc"), //$ra $rb $rc  //\n\tmovwf \t$ra
-                           [(set GPROut:$ra,(OpNode (load addr:$rb), RC:$rc))], IIAddluwf> {
+                           [(set GPROut:$ra,((load addr:$rb), RC:$rc))], IIAddluwf> {
                           // let isReMaterializable = 1;     GPROut:$imma
                          // let imm8 = 0;
                           //let imma = 0;

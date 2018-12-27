@@ -529,7 +529,9 @@ SDValue SDICTargetLowering::LowerLOAD(SDValue Op, SelectionDAG &DAG) const
   //return DAG.getNode(SDICISD::Movlw, dl, MVT::i32, Op0);
   // return DAG.getNode(ISD::TokenFactor, dl, MVT::Other, Lo.getValue(1), Hi.getValue(1));
    //   SDValue Con = DAG.getNode(777,dl,MVT::i32);
-   return DAG.getNode(ISD::TokenFactor, dl, MVT::Other,Op1, Op2);
+
+    SDValue Con = DAG.getConstant(999, dl, MVT::i32);
+    return DAG.getNode(SDICISD::Addwf, dl, MVT::Other,Con);
 
   }
 

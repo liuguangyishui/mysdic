@@ -162,11 +162,22 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
   switch(Opcode) {
   default: break;
 
-    // case ISD::ADD:
-    // printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
+  case ISD::ADD: {
+    SDvalue op1 = Node->getOperand(0);
+    SDvalue op2 = Node->getOperand(1);
+    
+     printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
+     printf("%u\n", op1);
+     printf("%u\n", op2);
     //HYL   ReplaceNode(Node, CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32));
      // Get target GOT address.
-    //return;
+  }
+  case ISD::STORE: {
+    SDValue op1 = Node->getOperant(0);
+    SDNode *NewNode = CurDAG->getMachinNode(SDICISD::Movlw, dl, MVT::i32,
+					    MVT::Glue, op1);
+    RelpaceNode(Node, NewNode);
+  }
   case ISD::GLOBAL_OFFSET_TABLE:
     ReplaceNode(Node, getGlobalBaseReg());
     return;

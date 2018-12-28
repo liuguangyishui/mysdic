@@ -163,8 +163,8 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
   default: break;
 
   case ISD::ADD: {
-    SDvalue op1 = Node->getOperand(0);
-    SDvalue op2 = Node->getOperand(1);
+    SDValue op1 = Node->getOperand(0);
+    SDValue op2 = Node->getOperand(1);
     
      printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
      printf("%u\n", op1);

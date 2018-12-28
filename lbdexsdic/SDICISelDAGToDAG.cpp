@@ -144,7 +144,7 @@ SelectAddr(SDNode *Parent, SDValue Addr, SDValue &Base, SDValue &Offset) {
 void SDICDAGToDAGISel::Select(SDNode *Node) {
 //@Select }
   unsigned Opcode = Node->getOpcode();
-
+  SDLoc DL(Node);
   // Dump information about the Node being selected
   DEBUG(errs() << "Selecting: "; Node->dump(CurDAG); errs() << "\n");
 
@@ -173,8 +173,8 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
      // Get target GOT address.
   }
   case ISD::STORE: {
-    SDValue op1 = Node->getOperant(0);
-    SDNode *NewNode = CurDAG->getMachinNode(SDICISD::Movlw, dl, MVT::i32,
+    SDValue op1 = Node->getOperand(0);
+    SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Movlw, DL, MVT::i32,
 					    MVT::Glue, op1);
     RelpaceNode(Node, NewNode);
   }

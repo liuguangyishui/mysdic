@@ -177,10 +177,10 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
     SDValue op2 = Node->getOperand(1);
     printf("the op1 is %u\n", op1);
     printf("the op2 is %u\n", op2);
-    SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32,
+    //SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32,
 					     MVT::Glue, op1, op2);
-    ReplaceNode(Node, NewNode);
-    return true;
+    //    ReplaceNode(Node, NewNode);
+    CurDAG->SelectNodeTo(Node, SDICISD::ADDwf, MVT::i32, op1, op2);
   }
   case ISD::GLOBAL_OFFSET_TABLE:
     ReplaceNode(Node, getGlobalBaseReg());

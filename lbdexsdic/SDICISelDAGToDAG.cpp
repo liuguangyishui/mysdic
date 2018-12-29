@@ -178,7 +178,7 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
     printf("the op1 is %u\n", op1);
     printf("the op2 is %u\n", op2);
     //SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32,
-					     MVT::Glue, op1, op2);
+    //				     MVT::Glue, op1, op2);
     //    ReplaceNode(Node, NewNode);
     CurDAG->SelectNodeTo(Node, SDICISD::ADDwf, MVT::i32, op1, op2);
   }

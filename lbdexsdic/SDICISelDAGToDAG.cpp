@@ -182,7 +182,7 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
    
     SDValue Ops[] = {op1, Chain};
 
-    SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Movlw, DL, MVT::Other, Ops);
+    SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Movlw, DL, MVT::i32, Ops);
     ReplaceNode(Node, NewNode);
     //   CurDAG->SelectNodeTo(Node, SDICISD::Addwf, MVT::i32);
   }

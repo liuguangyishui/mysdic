@@ -174,7 +174,7 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
   }
   case ISD::STORE: {
     StoreSDNode *ST = cast<StoreSDNode>(Node);
-    EVT StoreVT = ST->getMemeoryVT();
+    EVT StoreVT = ST->getMemoryVT();
     
     SDValue Chain = Node->getOperand(0);
     SDValue op1 = Node->getOperand(1);

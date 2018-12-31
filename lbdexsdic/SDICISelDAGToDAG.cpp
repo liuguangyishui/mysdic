@@ -182,8 +182,11 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
    
     SDValue Ops[] = {op1, op2, Chain};
 
-    SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32, Ops);
-    ReplaceNode(Node, NewNode);
+    SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Movlw, DL, MVT::i32, op1);
+    // ReplaceNode(Node, NewNode);
+  
+
+    ReplaceUses(SDValue(ST, 1), SDValue(NewNode, 0);
     //   CurDAG->SelectNodeTo(Node, SDICISD::Addwf, MVT::i32);
   }
   case ISD::GLOBAL_OFFSET_TABLE:

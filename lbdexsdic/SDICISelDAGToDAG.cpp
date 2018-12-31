@@ -186,7 +186,7 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
     // ReplaceNode(Node, NewNode);
   
 
-    ReplaceUses(SDValue(ST, 1), SDValue(NewNode, 0));
+    ReplaceUses(SDValue(ST, 0), SDValue(NewNode, 1));
     //   CurDAG->SelectNodeTo(Node, SDICISD::Addwf, MVT::i32);
   }
   case ISD::GLOBAL_OFFSET_TABLE:

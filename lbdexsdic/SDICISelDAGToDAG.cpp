@@ -166,14 +166,13 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
     SDValue op1 = Node->getOperand(0);
     SDValue op2 = Node->getOperand(1);
     
-     printf("\nthis is insert into the SDICISelDAGToDAG.cpp\n");
-     printf("%u\n", op1);
-     printf("%u\n", op2);
+    SDNode* newNode = CurDAG->getMachineNode(SDICISD::Movf, DL, MVT::i32, op1);
+    CurDAG->SelectNodeTo(Node, SDICISD::Addwf
      //HYL   ReplaceNode(Node, CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32));
      // Get target GOT address.
   }
   case ISD::STORE: {
-    StoreSDNode *ST = cast<StoreSDNode>(Node);
+      /* StoreSDNode *ST = cast<StoreSDNode>(Node);
     EVT StoreVT = ST->getMemoryVT();
     
     SDValue Chain = Node->getOperand(0);
@@ -184,16 +183,19 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
 
     SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Movf, DL, MVT::i32, op1);
     // ReplaceNode(Node, NewNode);
-
-
-  
-
-    ReplaceUses(SDValue(Node, 0), SDValue(NewNode, 0));
+    ReplaceUses(SDValue(Node, 0), SDValue(NewNode, 1));
     //   CurDAG->SelectNodeTo(Node, SDICISD::Addwf, MVT::i32);
-  }
-  case ISD::GLOBAL_OFFSET_TABLE:
-    ReplaceNode(Node, getGlobalBaseReg());
-    return;
+    */} 
+    case ISD::LOAD: {
+      SDValue Chain = Node->getOperand(0);
+      SDValue op1 = Node->getOperand(1);
+      SDValue op2 = Node->getOperand(2);
+      SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32, op1, op2);
+      ReplaceNode(Node, NewNode);
+    }
+    case ISD::GLOBAL_OFFSET_TABLE:
+      ReplaceNode(Node, getGlobalBaseReg());
+      return;
 
     
   }

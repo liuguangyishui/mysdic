@@ -615,6 +615,13 @@ class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
 
 }
 
+class FDA_Link_Test<SDNode OpNode, bits<6> op, string instr_asm, RegisterClass RC,
+      Operand MemOpnd>:
+                          FA<op, (outs GPROut:$ra), (ins RC:$rb, MemOpnd:$addr),
+                          !strconcat(instr_asm, "\t\t$rb, $addr"),
+                          [(set GPROut:$ra, (OpNode RC:$rb, addr:$addr))], IIAddluwf> {
+
+                          }
 
 // Memory Load/Store
 let canFoldAsLoad = 1 in
@@ -714,6 +721,7 @@ class RetBase<RegisterClass RC>: JumpFR<0x3c, "ret", RC> {
 //===----------------------------------------------------------------------===//
 
 // ========== Load and Store Instructions and MOVF Instruction ==========
+def TestNode : FDA_Link_Test<SDICMovf, 0x3f, "Test", SDICRegs, mem>;
 //def load_copy: LoadM_copy<0x3f, "wawa", load_a_copy, SDICRegs, mem>;
 defm LD      : LoadM32<0x3d,  "movf(l)",  load_a>;  //ld
 defm ST      : StoreM32<0x3e, "movwf(s",  store_a>;  //st  movf(s)

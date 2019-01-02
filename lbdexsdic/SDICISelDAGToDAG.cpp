@@ -166,13 +166,13 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
     SDValue op1 = Node->getOperand(0);
     SDValue op2 = Node->getOperand(1);
     
-    SDNode* newNode = CurDAG->getMachineNode(SDICISD::Movf, DL, MVT::i32, op1);
-    CurDAG->SelectNodeTo(Node, SDICISD::Addwf
+    //SDNode* newNode = CurDAG->getMachineNode(SDICISD::Movf, DL, MVT::i32, op1);
+    //CurDAG->SelectNodeTo(Node, SDICISD::Addwf
      //HYL   ReplaceNode(Node, CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32));
      // Get target GOT address.
   }
   case ISD::STORE: {
-      /* StoreSDNode *ST = cast<StoreSDNode>(Node);
+    /* StoreSDNode *ST = cast<StoreSDNode>(Node);
     EVT StoreVT = ST->getMemoryVT();
     
     SDValue Chain = Node->getOperand(0);

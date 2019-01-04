@@ -191,14 +191,14 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
       SDValue op1 = Node->getOperand(0);
       SDValue op2 = Node->getOperand(1);
       
-      SDValue valueType1 = op1->getValueType();
-      SDValue valueType2 = op2->getValueType();
-      printf("valueType1 %u\n", valueType1);
-      printf("valueType2 %u\n", valueType2);
+      //      SDValue valueType1 = op1->getValueType();
+      // SDValue valueType2 = op2->getValueType();
+      //printf("valueType1 %u\n", valueType1);
+      //printf("valueType2 %u\n", valueType2);
  
       //      SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32, MVT::Other, op1, op2);
 
-      SDNode *NewNode = CurDAG->getMachineNode(SDICISD::TestNode, DL, MVT::i32, MVT::Other, op1, op2);
+      SDNode *NewNode = CurDAG->getMachineNode(SDIC::TestNode, DL, MVT::i32, MVT::Other, op1, op2);
       ReplaceNode(Node, NewNode);
     }
     case ISD::GLOBAL_OFFSET_TABLE:

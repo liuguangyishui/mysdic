@@ -188,8 +188,8 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
     }*/ 
     case ISD::LOAD: {
       SDValue Chain = Node->getOperand(0);
-      SDValue op1 = Node->getOperand(1);
-      SDValue op2 = Node->getOperand(2);
+      SDValue op1 = Node->getOperand(0);
+      SDValue op2 = Node->getOperand(1);
       SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32, MVT::Glue, op1, op2);
       ReplaceNode(Node, NewNode);
     }

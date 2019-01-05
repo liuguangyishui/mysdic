@@ -683,8 +683,8 @@ let Predicates = [Ch7_1] in {
       }*/
 class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem,
       Operand Od = simm8, PatLeaf imm_type = immSExt8> :
-      FA<0x10, (outs RC:$rn), (ins Mem:$addr, Od:$rc),
-      instr_asm, [(set RC:$rn, (addr:$addr, imm_type:$rc))], IIAlu>;
+      FMem<0x10, (outs RC:$rn), (ins Mem:$addr, Od:$rc),
+      instr_asm, [(set RC:$rn, (addr:$addr  imm_type:$rc))], IIAlu>;
       }
 
 

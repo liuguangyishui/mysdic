@@ -765,9 +765,9 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 // instructions. The same not happens for stack address copies, so an
 // add op with mem ComplexPattern is used and the stack address copy
 // can be matched. It's similar to Sparc LEA_ADDRi
-def LEA_ADDiu : EffectiveAddress<"movlw\t\t$addr", SDICRegs, mem_ea> {//addiu\t$rn, $addr
+/*def LEA_ADDiu : EffectiveAddress<"movlw\t\t$addr", SDICRegs, mem_ea> {//addiu\t$rn, $addr
   let isCodeGenOnly = 1;
-}
+}*/
 //@def LEA_ADDiu }
 
 

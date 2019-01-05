@@ -677,9 +677,14 @@ class JumpFR<bits<6> op, string instr_asm, RegisterClass RC>:
 
 let Predicates = [Ch7_1] in {
 //@EffectiveAddress
-class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem> :
+/*class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem> :
       FMem<0x10, (outs RC:$rn), (ins Mem:$addr),
       instr_asm, [(set RC:$rn, addr:$addr)], IIAlu>;
+      }*/
+class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem,
+      Operand Od = simm8, PatLeaf imm_type = immSExt8> :
+      FA<0x10, (outs RC:$rn), (ins Mem:$addr, Od:$rc),
+      instr_asm, [(set RC:$rn, (OpNode addr:$addr, imm_type:$rc)], IIAlu>;
       }
 
 
@@ -765,9 +770,9 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 // instructions. The same not happens for stack address copies, so an
 // add op with mem ComplexPattern is used and the stack address copy
 // can be matched. It's similar to Sparc LEA_ADDRi
-/*def LEA_ADDiu : EffectiveAddress<"movlw\t\t$addr", SDICRegs, mem_ea> {//addiu\t$rn, $addr
+def LEA_ADDiu : EffectiveAddress<"movlw\t\t$addr", SDICRegs, mem_ea> {//addiu\t$rn, $addr
   let isCodeGenOnly = 1;
-}*/
+}
 //@def LEA_ADDiu }
 
 

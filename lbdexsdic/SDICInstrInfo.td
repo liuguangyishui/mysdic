@@ -681,12 +681,19 @@ let Predicates = [Ch7_1] in {
       FMem<0x10, (outs RC:$rn), (ins Mem:$addr),
       instr_asm, [(set RC:$rn, addr:$addr)], IIAlu>;
       }*/
+
+class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem> :
+      FMem<0x10, (outs RC:$rn), (ins Mem:$addr),
+      instr_asm, [(addr:$addr)], IIAlu>;
+
+}
+/*
 class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem,
       Operand Od = simm8, PatLeaf imm_type = immSExt8> :
       FMem<0x10, (outs RC:$rn), (ins Mem:$addr, Od:$rc),
       instr_asm, [(set RC:$rn, (addr:$addr  imm_type:$rc))], IIAlu>;
       }
-
+*/
 
 //hyl
 let isBranch=1, isTerminator=1, isBarrier=1, ra=0, //rb=0, rc=0,

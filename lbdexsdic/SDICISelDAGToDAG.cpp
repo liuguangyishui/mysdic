@@ -198,9 +198,9 @@ void SDICDAGToDAGISel::Select(SDNode *Node) {
  
       //      SDNode *NewNode = CurDAG->getMachineNode(SDICISD::Addwf, DL, MVT::i32, MVT::Other, op1, op2);
 
-      SDNode *NewNode = CurDAG->getMachineNode(SDIC::TestNode, DL, MVT::i32,  MVT::Other, op1, op2);// op3);
+      SDNode *NewNode = CurDAG->getMachineNode(SDIC::TestNode, DL, MVT::i32,  MVT::Other, op1, op2, op3);
       ReplaceNode(Node, NewNode);
-      CurDAG->RemoveDeadNode(Node);
+      //      CurDAG->RemoveDeadNode(Node);
     }
     case ISD::GLOBAL_OFFSET_TABLE:
       ReplaceNode(Node, getGlobalBaseReg());

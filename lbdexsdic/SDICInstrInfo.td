@@ -787,7 +787,7 @@ def LEA_ADDiu : EffectiveAddress<"movlw\t\t$addr", SDICRegs, mem_ea> { //addiu\t
 let Predicates = [HasCmp] in {
 def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
 //def CPFSEQ2       : CmpInstr2<0x3b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
-
+}
 
 // ========== JUMP Instruction ==========
 //Unconditional branch   BRA

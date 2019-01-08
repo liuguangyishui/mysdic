@@ -614,7 +614,7 @@ class FMem<bits<6> op, dag outs, dag ins, string asmstr, list<dag> pattern,
   let DecoderMethod = "DecodeMem";
 
 }
-
+/*
 class FDA_Link_Test<SDNode OpNode, bits<6> op, string instr_asm, RegisterClass RC,
       Operand MemOpnd>:
                           FA<op, (outs GPROut:$ra), (ins RC:$rb, MemOpnd:$addr),
@@ -622,6 +622,16 @@ class FDA_Link_Test<SDNode OpNode, bits<6> op, string instr_asm, RegisterClass R
                           [(set GPROut:$ra, (OpNode RC:$rb, addr:$addr))], IIAddluwf> {
 
                           }
+
+*/
+class FDA_Link_Test<SDNode OpNode, bits<6> op, string instr_asm, RegisterClass RC,
+      Operand MemOpnd>:
+                          FA<op, (outs GPROut:$ra), (ins RC:$rb, RC:$rc),
+                          !strconcat(instr_asm, "\t\t$rb, $rc"),
+                          [(set GPROut:$ra, (OpNode RC:$rb, RC:$rc))], IIAddluwf> {
+
+                          }
+
 
 // Memory Load/Store
 let canFoldAsLoad = 1 in

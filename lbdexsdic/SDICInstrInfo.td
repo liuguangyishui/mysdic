@@ -684,7 +684,7 @@ let Predicates = [Ch7_1] in {
 
 class EffectiveAddress<string instr_asm, RegisterClass RC, Operand Mem> :
       FMem<0x10, (outs), (ins Mem:$addr),
-      instr_asm, [(set RC:$rn, addr:$addr)], IIAlu>;
+      instr_asm, [(set addr:$addr)], IIAlu>;
 
 }
 /*
@@ -777,7 +777,7 @@ def XORLW       :  ArithLogicI<0x2f, "xorlw", xor, simm8, immSExt8, SDICRegs>;
 // instructions. The same not happens for stack address copies, so an
 // add op with mem ComplexPattern is used and the stack address copy
 // can be matched. It's similar to Sparc LEA_ADDRi
-def LEA_ADDiu : EffectiveAddress<"movlw\t\t$addr", SDICRegs, mem_ea> {//addiu\t$rn, $addr
+def LEA_ADDiu : EffectiveAddress<"movlw\t\t$addr", SDICRegs, mem_ea> { //addiu\t$rn, $addr
   let isCodeGenOnly = 1;
 }
 //@def LEA_ADDiu }
@@ -787,7 +787,7 @@ def LEA_ADDiu : EffectiveAddress<"movlw\t\t$addr", SDICRegs, mem_ea> {//addiu\t$
 let Predicates = [HasCmp] in {
 def CPFSEQ        : CmpInstr<0x0b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
 //def CPFSEQ2       : CmpInstr2<0x3b, "cpfseq", IIAlu, SDICRegs, SDICRegs, 0>;
-}
+
 
 // ========== JUMP Instruction ==========
 //Unconditional branch   BRA
